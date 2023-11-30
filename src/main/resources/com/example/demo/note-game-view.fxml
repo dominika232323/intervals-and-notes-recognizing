@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="Line5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="1100.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.NutyController">
+  <columnConstraints>
+    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="80.0" prefWidth="500.0" />
+    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="409.0" minHeight="10.0" percentHeight="10.0" prefHeight="180.3762376237624" valignment="CENTER" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="409.0" minHeight="10.0" percentHeight="10.0" prefHeight="180.3762376237624" valignment="CENTER" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="551.0" minHeight="10.0" percentHeight="27.0" prefHeight="306.930693069307" valignment="CENTER" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="551.0" minHeight="10.0" percentHeight="23.0" prefHeight="326.0" valignment="CENTER" vgrow="ALWAYS" />
+  </rowConstraints>
+   <children>
+      <GridPane GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="0.0" prefWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="535.0" minWidth="0.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="535.0" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="535.0" minWidth="10.0" prefWidth="1.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="535.0" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="535.0" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="535.0" minWidth="10.0" prefWidth="10.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="C1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey; -fx-border-style: none solid solid solid; -fx-border-width: 2; -fx-border-color: darkgrey;" />
+            <Button fx:id="D" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey; -fx-border-style: none solid solid none; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="1" />
+            <Button fx:id="E" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey; -fx-border-style: none solid solid none; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="2" />
+            <Button fx:id="F" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey; -fx-border-style: none solid solid none; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="3" />
+            <Button fx:id="G" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey; -fx-border-style: none solid solid none; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="4" />
+            <Button fx:id="A" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey; -fx-border-style: none solid solid none; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="5" />
+            <Button fx:id="B" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="120.0" prefWidth="0.0" style="-fx-background-color: lightgrey; -fx-border-style: none solid solid none; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="6" />
+            <Button fx:id="C2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey; -fx-border-style: none solid solid none; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="7" />
+         </children>
+      </GridPane>
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="4000.0" GridPane.rowIndex="3">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" prefWidth="10.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="BH" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey; -fx-border-style: none solid none none; -fx-border-color: darkgrey; -fx-border-width: 2;" GridPane.columnIndex="11" />
+            <Button fx:id="C_Sharp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: black; -fx-border-style: none solid solid solid; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="1" />
+            <Button fx:id="D_Sharp" layoutX="86.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: black; -fx-border-style: none solid solid solid; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="3" />
+            <Button fx:id="F_Sharp" layoutX="196.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: black; -fx-border-style: none solid solid solid; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="6" />
+            <Button fx:id="G_Sharp" layoutX="414.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: black; -fx-border-style: none solid solid solid; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="8" />
+            <Button fx:id="A_Sharp" layoutX="523.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: black; -fx-border-style: none solid solid solid; -fx-border-width: 2; -fx-border-color: darkgrey;" GridPane.columnIndex="10" />
+            <Button fx:id="C1H" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="52.0" prefWidth="77.0" style="-fx-background-color: lightgrey;" />
+            <Button fx:id="DH" layoutX="10.0" layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="2" />
+            <Button fx:id="EH" layoutX="10.0" layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey; -fx-border-style: none solid none none; -fx-border-color: darkgrey; -fx-border-width: 2;" GridPane.columnIndex="4" />
+            <Button fx:id="FH" layoutX="10.0" layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="5" />
+            <Button fx:id="GH" layoutX="10.0" layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="7" />
+            <Button fx:id="AH" layoutX="10.0" layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="9" />
+            <Button fx:id="C2H" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: lightgrey;" GridPane.columnIndex="12" />
+         </children>
+      </GridPane>
+      <GridPane fx:id="GridPane_Green_Red" GridPane.rowIndex="2">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+        </rowConstraints>
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fcd7d7;" GridPane.columnIndex="1" />
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #D7FCD8;" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Pane>
+            <Label fx:id="Label_Red" text="-25" GridPane.columnIndex="1" />
+            <Label fx:id="Label_Green" text="+25" />
+         </children>
+      </GridPane>
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="10.0" prefWidth="133.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="682.0" minWidth="10.0" prefWidth="667.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Pane fx:id="PaneLines" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2">
+               <children>
+                  <Line fx:id="Line5" endX="800.0" layoutY="60.0" strokeWidth="2.0" />
+                  <Line fx:id="Line4" endX="800.0" layoutY="80.0" strokeWidth="2.0" />
+                  <Line fx:id="Line3" endX="800.0" layoutY="100.0" strokeWidth="2.0" />
+                  <Line fx:id="Line2" endX="800.0" layoutY="120.0" strokeWidth="2.0" />
+                  <Line fx:id="Line1" endX="800.0" layoutY="140.0" strokeWidth="2.0" />
+               </children>
+            </Pane>
+            <Pane fx:id="PaneImageView" prefHeight="115.0" prefWidth="158.0">
+               <children>
+                  <ImageView fx:id="ImageView_Klucz" fitHeight="115.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
+         </children>
+      </GridPane>
+      <Label fx:id="Label_Wave" text="Fala: 1" GridPane.columnIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font size="47.0" />
+         </font>
+      </Label>
+      <Label fx:id="Label_Already_Guessed" text="Prawidłowo: 0/20" GridPane.rowIndex="1">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <Button fx:id="Button_Exit" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onBackToMenuButtonClick" style="-fx-background-color: DED0B6;" text="Exit" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Button>
+   </children>
+</GridPane>
