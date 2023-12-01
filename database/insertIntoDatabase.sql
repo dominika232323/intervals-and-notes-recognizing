@@ -1,5 +1,3 @@
-INSERT INTO Users VALUES(1, "guest", "guest");
-
 INSERT INTO Notes VALUES(1, "C2");
 INSERT INTO Notes VALUES(2, "C#2/Db2");
 INSERT INTO Notes VALUES(3, "D2");
