@@ -13,7 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
@@ -48,8 +50,8 @@ public class NotesGameController {
 
 
     //Wartosci dotyczace aktualnie wyswietlanej nuty
-    private Circle currentNoteGraphic;
-    private Text currentAccidentalGraphic;
+    private Circle currentNoteCircle;
+    private Text currentNoteSharpFlat;
     private String currentNoteString;
     private int currentNoteInt;
 
@@ -71,6 +73,7 @@ public class NotesGameController {
 
     //Dane dotyczace offsetu nuty (kola)
     private static final Map<String, Integer> notePositions = new HashMap<>() {{
+        //To jest do poprawy zdecydowanie
         put("E", 50);
         put("E#", 50);
         put("F", 45);
@@ -92,6 +95,10 @@ public class NotesGameController {
         put("Eb", 15);
     }};
 
+    public void initialize(){
+        displayNoteOnStaff(26);
+    }
+
 
     public void generateAndDisplayNote() {
         currentNoteInt = new Random().nextInt((higherNoteBound - lowerNoteBound) + 1) + higherNoteBound;
@@ -100,6 +107,16 @@ public class NotesGameController {
     }
 
     private void displayNoteOnStaff(int midiNote) {
+        currentNoteCircle = new Circle(8);
+        currentNoteCircle.setLayoutX(100); // Set a fixed X position for simplicity
+        currentNoteCircle.setLayoutY(40);
+        PaneLines.getChildren().add(currentNoteCircle);
+        currentNoteCircle.setFill(Color.WHITE);
+        currentNoteCircle.setStroke(Color.BLACK);
+        currentNoteCircle.setStrokeWidth(2);
+        Line line = new Line(95, 40, 105, 40);
+        PaneLines.getChildren().add(line);
+
         String a = """
         
         // Calculate the position of the note on the staff
