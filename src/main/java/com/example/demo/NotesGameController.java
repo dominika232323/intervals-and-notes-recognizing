@@ -31,6 +31,7 @@ public class NotesGameController {
         HelloApplication helloApplication = new HelloApplication();
         try {
             helloApplication.start(new Stage());
+            //te
 
             // Close the current stage (Stats page)
             Stage currentStage = (Stage) ImageView_Klucz.getScene().getWindow();
