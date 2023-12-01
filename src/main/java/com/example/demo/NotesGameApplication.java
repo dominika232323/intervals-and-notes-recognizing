@@ -20,7 +20,9 @@ public class NotesGameApplication extends Application{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("note-game-view.fxml"));
         Parent root = loader.load();
 
-        Scene scene = new Scene(root, 700, 500);
+        Scene scene = new Scene(root, 1000, 667);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(667);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
