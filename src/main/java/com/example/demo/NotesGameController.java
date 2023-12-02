@@ -229,7 +229,7 @@ public class NotesGameController {
         currentNoteCircle.setFill(Color.WHITE);
         currentNoteCircle.setStroke(Color.BLACK);
         currentNoteCircle.setStrokeWidth(2);
-        Line line = new Line(85, 20, 115, 20);
+        Line line = new Line(80, 20, 120, 20);
         line.setStroke(Color.BLACK);
         line.setStrokeWidth(2);
         PaneLines.getChildren().add(line);
