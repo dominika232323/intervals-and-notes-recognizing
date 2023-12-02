@@ -1,11 +1,7 @@
 package com.example.demo;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -21,7 +17,7 @@ public class EndController {
     }
 
     @FXML
-    protected void onExitButtonClick() {
+    protected void onLogOutButtonClick() {
         // Code to navigate back to the main menu
         HelloApplication helloApplication = new HelloApplication();
         try {

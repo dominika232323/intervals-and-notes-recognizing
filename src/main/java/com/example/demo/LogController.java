@@ -69,11 +69,30 @@ public class LogController {
 
     private boolean checkLogIn()
     {
-        if(enterLogin.getText().toString().equals("guest") && enterPassword.getText().toString().equals("guest"))
+        return enterLogin.getText().toString().equals("guest") && enterPassword.getText().toString().equals("guest");
+    }
+
+    @FXML
+    public void onAddAccountButton()
+    {
+        try
         {
-            return true;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("add-account-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Menu");
+            stage.setScene(new Scene(root, 700, 500));
+
+            Stage currentStage = (Stage) addAccountButton.getScene().getWindow();
+            currentStage.close();
+
+            stage.show();
         }
-        return false;
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @FXML
