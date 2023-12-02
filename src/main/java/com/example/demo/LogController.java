@@ -81,10 +81,33 @@ public class LogController {
             Parent root = loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("Menu");
+            stage.setTitle("Add account");
             stage.setScene(new Scene(root, 700, 500));
 
             Stage currentStage = (Stage) addAccountButton.getScene().getWindow();
+            currentStage.close();
+
+            stage.show();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onRemoveAccountButton()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("remove-account-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Remove_account");
+            stage.setScene(new Scene(root, 700, 500));
+
+            Stage currentStage = (Stage) deleteAccountButton.getScene().getWindow();
             currentStage.close();
 
             stage.show();
