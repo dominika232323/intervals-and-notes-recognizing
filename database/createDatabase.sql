@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS Notes
 CREATE TABLE IF NOT EXISTS LevelNotes
 (
     levelID INTEGER PRIMARY KEY,
-    userID INTEGER REFERENCES Users(userID),
+    userID INTEGER,
+    foreign key (userID) REFERENCES Users(userID),
     name VARCHAR(30) UNIQUE,
     lowerNoteBound INTEGER,
     FOREIGN KEY (lowerNoteBound) REFERENCES Notes(noteID),
@@ -61,7 +62,8 @@ CREATE TABLE IF NOT EXISTS LevelIntervals
 CREATE TABLE IF NOT EXISTS IntervalsGame
 (
     intervalsGameID INTEGER PRIMARY KEY,
-    intervalLevelID INTEGER REFERENCES LevelIntervals(levelID),
+    intervalLevelID INTEGER,
+    foreign key (intervalLevelID) REFERENCES LevelIntervals(levelID),
     userID INTEGER,
     foreign key (userID) REFERENCES Users(userID),
     datePlayed DATE
