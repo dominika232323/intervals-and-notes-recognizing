@@ -1,32 +1,16 @@
 package com.example.demo;
 
 import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
-import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
-import static com.example.demo.jooq.tables.Notes.NOTES;
-import javafx.application.Platform;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
-import org.jooq.Record;
-import org.jooq.Result;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,55 +18,15 @@ import java.sql.DriverManager;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import java.util.Random;
-import java.util.HashMap;
-import java.util.Map;
-
-import javafx.util.Duration;
-import javafx.animation.FillTransition;
-
-
-class HelperMethods{
-//C1, C1H, C_Sharp, D, DH, D_Sharp, E, EH, F, FH, F_Sharp, G, GH, G_Sharp, A, AH, A_Sharp, B, BH, C2, C2H
-    private static final Map<String, String> noteNames = new HashMap<>() {
-    {
-        put("C1", "C");
-        put("C1H", "C");
-        put("D", "D");
-        put("DH", "D");
-        put("E", "E");
-        put("EH", "E");
-        put("F", "F");
-        put("FH", "F");
-        put("G", "G");
-        put("GH", "G");
-        put("A", "A");
-        put("AH", "A");
-        put("B", "B");
-        put("BH", "B");
-
-        put("C_Sharp", "C#");
-        put("D_Sharp", "D#");
-        put("F_Sharp", "F#");
-        put("G_Sharp", "G#");
-        put("A_Sharp", "A#");
-
-    }};
-
-    public static String getStringFromButton(Button button){
-        return noteNames.get(button.getId());
-    }
-}
-
-
 public class NotesGameController {
-
-    //Elementy interfejsu uzytkownika zapisane pod fx:id w pliku fxml
     @FXML
     ImageView ImageView_Klucz;
+
     @FXML
-    Button C1, C1H, C_Sharp, D, DH, D_Sharp, E, EH, F, FH, F_Sharp, G, GH, G_Sharp, A, AH, A_Sharp, B, BH, C2, C2H;
+    Button C1;
+
     @FXML
+<<<<<<< 5fdc4ae0270d9e1206ccede3648b24ed4c3fe5cb
     private Pane PaneLines;
     @FXML
     private Label Label_Already_Guessed;
@@ -315,8 +259,16 @@ public class NotesGameController {
     }
 
     public void updateClefImage(int noteArgument) {
+=======
+    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.onBackToMenuButtonClick(event);
+    }
+
+    public void updateClefImage(String note) {
+>>>>>>> aeea7160ade5801c99f6db1513d8b43a78e382b0
         Image clefImage;
-        if (isBassClef(noteArgument)) {
+        if (isBassClef(note)) {
             clefImage = new Image(getClass().getResourceAsStream("bass_clef.png"));
         } else {
             clefImage = new Image(getClass().getResourceAsStream("violin_clef.png"));
@@ -324,16 +276,25 @@ public class NotesGameController {
         ImageView_Klucz.setImage(clefImage);
     }
 
-    private boolean isBassClef(int noteArgument) {
-        if (noteArgument <= 24){
-            return true;
-        }
+    private boolean isBassClef(String note) {
+        // Assuming note is a string like "C4", "D#3", etc.
+        // Implement logic to determine if it's in the bass clef range (C2 to B3)
+        // Return true if it's in the bass clef range, false otherwise
+        // ...
         return false;
     }
 
+    // Assuming you have a JOOQ context set up
+// ...
 
     public void updateNoteStatistics(int notesGameID, int noteID, boolean guessedCorrectly) throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/db";
+        String username = "username";
+        String password = "password";
 
+        Connection connection = DriverManager.getConnection(url, username, password);
+
+        DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
         // Check if the note already exists for the given game
         Record record = (Record) create.select()
                 .from(ANSWERSNOTESGAME)
