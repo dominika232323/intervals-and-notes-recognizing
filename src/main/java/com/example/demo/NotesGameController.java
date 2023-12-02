@@ -1,14 +1,10 @@
 package com.example.demo;
 
 import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
-import javafx.application.Platform;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
@@ -23,21 +19,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class NotesGameController {
-    ImageView ImageView_Klucz;
-    Button C1;
     @FXML
-    private void onBackToMenuButtonClick() {
-        // Code to navigate back to the main menu
-        HelloApplication helloApplication = new HelloApplication();
-        try {
-            helloApplication.start(new Stage());
+    ImageView ImageView_Klucz;
 
-            // Close the current stage (Stats page)
-            Stage currentStage = (Stage) ImageView_Klucz.getScene().getWindow();
-            currentStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @FXML
+    Button C1;
+
+    @FXML
+    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.onBackToMenuButtonClick(event);
     }
 
     public void updateClefImage(String note) {

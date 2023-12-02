@@ -37,7 +37,7 @@
          </padding>
        </Label>
        <Label fx:id="welcomeText1" text="potwierdz swoj wybor" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-       <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onExitButtonClick" prefHeight="26.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wyloguj" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+       <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#onLogOutButtonClick" prefHeight="26.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wyloguj" GridPane.columnIndex="1" GridPane.rowIndex="2" />
        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onBackToMenuButtonClick" prefHeight="17.0" prefWidth="74.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wróć do menu" GridPane.columnIndex="1" GridPane.rowIndex="4">
            <font>
                <Font size="13.0" />

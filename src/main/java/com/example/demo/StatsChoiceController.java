@@ -1,15 +1,20 @@
 package com.example.demo;
 
+import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 
 import java.io.IOException;
 
 public class StatsChoiceController {
     @FXML
     private Label statsLabel;
-
 
     @FXML
     protected void initialize() {
@@ -19,18 +24,10 @@ public class StatsChoiceController {
     }
 
     @FXML
-    private void onBackToMenuButtonClick() {
-        // Code to navigate back to the main menu
-        HelloApplication helloApplication = new HelloApplication();
-        try {
-            helloApplication.start(new Stage());
-
-            // Close the current stage (Stats page)
-            Stage currentStage = (Stage) statsLabel.getScene().getWindow();
-            currentStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
+        System.out.println("Clicking button interwały");
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.onBackToMenuButtonClick(event);
     }
 
     @FXML

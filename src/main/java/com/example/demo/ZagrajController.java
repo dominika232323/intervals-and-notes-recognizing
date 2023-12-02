@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,17 +23,9 @@ public class ZagrajController {
     private Button intervalsButton;
 
     @FXML
-    private void onBackToMenuButtonClick() {
-        // Code to navigate back to the main menu
-        HelloApplication helloApplication = new HelloApplication();
-        try {
-            helloApplication.start(new Stage());
-            // Close the current stage (Stats page)
-            Stage currentStage = (Stage) zagrajlabel.getScene().getWindow();
-            currentStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.onBackToMenuButtonClick(event);
     }
 
     @FXML
@@ -64,7 +57,7 @@ public class ZagrajController {
 
             Stage zagrajStage = (Stage) zagrajlabel.getScene().getWindow();
             Stage nutyStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("nuty-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("inter-view.fxml"));
 
             try {
                 Parent root = loader.load();
