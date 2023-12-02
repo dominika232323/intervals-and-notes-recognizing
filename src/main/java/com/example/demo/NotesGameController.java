@@ -3,6 +3,7 @@ package com.example.demo;
 import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Notes.NOTES;
+import static com.example.demo.jooq.tables.Users.USERS;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,11 +67,70 @@ class HelperMethods{
         put("F_Sharp", "F#");
         put("G_Sharp", "G#");
         put("A_Sharp", "A#");
-
     }};
 
     public static String getStringFromButton(Button button){
         return noteNames.get(button.getId());
+    }
+
+    public static void insertStartingDatabase(DSLContext create){
+        create.insertInto(NOTES, NOTES.NOTEID, NOTES.NOTENAME)
+                .values(1, "C2")
+                .values(2, "C#2/Db2")
+                .values(3, "D2")
+                .values(4, "D#2/Eb2")
+                .values(5, "E2")
+                .values(6, "F2")
+                .values(7, "F#2/Gb2")
+                .values(8, "G2")
+                .values(9, "G#2/Ab2")
+                .values(10, "A2")
+                .values(11, "A#2/Bb2")
+                .values(12, "B2")
+                .values(13, "C3")
+                .values(14, "C#3/Db3")
+                .values(15, "D3")
+                .values(16, "D#3/Eb3")
+                .values(17, "E3")
+                .values(18, "F3")
+                .values(19, "F#3/Gb3")
+                .values(20, "G3")
+                .values(21, "G#3/Ab3")
+                .values(22, "A3")
+                .values(23, "A#3/Bb3")
+                .values(24, "B3")
+                .values(25, "C4")
+                .values(26, "C#4/Db4")
+                .values(27, "D4")
+                .values(28, "D#4/Eb4")
+                .values(29, "E4")
+                .values(30, "F4")
+                .values(31, "F#4/Gb4")
+                .values(32, "G4")
+                .values(33, "G#4/Ab4")
+                .values(34, "A4")
+                .values(35, "A#4/Bb4")
+                .values(36, "B4")
+                .values(37, "C5")
+                .values(38, "C#5/Db5")
+                .values(39, "D5")
+                .values(40, "D#5/Eb5")
+                .values(41, "E5")
+                .values(42, "F5")
+                .values(43, "F#5/Gb5")
+                .values(44, "G5")
+                .values(45, "G#5/Ab5")
+                .values(46, "A5")
+                .values(47, "A#5/Bb5")
+                .values(48, "B5")
+                .values(49, "C6")
+                .execute();
+        create.insertInto(USERS, USERS.USERID, USERS.NAME, USERS.PASSWORDHASH)
+                .values(1, "User1", "User1Password")
+                .execute();
+        create.insertInto(LEVELNOTES, LEVELNOTES.LEVELID, LEVELNOTES.USERID, LEVELNOTES.NAME, LEVELNOTES.LOWERNOTEBOUND, LEVELNOTES.HIGHERNOTEBOUND, LEVELNOTES.STARTINGWAVE, LEVELNOTES.ENDINGWAVE, LEVELNOTES.REPETITIONSNEXTWAVE)
+                .values(1, 1, "name1", 25, 49, 1, 5, 10)
+                .execute();
     }
 }
 
@@ -150,8 +210,10 @@ public class NotesGameController {
     }};
 
 
+
     public void initialize(){
         //Button[] whiteButtons = new List<Button>
+        HelperMethods.insertStartingDatabase(create);
         String changeColor = "darkgray";
         displayNoteOnStaff(26);
 
@@ -291,12 +353,13 @@ public class NotesGameController {
                 from(LEVELNOTES).
                 where(LEVELNOTES.LEVELID.eq(levelId)).
                 fetchOne();
-
-        startingWave = levelRecord.get(LEVELNOTES.STARTINGWAVE);
-        endingWave = levelRecord.get(LEVELNOTES.ENDINGWAVE);
-        repetitionsNextWave = levelRecord.get(LEVELNOTES.REPETITIONSNEXTWAVE);
-        lowerNoteBound = levelRecord.get(LEVELNOTES.LOWERNOTEBOUND);
-        higherNoteBound = levelRecord.get(LEVELNOTES.HIGHERNOTEBOUND);
+        if(levelRecord != null) {
+            startingWave = levelRecord.get(LEVELNOTES.STARTINGWAVE);
+            endingWave = levelRecord.get(LEVELNOTES.ENDINGWAVE);
+            repetitionsNextWave = levelRecord.get(LEVELNOTES.REPETITIONSNEXTWAVE);
+            lowerNoteBound = levelRecord.get(LEVELNOTES.LOWERNOTEBOUND);
+            higherNoteBound = levelRecord.get(LEVELNOTES.HIGHERNOTEBOUND);
+        }
     }
     @FXML
     private void onBackToMenuButtonClick() {
