@@ -1,18 +1,20 @@
 package com.example.demo;
 
+import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 
 import java.io.IOException;
 
 public class StatsChoiceController {
     @FXML
     private Label statsLabel;
-
 
     @FXML
     protected void initialize() {
@@ -22,22 +24,16 @@ public class StatsChoiceController {
     }
 
     @FXML
-    private void onBackToMenuButtonClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-            Parent root = loader.load();
+    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
+        Stage stage;
+        Scene scene;
+        Parent root;
 
-            Stage stage = new Stage();
-            stage.setTitle("Menu");
-            stage.setScene(new Scene(root, 700, 500));
-
-            Stage currentStage = (Stage) statsLabel.getScene().getWindow();
-            currentStage.close();
-
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

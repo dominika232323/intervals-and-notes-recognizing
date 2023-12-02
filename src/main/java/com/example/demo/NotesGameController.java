@@ -2,6 +2,7 @@ package com.example.demo;
 
 import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,22 +31,9 @@ public class NotesGameController {
     Button C1;
 
     @FXML
-    private void onBackToMenuButtonClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Menu");
-            stage.setScene(new Scene(root, 700, 500));
-
-            Stage currentStage = (Stage) C1.getScene().getWindow();
-            currentStage.close();
-
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
+        sharedFunctionsController menuButton = new sharedFunctionsController();
+        menuButton.onBackToMenuButtonClick(event);
     }
 
     public void updateClefImage(String note) {
