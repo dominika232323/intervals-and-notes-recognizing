@@ -1,15 +1,10 @@
 package com.example.demo;
 
 import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
-import javafx.application.Platform;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
@@ -32,7 +27,7 @@ public class NotesGameController {
 
     @FXML
     private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
-        sharedFunctionsController menuButton = new sharedFunctionsController();
+        SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.onBackToMenuButtonClick(event);
     }
 

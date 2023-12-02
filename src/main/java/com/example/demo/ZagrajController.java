@@ -24,7 +24,7 @@ public class ZagrajController {
 
     @FXML
     private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
-        sharedFunctionsController menuButton = new sharedFunctionsController();
+        SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.onBackToMenuButtonClick(event);
     }
 

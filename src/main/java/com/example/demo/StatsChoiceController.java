@@ -25,15 +25,9 @@ public class StatsChoiceController {
 
     @FXML
     private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
-        Stage stage;
-        Scene scene;
-        Parent root;
-
-        root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        System.out.println("Clicking button interwały");
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.onBackToMenuButtonClick(event);
     }
 
     @FXML

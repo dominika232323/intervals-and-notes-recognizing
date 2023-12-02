@@ -3,7 +3,6 @@ package com.example.demo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -17,23 +16,14 @@ public class EndController {
     }
 
     @FXML
-    protected void onLogOutButtonClick() {
-        // Code to navigate back to the main menu
-        HelloApplication helloApplication = new HelloApplication();
-        try {
-            helloApplication.start(new Stage());
-
-            // Close the current stage (Stats page)
-            Stage currentStage = (Stage) welcomeText.getScene().getWindow();
-            currentStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void onLogOutButtonClick(ActionEvent event) throws IOException {
+        SharedFunctionsController logOutButton = new SharedFunctionsController();
+        logOutButton.onLogOutButtonClick(event);
     }
 
     @FXML
     private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
-        sharedFunctionsController menuButton = new sharedFunctionsController();
+        SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.onBackToMenuButtonClick(event);
     }
 }

@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class sharedFunctionsController {
+public class SharedFunctionsController {
     @FXML
     public void onBackToMenuButtonClick(ActionEvent event) throws IOException {
         Stage stage;
@@ -22,5 +22,21 @@ public class sharedFunctionsController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    public void onLogOutButtonClick(ActionEvent event) throws IOException {
+        // Code to navigate back to the main menu
+        HelloApplication helloApplication = new HelloApplication();
+
+        try {
+            helloApplication.start(new Stage());
+
+            // Close the current stage (Stats page)
+            Stage currentStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
