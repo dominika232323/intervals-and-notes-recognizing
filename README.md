@@ -15,7 +15,7 @@ Planujemy stworzyć aplikację, która będzie pozwalała użytkownikowi ćwiczy
 
 * Java
 * JavaFX
-* SQLite
+* MySQL
 * CSS
 * JUnit
 
