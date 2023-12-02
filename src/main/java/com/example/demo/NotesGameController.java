@@ -10,10 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
@@ -35,21 +38,60 @@ import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.util.Duration;
+import javafx.animation.FillTransition;
+
+
+class HelperMethods{
+//C1, C1H, C_Sharp, D, DH, D_Sharp, E, EH, F, FH, F_Sharp, G, GH, G_Sharp, A, AH, A_Sharp, B, BH, C2, C2H
+    private static final Map<String, String> noteNames = new HashMap<>() {
+    {
+        put("C1", "C");
+        put("C1H", "C");
+        put("D", "D");
+        put("DH", "D");
+        put("E", "E");
+        put("EH", "E");
+        put("F", "F");
+        put("FH", "F");
+        put("G", "G");
+        put("GH", "G");
+        put("A", "A");
+        put("AH", "A");
+        put("B", "B");
+        put("BH", "B");
+
+        put("C_Sharp", "C#");
+        put("D_Sharp", "D#");
+        put("F_Sharp", "F#");
+        put("G_Sharp", "G#");
+        put("A_Sharp", "A#");
+
+    }};
+
+    public static String getStringFromButton(Button button){
+        return noteNames.get(button.getId());
+    }
+}
+
+
 public class NotesGameController {
 
     //Elementy interfejsu uzytkownika zapisane pod fx:id w pliku fxml
     @FXML
     ImageView ImageView_Klucz;
     @FXML
-    Button C1;
+    Button C1, C1H, C_Sharp, D, DH, D_Sharp, E, EH, F, FH, F_Sharp, G, GH, G_Sharp, A, AH, A_Sharp, B, BH, C2, C2H;
     @FXML
     private Pane PaneLines;
+    @FXML
+    private Label Label_Already_Guessed;
 
 
 
     //Wartosci dotyczace aktualnie wyswietlanej nuty
-    private Circle currentNoteGraphic;
-    private Text currentAccidentalGraphic;
+    private Circle currentNoteCircle;
+    private Text currentNoteSharpFlat;
     private String currentNoteString;
     private int currentNoteInt;
 
@@ -70,27 +112,108 @@ public class NotesGameController {
 
 
     //Dane dotyczace offsetu nuty (kola)
-    private static final Map<String, Integer> notePositions = new HashMap<>() {{
-        put("E", 50);
-        put("E#", 50);
-        put("F", 45);
-        put("F#", 45);
-        put("Gb", 40);
-        put("G", 40);
-        put("G#", 40);
-        put("Ab", 35);
-        put("A", 35);
-        put("A#", 35);
-        put("Bb", 30);
-        put("B", 30);
-        put("B#", 30);
-        put("C", 25);
-        put("C#", 25);
-        put("Db", 20);
-        put("D", 20);
-        put("D#", 20);
-        put("Eb", 15);
+    private static final Map<String, Integer> notePositionsViolin = new HashMap<>() {{
+        int position = 20;
+        put("C6", position);
+        put("B5", position + 10);
+        put("A5", position + 10);
+        put("G5", position + 10);
+        put("F5", position + 10);
+        put("E5", position + 10);
+        put("D5", position + 10);
+        put("C5", position + 10);
+        put("B4", position + 10);
+        put("A4", position + 10);
+        put("G4", position + 10);
+        put("F4", position + 10);
+        put("E4", position + 10);
+        put("D4", position + 10);
+        put("C4", position + 10);
     }};
+
+    private static final Map<String, Integer> notePositionsBass = new HashMap<>() {{
+        int position = 20;
+        put("C4", position);
+        put("B3", position + 10);
+        put("A3", position + 10);
+        put("G3", position + 10);
+        put("F3", position + 10);
+        put("E3", position + 10);
+        put("D3", position + 10);
+        put("C3", position + 10);
+        put("B2", position + 10);
+        put("A2", position + 10);
+        put("G2", position + 10);
+        put("F2", position + 10);
+        put("E2", position + 10);
+        put("D2", position + 10);
+        put("C2", position + 10);
+    }};
+
+
+    public void initialize(){
+        //Button[] whiteButtons = new List<Button>
+        String changeColor = "darkgray";
+        displayNoteOnStaff(26);
+
+
+
+        setupButton(C1, C1H, C1.getStyle(), C1H.getStyle(), changeColor);
+        setupButton(D, DH, D.getStyle(), DH.getStyle(), changeColor);
+        setupButton(E, EH, E.getStyle(), EH.getStyle(), changeColor);
+        setupButton(F, FH, F.getStyle(), FH.getStyle(), changeColor);
+        setupButton(G, GH, G.getStyle(), GH.getStyle(), changeColor);
+        setupButton(A, AH, A.getStyle(), AH.getStyle(), changeColor);
+        setupButton(B, BH, B.getStyle(), BH.getStyle(), changeColor);
+        setupButton(C2, C2H, C2.getStyle(), C2H.getStyle(), changeColor);
+
+
+
+        setupButton(C_Sharp, C_Sharp.getStyle(), changeColor);
+        setupButton(D_Sharp, D_Sharp.getStyle(), changeColor);
+        setupButton(F_Sharp, F_Sharp.getStyle(), changeColor);
+        setupButton(G_Sharp, G_Sharp.getStyle(), changeColor);
+        setupButton(A_Sharp, A_Sharp.getStyle(), changeColor);
+    }
+
+
+
+    private void setupButton(Button button, String originalStyle, String color) {
+        button.setOnMousePressed(event -> handleMousePressed(button, color));
+        button.setOnMouseReleased(event -> handleMouseReleased(button, originalStyle));
+    }
+
+    private void setupButton(Button button, Button anotherButton,
+                                        String originalStyle, String originalStyleAnother,
+                                        String color) {
+        button.setOnMousePressed(event -> {handleMousePressed(button, color);
+                                            handleMousePressed(anotherButton, color);});
+        button.setOnMouseReleased(event -> {handleMouseReleased(button, originalStyle);
+                                            handleMouseReleased(anotherButton, originalStyleAnother);});
+        anotherButton.setOnMousePressed(event -> {handleMousePressed(button, color);
+            handleMousePressed(anotherButton, color);});
+        anotherButton.setOnMouseReleased(event -> {handleMouseReleased(button, originalStyle);
+            handleMouseReleased(anotherButton, originalStyleAnother);});
+    }
+
+    private void handleMousePressed(Button button, String color) {
+        Label_Already_Guessed.setText(HelperMethods.getStringFromButton(button));
+        String styleToSet = "-fx-background-color: " + color;
+        button.setStyle(styleToSet);
+        checkIfCorrect(button.getText());
+    }
+
+    private void handleMouseReleased(Button button, String originalStyle) {
+        String styleToSet = originalStyle;
+        button.setStyle(styleToSet);
+    }
+
+
+    void checkIfCorrect(String noteString){
+        int noteid = new Random().nextInt(49) + 1;
+        System.out.println(getNoteStringFromDb(noteid));
+    }
+
 
 
     public void generateAndDisplayNote() {
@@ -100,36 +223,30 @@ public class NotesGameController {
     }
 
     private void displayNoteOnStaff(int midiNote) {
-        String a = """
-        
-        // Calculate the position of the note on the staff
-        double yPos = calculateNotePosition(midiNote);
+        currentNoteCircle = new Circle(8);
+        currentNoteCircle.setLayoutX(100); // Set a fixed X position for simplicity
+        currentNoteCircle.setLayoutY(20);
+        PaneLines.getChildren().add(currentNoteCircle);
+        currentNoteCircle.setFill(Color.WHITE);
+        currentNoteCircle.setStroke(Color.BLACK);
+        currentNoteCircle.setStrokeWidth(2);
+        Line line = new Line(85, 20, 115, 20);
+        line.setStroke(Color.BLACK);
+        line.setStrokeWidth(2);
+        PaneLines.getChildren().add(line);
 
-        // Create a circle to represent the note
-        Circle noteCircle = new Circle(5); // Radius of 5
-        noteCircle.setLayoutX(50); // Set a fixed X position for simplicity
-        noteCircle.setLayoutY(yPos);
 
-        // Add the circle to the pane
-        PaneLines.getChildren().add(noteCircle);
-        """;
     }
 
-    private double calculateNotePosition(int midiNote) {
-        // Implement the logic to calculate the Y position based on the MIDI note number
-        // This will depend on how you've set up your staff lines in the FXML
-        // For example, you might have a fixed distance between lines and calculate the position accordingly
-        return 0; // Placeholder return value
-    }
 
-    private String getRandomNoteString() {
+    private String getNoteStringFromDb(int note_id) {
         Result<Record> result = create.select().from(NOTES)
-                .where(NOTES.NOTEID.between(25, 49))
+                .where(NOTES.NOTEID.eq(note_id))
                 .fetch();
 
         if (!result.isEmpty()) {
-            int randomIndex = new Random().nextInt(result.size());
-            String noteName = result.get(randomIndex).getValue(NOTES.NOTENAME);
+            Record record = result.get(0);
+            String noteName = (String) record.get(1);
             return resolveSharpFlat(noteName);
         }
         return null;
