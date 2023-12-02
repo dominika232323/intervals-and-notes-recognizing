@@ -105,7 +105,6 @@ public class NotesGameController {
     private static int lowerNoteBound = 25;
     private static int higherNoteBound = 30;
 
-
     //Do aktualizowania labelu Prawidłowo x/y
     private int prawidloweOdpowiedzi;
     private int liczbaOdpowiedzi;
