@@ -23,18 +23,26 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class NotesGameController {
+    @FXML
     ImageView ImageView_Klucz;
+
+    @FXML
     Button C1;
+
     @FXML
     private void onBackToMenuButtonClick() {
-        // Code to navigate back to the main menu
-        HelloApplication helloApplication = new HelloApplication();
         try {
-            helloApplication.start(new Stage());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+            Parent root = loader.load();
 
-            // Close the current stage (Stats page)
-            Stage currentStage = (Stage) ImageView_Klucz.getScene().getWindow();
+            Stage stage = new Stage();
+            stage.setTitle("Menu");
+            stage.setScene(new Scene(root, 700, 500));
+
+            Stage currentStage = (Stage) C1.getScene().getWindow();
             currentStage.close();
+
+            stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
