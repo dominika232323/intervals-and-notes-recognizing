@@ -4,7 +4,7 @@ module com.example.demo {
     requires org.jooq;
     requires org.jooq.codegen;
     requires org.jooq.meta;
-
+    exports com.example.demo.jooq.tables.records to org.jooq;
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;
 }
