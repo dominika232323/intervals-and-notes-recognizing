@@ -34,6 +34,7 @@
       <RowConstraints minHeight="10.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
+      <TextField fx:id="enterLogin" prefHeight="25.0" prefWidth="328.0" promptText="Login" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <PasswordField fx:id="enterPassword" prefHeight="25.0" prefWidth="328.0" promptText="Hasło" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <Label alignment="CENTER" prefHeight="61.0" prefWidth="330.0" text="Dodaj nowe konto" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
@@ -57,7 +58,6 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="enterLogin" prefHeight="25.0" prefWidth="328.0" promptText="Login" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Button fx:id="exitAppButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onExitAppButton" prefHeight="29.0" prefWidth="330.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wyjdź z aplikacji" GridPane.columnIndex="1" GridPane.rowIndex="13" />
    </children>
 </GridPane>

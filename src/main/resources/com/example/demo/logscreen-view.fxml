@@ -35,6 +35,7 @@
       <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
+      <TextField fx:id="enterLogin" prefHeight="25.0" prefWidth="328.0" promptText="Login" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <PasswordField fx:id="enterPassword" prefHeight="25.0" prefWidth="328.0" promptText="Hasło" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <Label alignment="CENTER" prefHeight="61.0" prefWidth="330.0" text="Zaloguj się" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
@@ -58,6 +59,5 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="enterLogin" prefHeight="25.0" prefWidth="328.0" promptText="Login" GridPane.columnIndex="1" GridPane.rowIndex="4" />
    </children>
 </GridPane>
