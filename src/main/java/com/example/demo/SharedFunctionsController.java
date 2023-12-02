@@ -28,15 +28,10 @@ public class SharedFunctionsController {
     public void onLogOutButtonClick(ActionEvent event) throws IOException {
         // Code to navigate back to the main menu
         HelloApplication helloApplication = new HelloApplication();
+        helloApplication.start(new Stage());
 
-        try {
-            helloApplication.start(new Stage());
-
-            // Close the current stage (Stats page)
-            Stage currentStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            currentStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Close the current stage (Stats page)
+        Stage currentStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        currentStage.close();
     }
 }
