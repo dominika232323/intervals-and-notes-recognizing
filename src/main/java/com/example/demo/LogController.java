@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -73,5 +74,11 @@ public class LogController {
             return true;
         }
         return false;
+    }
+
+    @FXML
+    public void onExitAppButton()
+    {
+        Platform.exit();
     }
 }
