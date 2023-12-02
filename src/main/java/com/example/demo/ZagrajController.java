@@ -57,7 +57,7 @@ public class ZagrajController {
 
             Stage zagrajStage = (Stage) zagrajlabel.getScene().getWindow();
             Stage nutyStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("nuty-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("inter-view.fxml"));
 
             try {
                 Parent root = loader.load();

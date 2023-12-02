@@ -31,7 +31,7 @@ public class IntervalyController {
 
     @FXML
     private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
-        System.out.println("Clicking button");
+        System.out.println("Clicking button interwały");
         sharedFunctionsController menuButton = new sharedFunctionsController();
         menuButton.onBackToMenuButtonClick(event);
     }
