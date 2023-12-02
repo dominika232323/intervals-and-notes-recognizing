@@ -8,10 +8,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class AddAccountApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("logscreen-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("add-account-view.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root, 700, 500);

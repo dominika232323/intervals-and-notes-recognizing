@@ -1,12 +1,10 @@
 package com.example.demo;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.application.Platform;
-import javafx.scene.control.ListView;
-import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class HistoriaController {
     @FXML
@@ -20,18 +18,9 @@ public class HistoriaController {
 //    }
 
     @FXML
-    private void onBackToMenuButtonClick() {
-        // Code to navigate back to the main menu
-        HelloApplication helloApplication = new HelloApplication();
-        try {
-            helloApplication.start(new Stage());
-
-            // Close the current stage (Stats page)
-            Stage currentStage = (Stage) historyLabel.getScene().getWindow();
-            currentStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.onBackToMenuButtonClick(event);
     }
     // Add other methods for handling actions in the "stats_view.fxml" scene
 }

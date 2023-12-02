@@ -1,14 +1,17 @@
 package com.example.demo;
 
 import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
+<<<<<<< 3c58666a2f66fe5fc09ad4585f876f4ce0464dc0
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Notes.NOTES;
 import javafx.application.Platform;
+=======
+
+import javafx.event.ActionEvent;
+>>>>>>> a71151e9ffc246d85b912b463fd4f3d998d687c4
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+<<<<<<< 3c58666a2f66fe5fc09ad4585f876f4ce0464dc0
 import javafx.scene.control.Label;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
@@ -19,6 +22,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+=======
+>>>>>>> a71151e9ffc246d85b912b463fd4f3d998d687c4
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
@@ -76,6 +81,7 @@ class HelperMethods{
 
 
 public class NotesGameController {
+<<<<<<< 3c58666a2f66fe5fc09ad4585f876f4ce0464dc0
 
     //Elementy interfejsu uzytkownika zapisane pod fx:id w pliku fxml
     @FXML
@@ -306,13 +312,18 @@ public class NotesGameController {
         try {
             helloApplication.start(new Stage());
             //te
+=======
+    @FXML
+    ImageView ImageView_Klucz;
+>>>>>>> a71151e9ffc246d85b912b463fd4f3d998d687c4
 
-            // Close the current stage (Stats page)
-            Stage currentStage = (Stage) ImageView_Klucz.getScene().getWindow();
-            currentStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @FXML
+    Button C1;
+
+    @FXML
+    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.onBackToMenuButtonClick(event);
     }
 
     public void updateClefImage(int noteArgument) {
