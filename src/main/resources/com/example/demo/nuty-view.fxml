@@ -38,7 +38,7 @@
            </font>
        </Button>
    
-       <Button mnemonicParsing="false" onAction="#onBackToMenuButtonClick" prefHeight="17.0" prefWidth="74.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wróć do menu">
+       <Button fx:id="backToMenuButton" mnemonicParsing="false" onAction="#onBackToMenuButtonClick" prefHeight="17.0" prefWidth="74.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wróć do menu">
            <font>
                <Font size="8.0" />
            </font>

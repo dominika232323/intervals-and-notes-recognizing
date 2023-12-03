@@ -30,48 +30,52 @@ public class ZagrajController {
 
     @FXML
     protected void onNutsButtonClick() {
-        Platform.runLater(() -> {
-
-            Stage zagrajStage = (Stage) zagrajlabel.getScene().getWindow();
-            Stage nutyStage = new Stage();
+        try
+        {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("nuty-view.fxml"));
+            Parent root = loader.load();
 
-            try {
-                Parent root = loader.load();
-                nutyStage.setScene(new Scene(root));
-                nutyStage.setWidth(zagrajStage.getWidth());
-                nutyStage.setHeight(zagrajStage.getHeight());
+            Stage currentStage = (Stage) zagrajlabel.getScene().getWindow();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Stage nutyStage = new Stage();
+            nutyStage.setTitle("Choose notes game level");
+            nutyStage.setScene(new Scene(root));
+            nutyStage.setWidth(currentStage.getWidth());
+            nutyStage.setHeight(currentStage.getHeight());
 
-            zagrajStage.close();
+            currentStage.close();
+
             nutyStage.show();
-        });
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     protected void onIntervalButtonClick() {
-        Platform.runLater(() -> {
-
-            Stage zagrajStage = (Stage) zagrajlabel.getScene().getWindow();
-            Stage nutyStage = new Stage();
+        try
+        {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("inter-view.fxml"));
+            Parent root = loader.load();
 
-            try {
-                Parent root = loader.load();
-                nutyStage.setScene(new Scene(root));
-                nutyStage.setWidth(zagrajStage.getWidth());
-                nutyStage.setHeight(zagrajStage.getHeight());
+            Stage currentStage = (Stage) zagrajlabel.getScene().getWindow();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Stage nutyStage = new Stage();
+            nutyStage.setTitle("Choose interval game level");
+            nutyStage.setScene(new Scene(root));
+            nutyStage.setWidth(currentStage.getWidth());
+            nutyStage.setHeight(currentStage.getHeight());
 
-            zagrajStage.close();
+            currentStage.close();
+
             nutyStage.show();
-        });
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void openNutyWindow() {
