@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +14,9 @@ public class NutyController {
 
     @FXML
     private Button backToMenuButton;
+
+    @FXML
+    private Button startGameButton;
 
     @FXML
     private Label nutyLabel;
@@ -44,6 +46,31 @@ public class NutyController {
             currentStage.close();
 
             stage.show();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onStartGameButtonClick() {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("note-game-view.fxml"));
+            Parent root = loader.load();
+
+            Stage currentStage = (Stage) startGameButton.getScene().getWindow();
+
+            Stage nutyStage = new Stage();
+            nutyStage.setTitle("Gra nuty");
+            nutyStage.setScene(new Scene(root));
+            nutyStage.setWidth(1000);
+            nutyStage.setHeight(667);
+
+            currentStage.close();
+
+            nutyStage.show();
         }
         catch (IOException e)
         {

@@ -32,7 +32,7 @@
       </ScrollPane>
        <VBox spacing="10.0" />
        <VBox spacing="10.0" />
-       <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Rozpocznij">
+       <Button fx:id="startGameButton" mnemonicParsing="false" onAction="#onStartGameButtonClick" prefHeight="31.0" prefWidth="144.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Rozpocznij">
            <font>
                <Font size="15.0" />
            </font>
