@@ -58,7 +58,7 @@ public class LogController {
             }
             else
             {
-                incorrectLoginPassword.setText("Incorrect login or password!!!");
+                incorrectLoginPassword.setText("Niepoprawny login lub hasło!!!");
             }
         }
         catch (IOException e)
