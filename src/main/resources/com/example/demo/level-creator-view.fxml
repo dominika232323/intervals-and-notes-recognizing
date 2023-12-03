@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" spacing="20.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.LevelCreatorController">
+    <children>
+        <Label fx:id="levelsCreatorLabel" alignment="CENTER" contentDisplay="TOP" text="Kreator poziomów">
+            <font>
+                <Font size="25.0" />
+            </font>
+        </Label>
+        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0">
+            <children>
+                <Button fx:id="noteRecognitionButton" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#notesRecognitionOnClick" prefHeight="300.0" prefWidth="320.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Rozpoznawanie nut">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="intervalsRecognitionButton" alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#intervalsRecognitionOnClick" prefHeight="300.0" prefWidth="320.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Rozpoznawanie interwałów">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Button fx:id="backToMenuButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#backToMenuOnClick" prefHeight="50.0" prefWidth="125.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6;" text="Wróć do menu" />
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets top="20.0" />
+    </padding>
+</VBox>

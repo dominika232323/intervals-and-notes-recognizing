@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" spacing="10.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.IntervalsLevelFormController">
+    <children>
+        <Label text="Kreator poziomów dla interwałów">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <VBox prefHeight="100.0" prefWidth="100.0" />
+        <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <VBox prefHeight="200.0" prefWidth="250.0">
+                    <children>
+                        <Label text="Rodzaje interwałów">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <RadioButton fx:id="upRadioButton" mnemonicParsing="false" selected="true" text="W górę">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="intervalsType" />
+                            </toggleGroup>
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </RadioButton>
+                        <RadioButton fx:id="togetherRadioButton" mnemonicParsing="false" text="Współbrzmienie" toggleGroup="$intervalsType">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </RadioButton>
+                        <RadioButton fx:id="downRadioButton" mnemonicParsing="false" text="W dół" toggleGroup="$intervalsType">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </RadioButton>
+                    </children>
+                </VBox>
+                <VBox prefHeight="200.0" prefWidth="250.0">
+                    <children>
+                        <Label text="Rodzaj instruementu">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <ComboBox fx:id="instrumentsComboBox" prefWidth="150.0" promptText="Instrumenty" style="-fx-background-color: DED0B6; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: BBAB8C;" />
+                    </children>
+                </VBox>
+                <VBox prefHeight="200.0" prefWidth="180.0">
+                    <children>
+                        <Label text="Ilość powtórzeń">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="repetitionsTextField" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0">
+            <children>
+                <Label fx:id="errorsLabel" text="Uzupełnij formularz">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="340.0">
+                    <children>
+                        <Button fx:id="goBackButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBackOnClick" prefHeight="75.0" prefWidth="150.0" style="-fx-background-color: DED0B6; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: BBAB8C;" text="Wstecz">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </VBox>
+                <VBox alignment="BOTTOM_RIGHT" prefHeight="200.0" prefWidth="340.0">
+                    <children>
+                        <Button fx:id="saveLevelButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveLevelOnClick" prefHeight="75.0" prefWidth="150.0" style="-fx-background-color: DED0B6; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: BBAB8C;" text="Zapisz poziom">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</VBox>
