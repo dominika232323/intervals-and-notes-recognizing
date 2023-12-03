@@ -26,38 +26,15 @@ public class LevelCreatorController {
     private Label levelsCreatorLabel;
 
     @FXML
-    void notesRecognitionOnClick() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("create-level-notes-view.fxml"));
-        Parent root = loader.load();
-
-        // Create a new stage with a fixed size
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 700, 500)); // Set a fixed size for the scene
-
-        // Close the current stage (Main Menu)
-        Stage currentStage = (Stage) noteRecognitionButton.getScene().getWindow();
-        currentStage.close();
-
-        // Show the LevelCreator stage
-        stage.show();
+    void notesRecognitionOnClick(ActionEvent event) throws IOException {
+        SharedFunctionsController button = new SharedFunctionsController();
+        button.changeStage(event, "create-level-notes-view.fxml");
     }
 
     @FXML
-    void intervalsRecognitionOnClick() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("create-level-intervals-view.fxml"));
-        Parent root = loader.load();
-
-        // Create a new stage with a fixed size
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 700, 500)); // Set a fixed size for the scene
-
-        // Close the current stage (Main Menu)
-        Stage currentStage = (Stage) intervalsRecognitionButton.getScene().getWindow();
-        currentStage.close();
-
-        // Show the LevelCreator stage
-        stage.show();
-
+    void intervalsRecognitionOnClick(ActionEvent event) throws IOException {
+        SharedFunctionsController button = new SharedFunctionsController();
+        button.changeStage(event, "create-level-intervals-view.fxml");
     }
 
     @FXML
