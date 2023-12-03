@@ -36,7 +36,7 @@ public class LevelCreatorController {
         stage.setScene(new Scene(root, 700, 500)); // Set a fixed size for the scene
 
         // Close the current stage (Main Menu)
-        Stage currentStage = (Stage) backToMenuButton.getScene().getWindow();
+        Stage currentStage = (Stage) noteRecognitionButton.getScene().getWindow();
         currentStage.close();
 
         // Show the LevelCreator stage
@@ -44,7 +44,21 @@ public class LevelCreatorController {
     }
 
     @FXML
-    void intervalsRecognitionOnClick() {
+    void intervalsRecognitionOnClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("create-level-intervals-view.fxml"));
+        Parent root = loader.load();
+
+        // Create a new stage with a fixed size
+        Stage stage = new Stage();
+        stage.setTitle("Poziomy - interwały");
+        stage.setScene(new Scene(root, 700, 500)); // Set a fixed size for the scene
+
+        // Close the current stage (Main Menu)
+        Stage currentStage = (Stage) intervalsRecognitionButton.getScene().getWindow();
+        currentStage.close();
+
+        // Show the LevelCreator stage
+        stage.show();
 
     }
 

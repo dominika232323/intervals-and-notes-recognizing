@@ -16,10 +16,8 @@ public class LevelCreatorApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("level-creator-view.fxml"));
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root, 700, 500);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("level-creator-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 700, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
 
