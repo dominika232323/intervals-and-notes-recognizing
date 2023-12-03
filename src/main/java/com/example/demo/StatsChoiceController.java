@@ -25,7 +25,6 @@ public class StatsChoiceController {
 
     @FXML
     private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
-        System.out.println("Clicking button interwały");
         SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.onBackToMenuButtonClick(event);
     }

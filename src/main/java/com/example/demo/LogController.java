@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,34 +37,17 @@ public class LogController {
     private Button exitAppButton;
 
     @FXML
-    public void onLogInButtonClick()
-    {
-        try
+    public void onLogInButtonClick(ActionEvent event) throws IOException {
+        boolean correctLogIn = checkLogIn();
+
+        if(correctLogIn)
         {
-            boolean correctLogIn = checkLogIn();
-
-            if(correctLogIn)
-            {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-                Parent root = loader.load();
-
-                Stage stage = new Stage();
-                stage.setTitle("Menu");
-                stage.setScene(new Scene(root, 700, 500));
-
-                Stage currentStage = (Stage) logInButton.getScene().getWindow();
-                currentStage.close();
-
-                stage.show();
-            }
-            else
-            {
-                incorrectLoginPassword.setText("Incorrect login or password!!!");
-            }
+            SharedFunctionsController clickedButton = new SharedFunctionsController();
+            clickedButton.changeStage(event, "hello-view.fxml");
         }
-        catch (IOException e)
+        else
         {
-            e.printStackTrace();
+            incorrectLoginPassword.setText("Niepoprawny login lub hasło!!!");
         }
     }
 
@@ -73,49 +57,15 @@ public class LogController {
     }
 
     @FXML
-    public void onAddAccountButton()
-    {
-        try
-        {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("add-account-view.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Add account");
-            stage.setScene(new Scene(root, 700, 500));
-
-            Stage currentStage = (Stage) addAccountButton.getScene().getWindow();
-            currentStage.close();
-
-            stage.show();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+    public void onAddAccountButton(ActionEvent event) throws IOException {
+        SharedFunctionsController clickedButton = new SharedFunctionsController();
+        clickedButton.changeStage(event, "add-account-view.fxml");
     }
 
     @FXML
-    public void onRemoveAccountButton()
-    {
-        try
-        {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("remove-account-view.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Remove_account");
-            stage.setScene(new Scene(root, 700, 500));
-
-            Stage currentStage = (Stage) deleteAccountButton.getScene().getWindow();
-            currentStage.close();
-
-            stage.show();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+    public void onRemoveAccountButton(ActionEvent event) throws IOException {
+        SharedFunctionsController clickedButton = new SharedFunctionsController();
+        clickedButton.changeStage(event, "remove-account-view.fxml");
     }
 
     @FXML

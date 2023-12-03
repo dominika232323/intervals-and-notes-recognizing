@@ -32,13 +32,13 @@
       </ScrollPane>
        <VBox spacing="10.0" />
        <VBox spacing="10.0" />
-       <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="144.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Rozpocznij">
+       <Button fx:id="startGameButton" mnemonicParsing="false" onAction="#onStartGameButtonClick" prefHeight="31.0" prefWidth="144.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Rozpocznij">
            <font>
                <Font size="15.0" />
            </font>
        </Button>
    
-       <Button mnemonicParsing="false" onAction="#onBackToMenuButtonClick" prefHeight="17.0" prefWidth="74.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wróć do menu">
+       <Button fx:id="backToMenuButton" mnemonicParsing="false" onAction="#onBackToMenuButtonClick" prefHeight="17.0" prefWidth="74.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wróć do menu">
            <font>
                <Font size="8.0" />
            </font>

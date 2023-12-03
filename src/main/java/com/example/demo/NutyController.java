@@ -1,9 +1,12 @@
 package com.example.demo;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -11,6 +14,9 @@ public class NutyController {
 
     @FXML
     private Button backToMenuButton;
+
+    @FXML
+    private Button startGameButton;
 
     @FXML
     private Label nutyLabel;
@@ -26,9 +32,49 @@ public class NutyController {
     }
 
     @FXML
-    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
-        System.out.println("Clicking button nuty");
-        SharedFunctionsController menuButton = new SharedFunctionsController();
-        menuButton.onBackToMenuButtonClick(event);
+    private void onBackToMenuButtonClick() {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Menu");
+            stage.setScene(new Scene(root, 700, 500));
+
+            Stage currentStage = (Stage) backToMenuButton.getScene().getWindow();
+            currentStage.close();
+
+            stage.show();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onStartGameButtonClick() {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("note-game-view.fxml"));
+            Parent root = loader.load();
+
+            Stage currentStage = (Stage) startGameButton.getScene().getWindow();
+
+            Stage nutyStage = new Stage();
+            nutyStage.setTitle("Gra nuty");
+            nutyStage.setScene(new Scene(root));
+            nutyStage.setWidth(1000);
+            nutyStage.setHeight(667);
+
+            currentStage.close();
+
+            nutyStage.show();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
