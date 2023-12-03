@@ -117,14 +117,14 @@ public class HelloController {
 
         // Create a new stage with a fixed size
         Stage stage = new Stage();
-        stage.setTitle("Zagraj");
+        stage.setTitle("Kreator poziomów");
         stage.setScene(new Scene(root, 700, 500)); // Set a fixed size for the scene
 
         // Close the current stage (Main Menu)
         Stage currentStage = (Stage) levelCreatorButton.getScene().getWindow();
         currentStage.close();
 
-        // Show the Zagraj stage
+        // Show the LevelCreator stage
         stage.show();
     }
 
