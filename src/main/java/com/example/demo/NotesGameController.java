@@ -5,6 +5,7 @@ import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Notes.NOTES;
 import static com.example.demo.jooq.tables.Users.USERS;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -366,16 +367,22 @@ public class NotesGameController {
     }
     @FXML
     private void onBackToMenuButtonClick() {
-        // Code to navigate back to the main menu
-        HelloApplication helloApplication = new HelloApplication();
-        try {
-            helloApplication.start(new Stage());
-            //te
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+            Parent root = loader.load();
 
-            // Close the current stage (Stats page)
-            Stage currentStage = (Stage) ImageView_Klucz.getScene().getWindow();
+            Stage stage = new Stage();
+            stage.setTitle("Menu");
+            stage.setScene(new Scene(root, 700, 500));
+
+            Stage currentStage = (Stage) Label_Already_Guessed.getScene().getWindow();
             currentStage.close();
-        } catch (Exception e) {
+
+            stage.show();
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
