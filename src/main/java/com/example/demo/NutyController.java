@@ -27,7 +27,6 @@ public class NutyController {
 
     @FXML
     private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
-        System.out.println("Clicking button nuty");
         SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.onBackToMenuButtonClick(event);
     }
