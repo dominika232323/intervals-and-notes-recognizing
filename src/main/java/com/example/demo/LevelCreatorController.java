@@ -32,7 +32,6 @@ public class LevelCreatorController {
 
         // Create a new stage with a fixed size
         Stage stage = new Stage();
-        stage.setTitle("Poziomy - nuty");
         stage.setScene(new Scene(root, 700, 500)); // Set a fixed size for the scene
 
         // Close the current stage (Main Menu)
@@ -50,7 +49,6 @@ public class LevelCreatorController {
 
         // Create a new stage with a fixed size
         Stage stage = new Stage();
-        stage.setTitle("Poziomy - interwały");
         stage.setScene(new Scene(root, 700, 500)); // Set a fixed size for the scene
 
         // Close the current stage (Main Menu)

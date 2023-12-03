@@ -33,8 +33,9 @@ public class CreateLevelIntervalsController {
     }
 
     @FXML
-    void createNewLevelOnClick(ActionEvent event) {
-
+    void createNewLevelOnClick(ActionEvent event) throws IOException {
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.changeStage(event, "intervals-level-form-view.fxml");
     }
 
     @FXML
