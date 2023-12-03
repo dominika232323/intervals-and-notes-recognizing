@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" spacing="10.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.CreateLevelIntervalsController">
+    <children>
+        <Label text="Kreator poziomów - Rozpoznawanie interwałów">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0">
+            <children>
+                <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="300.0">
+                    <children>
+                        <Label text="Dostępne poziomy">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Label>
+                        <ListView fx:id="levelsListView" maxHeight="1.7976931348623157E308" prefWidth="200.0" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="150.0">
+                                    <children>
+                                        <Button fx:id="deleteLevelButton" mnemonicParsing="false" onAction="#deleteLevelOnClick" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6;" text="Usuń" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="150.0">
+                                    <children>
+                                        <Button fx:id="editLevelButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editLevelOnClick" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: DED0B6; -fx-border-color: BBAB8C; -fx-background-radius: 15; -fx-border-radius: 15;" text="Edytuj" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="380.0">
+                    <children>
+                        <Button fx:id="createLevelButton" mnemonicParsing="false" onAction="#createNewLevelOnClick" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: DED0B6; -fx-border-color: BBAB8C; -fx-background-radius: 15; -fx-border-radius: 15;" text="Stwórz nowy poziom">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Button>
+                        <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                            <children>
+                                <Button fx:id="backToMenuButton" maxWidth="200.0" mnemonicParsing="false" onAction="#backToMenuOnClick" prefHeight="75.0" style="-fx-background-color: DED0B6; -fx-border-color: BBAB8C; -fx-background-radius: 15; -fx-border-radius: 15;" text="Wróć do menu">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="23.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</VBox>
