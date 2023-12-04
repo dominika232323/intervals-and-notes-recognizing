@@ -4,6 +4,10 @@
 sudo apt-get update
 sudo apt-get install openjdk-17-jdk openjdk-17-jre
 
+# Set JAVA_HOME to your JDK path
+export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
+export PATH=$JAVA_HOME/bin:$PATH
+
 # Instalacja Maven (jeśli nie jest zainstalowane)
 sudo apt-get install maven
 
