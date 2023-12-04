@@ -5,6 +5,7 @@ package com.example.demo.jooq.tables;
 
 
 import com.example.demo.jooq.Db;
+import com.example.demo.jooq.Indexes;
 import com.example.demo.jooq.Keys;
 import com.example.demo.jooq.tables.records.LevelintervalsRecord;
 
@@ -15,6 +16,7 @@ import java.util.function.Function;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function7;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -125,6 +127,11 @@ public class Levelintervals extends TableImpl<LevelintervalsRecord> {
     }
 
     @Override
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.LEVELINTERVALS_USERID);
+    }
+
+    @Override
     public UniqueKey<LevelintervalsRecord> getPrimaryKey() {
         return Keys.KEY_LEVELINTERVALS_PRIMARY;
     }
@@ -132,6 +139,23 @@ public class Levelintervals extends TableImpl<LevelintervalsRecord> {
     @Override
     public List<UniqueKey<LevelintervalsRecord>> getUniqueKeys() {
         return Arrays.asList(Keys.KEY_LEVELINTERVALS_NAME);
+    }
+
+    @Override
+    public List<ForeignKey<LevelintervalsRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.LEVELINTERVALS_IBFK_1);
+    }
+
+    private transient Users _users;
+
+    /**
+     * Get the implicit join path to the <code>db.Users</code> table.
+     */
+    public Users users() {
+        if (_users == null)
+            _users = new Users(this, Keys.LEVELINTERVALS_IBFK_1);
+
+        return _users;
     }
 
     @Override

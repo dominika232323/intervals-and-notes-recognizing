@@ -5,6 +5,7 @@ package com.example.demo.jooq.tables;
 
 
 import com.example.demo.jooq.Db;
+import com.example.demo.jooq.Indexes;
 import com.example.demo.jooq.Keys;
 import com.example.demo.jooq.tables.records.LevelnotesRecord;
 
@@ -15,6 +16,7 @@ import java.util.function.Function;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function8;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -130,6 +132,11 @@ public class Levelnotes extends TableImpl<LevelnotesRecord> {
     }
 
     @Override
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.LEVELNOTES_HIGHERNOTEBOUND, Indexes.LEVELNOTES_LOWERNOTEBOUND, Indexes.LEVELNOTES_USERID);
+    }
+
+    @Override
     public UniqueKey<LevelnotesRecord> getPrimaryKey() {
         return Keys.KEY_LEVELNOTES_PRIMARY;
     }
@@ -137,6 +144,47 @@ public class Levelnotes extends TableImpl<LevelnotesRecord> {
     @Override
     public List<UniqueKey<LevelnotesRecord>> getUniqueKeys() {
         return Arrays.asList(Keys.KEY_LEVELNOTES_NAME);
+    }
+
+    @Override
+    public List<ForeignKey<LevelnotesRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.LEVELNOTES_IBFK_1, Keys.LEVELNOTES_IBFK_2, Keys.LEVELNOTES_IBFK_3);
+    }
+
+    private transient Users _users;
+    private transient Notes _levelnotesIbfk_2;
+    private transient Notes _levelnotesIbfk_3;
+
+    /**
+     * Get the implicit join path to the <code>db.Users</code> table.
+     */
+    public Users users() {
+        if (_users == null)
+            _users = new Users(this, Keys.LEVELNOTES_IBFK_1);
+
+        return _users;
+    }
+
+    /**
+     * Get the implicit join path to the <code>db.Notes</code> table, via the
+     * <code>LevelNotes_ibfk_2</code> key.
+     */
+    public Notes levelnotesIbfk_2() {
+        if (_levelnotesIbfk_2 == null)
+            _levelnotesIbfk_2 = new Notes(this, Keys.LEVELNOTES_IBFK_2);
+
+        return _levelnotesIbfk_2;
+    }
+
+    /**
+     * Get the implicit join path to the <code>db.Notes</code> table, via the
+     * <code>LevelNotes_ibfk_3</code> key.
+     */
+    public Notes levelnotesIbfk_3() {
+        if (_levelnotesIbfk_3 == null)
+            _levelnotesIbfk_3 = new Notes(this, Keys.LEVELNOTES_IBFK_3);
+
+        return _levelnotesIbfk_3;
     }
 
     @Override

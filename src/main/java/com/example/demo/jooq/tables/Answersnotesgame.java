@@ -5,14 +5,18 @@ package com.example.demo.jooq.tables;
 
 
 import com.example.demo.jooq.Db;
+import com.example.demo.jooq.Indexes;
 import com.example.demo.jooq.Keys;
 import com.example.demo.jooq.tables.records.AnswersnotesgameRecord;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function5;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -113,8 +117,41 @@ public class Answersnotesgame extends TableImpl<AnswersnotesgameRecord> {
     }
 
     @Override
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.ANSWERSNOTESGAME_NOTEID, Indexes.ANSWERSNOTESGAME_NOTESGAMEID);
+    }
+
+    @Override
     public UniqueKey<AnswersnotesgameRecord> getPrimaryKey() {
         return Keys.KEY_ANSWERSNOTESGAME_PRIMARY;
+    }
+
+    @Override
+    public List<ForeignKey<AnswersnotesgameRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.ANSWERSNOTESGAME_IBFK_1, Keys.ANSWERSNOTESGAME_IBFK_2);
+    }
+
+    private transient Notesgames _notesgames;
+    private transient Notes _notes;
+
+    /**
+     * Get the implicit join path to the <code>db.NotesGames</code> table.
+     */
+    public Notesgames notesgames() {
+        if (_notesgames == null)
+            _notesgames = new Notesgames(this, Keys.ANSWERSNOTESGAME_IBFK_1);
+
+        return _notesgames;
+    }
+
+    /**
+     * Get the implicit join path to the <code>db.Notes</code> table.
+     */
+    public Notes notes() {
+        if (_notes == null)
+            _notes = new Notes(this, Keys.ANSWERSNOTESGAME_IBFK_2);
+
+        return _notes;
     }
 
     @Override

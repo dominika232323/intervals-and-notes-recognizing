@@ -23,6 +23,7 @@ import com.example.demo.jooq.tables.records.NotesRecord;
 import com.example.demo.jooq.tables.records.NotesgamesRecord;
 import com.example.demo.jooq.tables.records.UsersRecord;
 
+import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -51,4 +52,21 @@ public class Keys {
     public static final UniqueKey<NotesgamesRecord> KEY_NOTESGAMES_PRIMARY = Internal.createUniqueKey(Notesgames.NOTESGAMES, DSL.name("KEY_NotesGames_PRIMARY"), new TableField[] { Notesgames.NOTESGAMES.NOTESGAMEID }, true);
     public static final UniqueKey<UsersRecord> KEY_USERS_NAME = Internal.createUniqueKey(Users.USERS, DSL.name("KEY_Users_name"), new TableField[] { Users.USERS.NAME }, true);
     public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, DSL.name("KEY_Users_PRIMARY"), new TableField[] { Users.USERS.USERID }, true);
+
+    // -------------------------------------------------------------------------
+    // FOREIGN KEY definitions
+    // -------------------------------------------------------------------------
+
+    public static final ForeignKey<AnswersintervalsgameRecord, IntervalsgameRecord> ANSWERSINTERVALSGAME_IBFK_1 = Internal.createForeignKey(Answersintervalsgame.ANSWERSINTERVALSGAME, DSL.name("AnswersIntervalsGame_ibfk_1"), new TableField[] { Answersintervalsgame.ANSWERSINTERVALSGAME.INTERVALSGAMEID }, Keys.KEY_INTERVALSGAME_PRIMARY, new TableField[] { Intervalsgame.INTERVALSGAME.INTERVALSGAMEID }, true);
+    public static final ForeignKey<AnswersintervalsgameRecord, IntervalsRecord> ANSWERSINTERVALSGAME_IBFK_2 = Internal.createForeignKey(Answersintervalsgame.ANSWERSINTERVALSGAME, DSL.name("AnswersIntervalsGame_ibfk_2"), new TableField[] { Answersintervalsgame.ANSWERSINTERVALSGAME.INTERVALID }, Keys.KEY_INTERVALS_PRIMARY, new TableField[] { Intervals.INTERVALS.INTERVALID }, true);
+    public static final ForeignKey<AnswersnotesgameRecord, NotesgamesRecord> ANSWERSNOTESGAME_IBFK_1 = Internal.createForeignKey(Answersnotesgame.ANSWERSNOTESGAME, DSL.name("AnswersNotesGame_ibfk_1"), new TableField[] { Answersnotesgame.ANSWERSNOTESGAME.NOTESGAMEID }, Keys.KEY_NOTESGAMES_PRIMARY, new TableField[] { Notesgames.NOTESGAMES.NOTESGAMEID }, true);
+    public static final ForeignKey<AnswersnotesgameRecord, NotesRecord> ANSWERSNOTESGAME_IBFK_2 = Internal.createForeignKey(Answersnotesgame.ANSWERSNOTESGAME, DSL.name("AnswersNotesGame_ibfk_2"), new TableField[] { Answersnotesgame.ANSWERSNOTESGAME.NOTEID }, Keys.KEY_NOTES_PRIMARY, new TableField[] { Notes.NOTES.NOTEID }, true);
+    public static final ForeignKey<IntervalsgameRecord, LevelintervalsRecord> INTERVALSGAME_IBFK_1 = Internal.createForeignKey(Intervalsgame.INTERVALSGAME, DSL.name("IntervalsGame_ibfk_1"), new TableField[] { Intervalsgame.INTERVALSGAME.INTERVALLEVELID }, Keys.KEY_LEVELINTERVALS_PRIMARY, new TableField[] { Levelintervals.LEVELINTERVALS.LEVELID }, true);
+    public static final ForeignKey<IntervalsgameRecord, UsersRecord> INTERVALSGAME_IBFK_2 = Internal.createForeignKey(Intervalsgame.INTERVALSGAME, DSL.name("IntervalsGame_ibfk_2"), new TableField[] { Intervalsgame.INTERVALSGAME.USERID }, Keys.KEY_USERS_PRIMARY, new TableField[] { Users.USERS.USERID }, true);
+    public static final ForeignKey<LevelintervalsRecord, UsersRecord> LEVELINTERVALS_IBFK_1 = Internal.createForeignKey(Levelintervals.LEVELINTERVALS, DSL.name("LevelIntervals_ibfk_1"), new TableField[] { Levelintervals.LEVELINTERVALS.USERID }, Keys.KEY_USERS_PRIMARY, new TableField[] { Users.USERS.USERID }, true);
+    public static final ForeignKey<LevelnotesRecord, UsersRecord> LEVELNOTES_IBFK_1 = Internal.createForeignKey(Levelnotes.LEVELNOTES, DSL.name("LevelNotes_ibfk_1"), new TableField[] { Levelnotes.LEVELNOTES.USERID }, Keys.KEY_USERS_PRIMARY, new TableField[] { Users.USERS.USERID }, true);
+    public static final ForeignKey<LevelnotesRecord, NotesRecord> LEVELNOTES_IBFK_2 = Internal.createForeignKey(Levelnotes.LEVELNOTES, DSL.name("LevelNotes_ibfk_2"), new TableField[] { Levelnotes.LEVELNOTES.LOWERNOTEBOUND }, Keys.KEY_NOTES_PRIMARY, new TableField[] { Notes.NOTES.NOTEID }, true);
+    public static final ForeignKey<LevelnotesRecord, NotesRecord> LEVELNOTES_IBFK_3 = Internal.createForeignKey(Levelnotes.LEVELNOTES, DSL.name("LevelNotes_ibfk_3"), new TableField[] { Levelnotes.LEVELNOTES.HIGHERNOTEBOUND }, Keys.KEY_NOTES_PRIMARY, new TableField[] { Notes.NOTES.NOTEID }, true);
+    public static final ForeignKey<NotesgamesRecord, UsersRecord> NOTESGAMES_IBFK_1 = Internal.createForeignKey(Notesgames.NOTESGAMES, DSL.name("NotesGames_ibfk_1"), new TableField[] { Notesgames.NOTESGAMES.USERID }, Keys.KEY_USERS_PRIMARY, new TableField[] { Users.USERS.USERID }, true);
+    public static final ForeignKey<NotesgamesRecord, LevelnotesRecord> NOTESGAMES_IBFK_2 = Internal.createForeignKey(Notesgames.NOTESGAMES, DSL.name("NotesGames_ibfk_2"), new TableField[] { Notesgames.NOTESGAMES.LEVELNOTESID }, Keys.KEY_LEVELNOTES_PRIMARY, new TableField[] { Levelnotes.LEVELNOTES.LEVELID }, true);
 }

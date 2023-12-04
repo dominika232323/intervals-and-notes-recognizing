@@ -5,14 +5,18 @@ package com.example.demo.jooq.tables;
 
 
 import com.example.demo.jooq.Db;
+import com.example.demo.jooq.Indexes;
 import com.example.demo.jooq.Keys;
 import com.example.demo.jooq.tables.records.AnswersintervalsgameRecord;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function5;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -113,8 +117,41 @@ public class Answersintervalsgame extends TableImpl<AnswersintervalsgameRecord> 
     }
 
     @Override
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.ANSWERSINTERVALSGAME_INTERVALID, Indexes.ANSWERSINTERVALSGAME_INTERVALSGAMEID);
+    }
+
+    @Override
     public UniqueKey<AnswersintervalsgameRecord> getPrimaryKey() {
         return Keys.KEY_ANSWERSINTERVALSGAME_PRIMARY;
+    }
+
+    @Override
+    public List<ForeignKey<AnswersintervalsgameRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.ANSWERSINTERVALSGAME_IBFK_1, Keys.ANSWERSINTERVALSGAME_IBFK_2);
+    }
+
+    private transient Intervalsgame _intervalsgame;
+    private transient Intervals _intervals;
+
+    /**
+     * Get the implicit join path to the <code>db.IntervalsGame</code> table.
+     */
+    public Intervalsgame intervalsgame() {
+        if (_intervalsgame == null)
+            _intervalsgame = new Intervalsgame(this, Keys.ANSWERSINTERVALSGAME_IBFK_1);
+
+        return _intervalsgame;
+    }
+
+    /**
+     * Get the implicit join path to the <code>db.Intervals</code> table.
+     */
+    public Intervals intervals() {
+        if (_intervals == null)
+            _intervals = new Intervals(this, Keys.ANSWERSINTERVALSGAME_IBFK_2);
+
+        return _intervals;
     }
 
     @Override

@@ -5,15 +5,19 @@ package com.example.demo.jooq.tables;
 
 
 import com.example.demo.jooq.Db;
+import com.example.demo.jooq.Indexes;
 import com.example.demo.jooq.Keys;
 import com.example.demo.jooq.tables.records.NotesgamesRecord;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -109,8 +113,41 @@ public class Notesgames extends TableImpl<NotesgamesRecord> {
     }
 
     @Override
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.NOTESGAMES_LEVELNOTESID, Indexes.NOTESGAMES_USERID);
+    }
+
+    @Override
     public UniqueKey<NotesgamesRecord> getPrimaryKey() {
         return Keys.KEY_NOTESGAMES_PRIMARY;
+    }
+
+    @Override
+    public List<ForeignKey<NotesgamesRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.NOTESGAMES_IBFK_1, Keys.NOTESGAMES_IBFK_2);
+    }
+
+    private transient Users _users;
+    private transient Levelnotes _levelnotes;
+
+    /**
+     * Get the implicit join path to the <code>db.Users</code> table.
+     */
+    public Users users() {
+        if (_users == null)
+            _users = new Users(this, Keys.NOTESGAMES_IBFK_1);
+
+        return _users;
+    }
+
+    /**
+     * Get the implicit join path to the <code>db.LevelNotes</code> table.
+     */
+    public Levelnotes levelnotes() {
+        if (_levelnotes == null)
+            _levelnotes = new Levelnotes(this, Keys.NOTESGAMES_IBFK_2);
+
+        return _levelnotes;
     }
 
     @Override
