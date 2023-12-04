@@ -15,3 +15,5 @@ korzystać z już dostępnych oraz śledzić swoje statystyki.
 
 ## Instrukcja uruchomienia aplikacji
 
+Znajdując się w lokalnym repozytorium aplikacji pobranym wcześniej z gitlaba, wpisz komendę 
+'sudo bash ./install.sh' w terminalu.
