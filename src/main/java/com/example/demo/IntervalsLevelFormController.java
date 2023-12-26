@@ -12,6 +12,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import org.jooq.Context;
 
 import java.io.IOException;
 
@@ -43,6 +44,22 @@ public class IntervalsLevelFormController {
 
     @FXML
     private ToggleGroup intervalsType;
+
+    @FXML
+    private TextField levelNameTextField;
+
+    public void initialize(){
+        ApplicationContext context = ApplicationContext.getInstance();
+        // We create new level
+        if (context.getLevelInterval() == null){
+
+        }
+        // We edit level specified in context
+        else {
+
+        }
+    }
+
 
     @FXML
     void goBackOnClick(ActionEvent event) throws IOException {
