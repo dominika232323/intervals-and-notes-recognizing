@@ -12,6 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
+import org.jooq.User;
 import org.jooq.impl.DSL;
 
 import java.io.IOException;
@@ -77,7 +78,15 @@ public class CreateLevelIntervalsController {
 
     @FXML
     void deleteLevelOnClick(ActionEvent event) {
-
+        // If any level is selected
+        if (!levelsListView.getSelectionModel().isEmpty()) {
+            ApplicationContext context = ApplicationContext.getInstance();
+            // We delete selected level from database
+            LevelintervalsRecord chosenLevel = levelsListView.getSelectionModel().getSelectedItem();
+            chosenLevel.delete();
+            // We delete selected level from list view
+            intervalLevels.remove(levelsListView.getSelectionModel().getSelectedIndex());
+        }
     }
 
     @FXML
