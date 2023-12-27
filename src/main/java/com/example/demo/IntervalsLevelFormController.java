@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.jooq.Tables;
 import com.example.demo.jooq.tables.records.LevelintervalsRecord;
+import com.example.demo.jooq.tables.records.UsersRecord;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -86,6 +87,9 @@ public class IntervalsLevelFormController {
 
     @FXML
     void goBackOnClick(ActionEvent event) throws IOException {
+        // We set level interval in context to null as no interval level is selected anymore
+        ApplicationContext context = ApplicationContext.getInstance();
+        context.setLevelInterval(null);
         SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.changeStage(event, "create-level-intervals-view.fxml");
     }
@@ -106,9 +110,17 @@ public class IntervalsLevelFormController {
         Byte newUp;
         Byte newDown;
         Byte newTogether;
+        Integer userId;
 
         newName = levelNameTextField.getText();
         newRepetitions = Integer.parseInt(repetitionsTextField.getText());
+
+        if (context.getUser() != null){
+            userId = context.getUser().getUserid();
+        }else {
+            userId = null;
+        }
+
         if (upRadioButton.isSelected()){
             newUp = 1;
             newDown = 0;
@@ -131,18 +143,21 @@ public class IntervalsLevelFormController {
             newIntervalLevel.setUp(newUp);
             newIntervalLevel.setDown(newDown);
             newIntervalLevel.setTogether(newTogether);
-            //  TODO set author of level
+            newIntervalLevel.setUserid(userId);
             newIntervalLevel.store();
+        // We update interval level chosen in context
         } else {
             levelInterval.setName(newName);
             levelInterval.setNumberofrepetitions(newRepetitions);
             levelInterval.setUp(newUp);
             levelInterval.setDown(newDown);
             levelInterval.setTogether(newTogether);
-            // TODO set author of level
+            levelInterval.setUserid(userId);
             levelInterval.store();
         }
+        // We set level interval in context to null as no interval level is selected anymore
         context.setLevelInterval(null);
+        // Change scene to choosing interval levels in creator
         SharedFunctionsController button = new SharedFunctionsController();
         button.changeStage(event, "create-level-intervals-view.fxml");
     }
