@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.jooq.tables.records.UsersRecord;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,6 +43,11 @@ public class LogController {
 
         if(correctLogIn)
         {
+            // For test purposes only, implement correct version later
+            UsersRecord guest = new UsersRecord(1, "guest", "hash123");
+            ApplicationContext context = ApplicationContext.getInstance();
+            context.setUser(guest);
+
             SharedFunctionsController clickedButton = new SharedFunctionsController();
             clickedButton.changeStage(event, "hello-view.fxml");
         }

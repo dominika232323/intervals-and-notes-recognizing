@@ -13,6 +13,7 @@ import java.util.function.Function;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function2;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -52,7 +53,7 @@ public class Notes extends TableImpl<NotesRecord> {
     /**
      * The column <code>db.Notes.noteID</code>.
      */
-    public final TableField<NotesRecord, Integer> NOTEID = createField(DSL.name("noteID"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<NotesRecord, Integer> NOTEID = createField(DSL.name("noteID"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>db.Notes.noteName</code>.
@@ -95,6 +96,11 @@ public class Notes extends TableImpl<NotesRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Db.DB;
+    }
+
+    @Override
+    public Identity<NotesRecord, Integer> getIdentity() {
+        return (Identity<NotesRecord, Integer>) super.getIdentity();
     }
 
     @Override

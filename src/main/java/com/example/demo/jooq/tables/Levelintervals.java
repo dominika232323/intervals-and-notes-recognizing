@@ -16,6 +16,7 @@ import java.util.function.Function;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function7;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -56,7 +57,7 @@ public class Levelintervals extends TableImpl<LevelintervalsRecord> {
     /**
      * The column <code>db.LevelIntervals.levelID</code>.
      */
-    public final TableField<LevelintervalsRecord, Integer> LEVELID = createField(DSL.name("levelID"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<LevelintervalsRecord, Integer> LEVELID = createField(DSL.name("levelID"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>db.LevelIntervals.userID</code>.
@@ -129,6 +130,11 @@ public class Levelintervals extends TableImpl<LevelintervalsRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.asList(Indexes.LEVELINTERVALS_USERID);
+    }
+
+    @Override
+    public Identity<LevelintervalsRecord, Integer> getIdentity() {
+        return (Identity<LevelintervalsRecord, Integer>) super.getIdentity();
     }
 
     @Override

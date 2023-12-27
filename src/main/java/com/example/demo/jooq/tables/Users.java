@@ -15,6 +15,7 @@ import java.util.function.Function;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function3;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
@@ -54,7 +55,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>db.Users.userID</code>.
      */
-    public final TableField<UsersRecord, Integer> USERID = createField(DSL.name("userID"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<UsersRecord, Integer> USERID = createField(DSL.name("userID"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>db.Users.name</code>.
@@ -102,6 +103,11 @@ public class Users extends TableImpl<UsersRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Db.DB;
+    }
+
+    @Override
+    public Identity<UsersRecord, Integer> getIdentity() {
+        return (Identity<UsersRecord, Integer>) super.getIdentity();
     }
 
     @Override
