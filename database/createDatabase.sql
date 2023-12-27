@@ -1,19 +1,19 @@
 Create TABLE IF NOT EXISTS Users
 (
-    userID INTEGER PRIMARY KEY,
+    userID INTEGER AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) UNIQUE,
     passwordHash VARCHAR(64)
 );
 
 CREATE TABLE IF NOT EXISTS Notes
 (
-    noteID INTEGER PRIMARY KEY,
+    noteID INTEGER AUTO_INCREMENT PRIMARY KEY,
     noteName VARCHAR(30)
 );
 
 CREATE TABLE IF NOT EXISTS LevelNotes
 (
-    levelID INTEGER PRIMARY KEY,
+    levelID INTEGER AUTO_INCREMENT PRIMARY KEY,
     userID INTEGER,
     foreign key (userID) REFERENCES Users(userID),
     name VARCHAR(30) UNIQUE,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS LevelNotes
 
 CREATE TABLE IF NOT EXISTS NotesGames
 (
-    notesGameID INTEGER PRIMARY KEY,
+    notesGameID INTEGER AUTO_INCREMENT PRIMARY KEY,
     userID INTEGER,
     foreign key (userID) REFERENCES Users(userID),
     levelNotesID INTEGER,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS NotesGames
 
 CREATE TABLE IF NOT EXISTS AnswersNotesGame
 (
-    answersNotesGameID INTEGER PRIMARY KEY,
+    answersNotesGameID INTEGER AUTO_INCREMENT PRIMARY KEY,
     notesGameID INTEGER,
     foreign key (notesGameID) REFERENCES NotesGames(notesGameID),
     noteID INTEGER,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS AnswersNotesGame
 
 CREATE TABLE IF NOT EXISTS LevelIntervals
 (
-    levelID INTEGER PRIMARY KEY,
+    levelID INTEGER AUTO_INCREMENT PRIMARY KEY,
     userID INTEGER,
     foreign key (userID) REFERENCES Users(userID),
     name VARCHAR(30) UNIQUE,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS LevelIntervals
 
 CREATE TABLE IF NOT EXISTS IntervalsGame
 (
-    intervalsGameID INTEGER PRIMARY KEY,
+    intervalsGameID INTEGER AUTO_INCREMENT PRIMARY KEY,
     intervalLevelID INTEGER,
     foreign key (intervalLevelID) REFERENCES LevelIntervals(levelID),
     userID INTEGER,
@@ -71,13 +71,13 @@ CREATE TABLE IF NOT EXISTS IntervalsGame
 
 CREATE TABLE IF NOT EXISTS Intervals
 (
-    intervalID INTEGER PRIMARY KEY,
+    intervalID INTEGER AUTO_INCREMENT PRIMARY KEY,
     intervalName VARCHAR(30)
 );
 
 CREATE TABLE IF NOT EXISTS AnswersIntervalsGame
 (
-    answerIntervalsGameID INTEGER PRIMARY KEY,
+    answerIntervalsGameID INTEGER AUTO_INCREMENT PRIMARY KEY,
     intervalsGameID INTEGER,
     foreign key (intervalsGameID) REFERENCES IntervalsGame(intervalsGameID),
     intervalID INTEGER,

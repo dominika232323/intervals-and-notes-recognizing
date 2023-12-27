@@ -17,6 +17,7 @@ import java.util.function.Function;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function4;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -57,7 +58,7 @@ public class Intervalsgame extends TableImpl<IntervalsgameRecord> {
     /**
      * The column <code>db.IntervalsGame.intervalsGameID</code>.
      */
-    public final TableField<IntervalsgameRecord, Integer> INTERVALSGAMEID = createField(DSL.name("intervalsGameID"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<IntervalsgameRecord, Integer> INTERVALSGAMEID = createField(DSL.name("intervalsGameID"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>db.IntervalsGame.intervalLevelID</code>.
@@ -115,6 +116,11 @@ public class Intervalsgame extends TableImpl<IntervalsgameRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.asList(Indexes.INTERVALSGAME_INTERVALLEVELID, Indexes.INTERVALSGAME_USERID);
+    }
+
+    @Override
+    public Identity<IntervalsgameRecord, Integer> getIdentity() {
+        return (Identity<IntervalsgameRecord, Integer>) super.getIdentity();
     }
 
     @Override
