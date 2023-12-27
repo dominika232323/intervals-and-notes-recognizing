@@ -114,12 +114,8 @@ public class IntervalsLevelFormController {
 
         newName = levelNameTextField.getText();
         newRepetitions = Integer.parseInt(repetitionsTextField.getText());
+        userId = context.getUser().getUserid();
 
-        if (context.getUser() != null){
-            userId = context.getUser().getUserid();
-        }else {
-            userId = null;
-        }
 
         if (upRadioButton.isSelected()){
             newUp = 1;

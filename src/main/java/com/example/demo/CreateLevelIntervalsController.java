@@ -40,7 +40,7 @@ public class CreateLevelIntervalsController {
     public void initialize() throws SQLException {
         intervalLevels = FXCollections.observableArrayList();
 
-        // getting connection with databse
+        // getting connection with database
         Connection connection = DatabaseConnection.getInstance().getConnection();
         DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
 
@@ -81,8 +81,15 @@ public class CreateLevelIntervalsController {
     }
 
     @FXML
-    void editLevelOnClick(ActionEvent event) {
-
+    void editLevelOnClick(ActionEvent event) throws IOException {
+        // If any level is selected
+        if (!levelsListView.getSelectionModel().isEmpty()) {
+            // We add selected level to context and change scene
+            ApplicationContext context = ApplicationContext.getInstance();
+            context.setLevelInterval(levelsListView.getSelectionModel().getSelectedItem());
+            SharedFunctionsController menuButton = new SharedFunctionsController();
+            menuButton.changeStage(event, "intervals-level-form-view.fxml");
+        }
     }
 
     @FXML
@@ -95,6 +102,5 @@ public class CreateLevelIntervalsController {
     void backToMenuOnClick(ActionEvent event) throws IOException {
         SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.onBackToMenuButtonClick(event);
-
     }
 }
