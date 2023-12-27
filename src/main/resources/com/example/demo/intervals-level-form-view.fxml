@@ -58,7 +58,7 @@
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <ComboBox fx:id="instrumentsComboBox" prefWidth="150.0" promptText="Instrumenty" style="-fx-background-color: DED0B6; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: BBAB8C;" />
+                        <ComboBox fx:id="instrumentsComboBox" prefWidth="150.0" style="-fx-background-color: DED0B6; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: BBAB8C;" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="180.0">

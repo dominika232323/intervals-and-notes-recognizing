@@ -2,20 +2,16 @@ package com.example.demo;
 
 import com.example.demo.jooq.Tables;
 import com.example.demo.jooq.tables.records.LevelintervalsRecord;
-import com.example.demo.jooq.tables.records.UsersRecord;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
-import org.jooq.Context;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -48,7 +44,7 @@ public class IntervalsLevelFormController {
     private TextField repetitionsTextField;
 
     @FXML
-    private ComboBox<?> instrumentsComboBox;
+    private ComboBox<String> instrumentsComboBox;
 
     @FXML
     private ToggleGroup intervalsType;
@@ -56,9 +52,16 @@ public class IntervalsLevelFormController {
     @FXML
     private TextField levelNameTextField;
 
+    private ObservableList<String> instruments;
+
     public void initialize(){
         ApplicationContext context = ApplicationContext.getInstance();
         LevelintervalsRecord levelInterval = context.getLevelInterval();
+
+        instruments = FXCollections.observableArrayList();
+        instruments.add("Pianino");
+        instrumentsComboBox.setItems(instruments);
+        instrumentsComboBox.getSelectionModel().select(0);
 
         // We create new level
         if (levelInterval == null){
