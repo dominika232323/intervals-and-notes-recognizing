@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
+
 import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Notes.NOTES;
@@ -26,6 +29,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.Group;
 
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
@@ -96,6 +100,7 @@ class HelperMethods{
         put("G_Sharp", "G#");
         put("A_Sharp", "A#");
     }};
+
 
     public static String getStringFromButton(Button button){
         return noteNames.get(button.getId());
@@ -182,10 +187,11 @@ public class NotesGameController {
     //Wartosci dotyczace aktualnie wyswietlanej nuty
     //Wartosci dotyczace aktualnie wyswietlanej nuty
     private Circle currentNoteCircle;
-    private Text currentNoteSharpFlat;
+    Group noteSymbolGroup;
+    private ImageView currentNoteSharpFlat;
     private String currentNoteString;
     private int currentNoteInt;
-    private NotesHelperClass noteClass;
+    private NotesHelperClass currentNotesHelperClass;
 
 
     //Dane dotyczace wlasciwosci poziomu
@@ -245,10 +251,11 @@ public class NotesGameController {
 
     public void initialize(){
         //Button[] whiteButtons = new List<Button>
+
+
         HelperMethods.insertStartingDatabase(create);
 
         String changeColor = "darkgray";
-        displayNoteOnStaff(26);
 
 
 
@@ -268,7 +275,11 @@ public class NotesGameController {
         setupButton(F_Sharp, F_Sharp.getStyle(), changeColor);
         setupButton(G_Sharp, G_Sharp.getStyle(), changeColor);
         setupButton(A_Sharp, A_Sharp.getStyle(), changeColor);
+
+        generateAndDisplayNote();
+
     }
+
 
 
 
@@ -291,10 +302,13 @@ public class NotesGameController {
     }
 
     private void handleMousePressed(Button button, String color) {
+
         Label_Already_Guessed.setText(HelperMethods.getStringFromButton(button));
         String styleToSet = "-fx-background-color: " + color;
         button.setStyle(styleToSet);
-        checkIfCorrect(button.getText());
+        if(button.getId().length() != 2) {
+            generateAndDisplayNote();
+        }
     }
 
     private void handleMouseReleased(Button button, String originalStyle) {
@@ -304,54 +318,87 @@ public class NotesGameController {
 
 
     void checkIfCorrect(String noteString){
-        int noteid = new Random().nextInt(49) + 1;
-        System.out.println(getNoteStringFromDb(noteid));
     }
 
 
 
     public void generateAndDisplayNote() {
-        currentNoteInt = new Random().nextInt((higherNoteBound - lowerNoteBound) + 1) + higherNoteBound;
+        currentNoteInt = new Random().nextInt((higherNoteBound - lowerNoteBound) + 1) + lowerNoteBound;
+        currentNoteString = NotesDbHelper.getNoteStringFromDb(currentNoteInt);
+        assert currentNoteString != null;
+        currentNotesHelperClass = new NotesHelperClass(currentNoteString);
 
-        displayNoteOnStaff(currentNoteInt);
+        displayNoteOnStaff();
+
+        System.out.println(currentNoteString);
+        System.out.println("Note generated: " + currentNotesHelperClass.getNoteLetter() + " " + currentNotesHelperClass.getNoteType() + currentNotesHelperClass.getOctave());
     }
 
-    private void displayNoteOnStaff(int midiNote) {
+    private void displayNoteOnStaff() {
+        int currentNoteOffsetY = getCurrentNoteOffsetY();
+
+        PaneLines.getChildren().remove(noteSymbolGroup);
+
+        noteSymbolGroup = new Group();
+        currentNoteSharpFlat = new ImageView();
         currentNoteCircle = new Circle(8);
-        currentNoteCircle.setLayoutX(100); // Set a fixed X position for simplicity
-        currentNoteCircle.setLayoutY(20);
-        PaneLines.getChildren().add(currentNoteCircle);
         currentNoteCircle.setFill(Color.WHITE);
         currentNoteCircle.setStroke(Color.BLACK);
         currentNoteCircle.setStrokeWidth(2);
-        Line line = new Line(80, 20, 120, 20);
+        currentNoteCircle.setLayoutX(750); // Set a fixed X position for simplicity
+        currentNoteCircle.setLayoutY(currentNoteOffsetY);
+
+        noteSymbolGroup.getChildren().add(currentNoteCircle);
+
+        NotesHelperClass.NoteType noteType = currentNotesHelperClass.getNoteType();
+        if(noteType != NotesHelperClass.NoteType.NONE){
+            if(noteType == NotesHelperClass.NoteType.SHARP){
+                currentNoteSharpFlat.setImage(new Image(getClass().getResourceAsStream("krzyzyk.png")));
+            } else {
+                currentNoteSharpFlat.setImage(new Image(getClass().getResourceAsStream("bemol.png")));
+            }
+            System.out.println(currentNoteCircle.getCenterX());
+            System.out.println(PaneLines.getWidth());
+            currentNoteSharpFlat.setLayoutX(720); // Example offset
+            currentNoteSharpFlat.setLayoutY(currentNoteOffsetY - 15);
+            noteSymbolGroup.getChildren().add(currentNoteSharpFlat);
+        }
+
+        //PaneLines.getChildren().add(currentNoteCircle);
+
+
+        PaneLines.getChildren().add(noteSymbolGroup);
+        animateNoteGroup(noteSymbolGroup);
+
+        Line line = new Line(80, 120, 120, 120);
+        PaneLines.getChildren().add(line);
         line.setStroke(Color.BLACK);
         line.setStrokeWidth(2);
-        PaneLines.getChildren().add(line);
-
-
     }
 
+    private void animateNoteGroup(Group noteGroup) {
+        TranslateTransition transition = new TranslateTransition(Duration.seconds(5), noteGroup);
+        transition.setByX(-300); // For example, move 300 units to the left
+        transition.play();
 
-    private String getNoteStringFromDb(int note_id) {
-        Result<Record> result = create.select().from(NOTES)
-                .where(NOTES.NOTEID.eq(note_id))
-                .fetch();
-
-        if (!result.isEmpty()) {
-            Record record = result.get(0);
-            String noteName = (String) record.get(1);
-            return resolveSharpFlat(noteName);
-        }
-        return null;
+        // You can also handle the 'finished' event to do something when the animation is done
+        transition.setOnFinished(event -> {
+            // Code to execute when animation finishes
+        });
     }
 
-    private String resolveSharpFlat(String noteName) {
-        if (noteName.length() > 2) { // Czyli mamy np. C#5/Db5 albo F#4/Gb4 itd.
-            String[] parts = noteName.split("/");
-            return parts[new Random().nextInt(parts.length)]; // Randomly choose either sharp or flat
+    private int getCurrentNoteOffsetY(){
+        int octave = currentNotesHelperClass.getOctave();
+        int offsetY = 20;
+        if(octave == 6){
+            return offsetY;
+        } else {
+            if((octave % 2) == 0) {
+                offsetY += 70;
+            }
+            offsetY += 10 * (8 - currentNotesHelperClass.getScaleDegree());
+            return offsetY;
         }
-        return noteName;
     }
 
     public NotesGameController() throws SQLException {
