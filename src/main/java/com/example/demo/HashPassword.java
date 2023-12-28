@@ -5,6 +5,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class HashPassword {
+    static public void main(String[] args) {
+        String salt = generateSalt();
+        String hash = hashPassword("guest", salt);
+
+        System.out.println(salt);
+        System.out.println(hash);
+    }
+
     static public String hashPassword(String password, String salt) {
         String saltedPassword = password + salt;
 
