@@ -1,9 +1,23 @@
 package com.example.demo;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class HashPassword {
-    static public String hashPassword(String password) {
+    static public String hashPassword(String password, String salt) {
+        String saltedPassword = password + salt;
+
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
+            messageDigest.update(saltedPassword.getBytes());
+
+            return bytesToString(messageDigest.digest());
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         return "";
     }
 
@@ -18,8 +32,8 @@ public class HashPassword {
         return salt;
     }
 
-    static public boolean checkPasswordCorrectness(String password, String hash) {
-        String passwordHash = hashPassword(password);
+    static public boolean checkPasswordCorrectness(String password, String passwordSalt, String hash) {
+        String passwordHash = hashPassword(password, passwordSalt);
         return passwordHash.equals(hash);
     }
 
