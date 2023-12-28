@@ -4,6 +4,9 @@ import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Notes.NOTES;
 import static com.example.demo.jooq.tables.Users.USERS;
+import com.example.demo.NotesHelperClass;
+
+import com.example.demo.jooq.tables.records.NotesRecord;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,6 +47,28 @@ import javafx.util.Duration;
 import javafx.animation.FillTransition;
 
 
+class NotesDbHelper{
+    static DSLContext create;
+
+    static String getNoteStringFromDb(int note_id) {
+        Result<Record> result = create.select().from(NOTES)
+                .where(NOTES.NOTEID.eq(note_id))
+                .fetch();
+
+        if (!result.isEmpty()) {
+            NotesRecord record = (NotesRecord) result.get(0);
+            String noteName = (String) record.getNotename();
+
+            if (noteName.length() > 2) { // Czyli mamy np. C#5/Db5 albo F#4/Gb4 itd.
+                String[] parts = noteName.split("/");
+                return parts[new Random().nextInt(parts.length)]; // Randomly choose either sharp or flat
+            }
+            return noteName;
+        }
+        return null;
+    }
+}
+
 class HelperMethods{
 //C1, C1H, C_Sharp, D, DH, D_Sharp, E, EH, F, FH, F_Sharp, G, GH, G_Sharp, A, AH, A_Sharp, B, BH, C2, C2H
     private static final Map<String, String> noteNames = new HashMap<>() {
@@ -62,6 +87,8 @@ class HelperMethods{
         put("AH", "A");
         put("B", "B");
         put("BH", "B");
+        put("C2", "C");
+        put("C2H", "C");
 
         put("C_Sharp", "C#");
         put("D_Sharp", "D#");
@@ -153,10 +180,12 @@ public class NotesGameController {
 
 
     //Wartosci dotyczace aktualnie wyswietlanej nuty
+    //Wartosci dotyczace aktualnie wyswietlanej nuty
     private Circle currentNoteCircle;
     private Text currentNoteSharpFlat;
     private String currentNoteString;
     private int currentNoteInt;
+    private NotesHelperClass noteClass;
 
 
     //Dane dotyczace wlasciwosci poziomu
@@ -325,12 +354,10 @@ public class NotesGameController {
         return noteName;
     }
 
-    public NotesGameController() throws SQLException{
-        String url = "jdbc:mysql://localhost:3306/db";
-        String username = "user";
-        String password = "password";
-        Connection connection = DriverManager.getConnection(url, username, password);
-        create = DSL.using(connection, SQLDialect.MYSQL);
+    public NotesGameController() throws SQLException {
+        // Using Singleton pattern for database connection
+        create = DSL.using(DatabaseConnection.getInstance().getConnection(), SQLDialect.MYSQL);
+        NotesDbHelper.create = create;
     }
 
     public static int getLevelId(){
