@@ -3,14 +3,15 @@ package com.example.demo;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Base64;
 
 public class HashPassword {
     static public String hashPassword(String password) {
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-384");
             messageDigest.update(password.getBytes());
 
-            return bytesToString(messageDigest.digest());
+            return Base64.getEncoder().encodeToString(messageDigest.digest());
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -22,15 +23,5 @@ public class HashPassword {
     static public boolean checkPasswordCorrectness(String password, String hash) {
         String passwordHash = hashPassword(password);
         return passwordHash.equals(hash);
-    }
-
-    static private String bytesToString(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-
-        for (byte b : bytes) {
-            sb.append(String.format("%02x", b));
-        }
-
-        return sb.toString();
     }
 }
