@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.jooq.Tables;
 import com.example.demo.jooq.tables.Users;
+import static com.example.demo.jooq.tables.Users.USERS;
 import com.example.demo.jooq.tables.records.UsersRecord;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
+import org.jooq.conf.ParamType;
 import org.jooq.impl.DSL;
 
 import java.io.IOException;
@@ -74,14 +76,20 @@ public class LogController {
         String login = enterLogin.getText();
         String password = enterPassword.getText();
 
-        Result<Record> userInfo = create.select().from(Tables.USERS).where(Tables.USERS.NAME.eq(login)).fetch();
+        String sql = create.select()
+                .from(USERS)
+                .where(USERS.NAME.eq(login))
+                .getSQL(ParamType.INLINED);
+        System.out.println("Generated SQL: " + sql);
+
+        Result<Record> userInfo = create.select().from(USERS).where(USERS.NAME.eq(login)).fetch();
 
         if (userInfo.size() == 1) {
             Record r = userInfo.get(0);
 
-            userID = r.get(Tables.USERS.USERID);
-            userName = r.get(Tables.USERS.NAME);
-            userHash = r.get(Tables.USERS.PASSWORDHASH);
+            userID = r.get(USERS.USERID);
+            userName = r.get(USERS.NAME);
+            userHash = r.get(USERS.PASSWORDHASH);
             System.out.println("alallala");
         }
         else {
