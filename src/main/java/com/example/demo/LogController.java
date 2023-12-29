@@ -44,7 +44,7 @@ public class LogController {
     }
 
     @FXML
-    public void onLogInButtonClick(ActionEvent event) throws IOException {
+    public void onLogInButtonClick(ActionEvent event) throws IOException, SQLException {
         boolean correctLogIn = checkLogIn();
 
         if(correctLogIn)
