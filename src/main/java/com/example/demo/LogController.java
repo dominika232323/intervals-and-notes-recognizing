@@ -76,11 +76,17 @@ public class LogController {
 
         Result<Record> userInfo = create.select().from(Tables.USERS).where(Tables.USERS.NAME.eq(login)).fetch();
 
-        for (Record r : userInfo) {
+        if (userInfo.size() == 1) {
+            Record r = userInfo.get(0);
+
             userID = r.get(Tables.USERS.USERID);
             userName = r.get(Tables.USERS.NAME);
             userHash = r.get(Tables.USERS.PASSWORDHASH);
             System.out.println("alallala");
+        }
+        else {
+            System.out.println("dupa");
+            return false;
         }
 
         String passwordHash = HashPassword.hashPassword(password);
