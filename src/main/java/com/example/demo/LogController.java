@@ -1,8 +1,10 @@
 package com.example.demo;
 
 import com.example.demo.jooq.Tables;
+import com.example.demo.jooq.tables.Notes;
 import com.example.demo.jooq.tables.Users;
 import static com.example.demo.jooq.tables.Users.USERS;
+import static com.example.demo.jooq.tables.Notes.NOTES;
 import com.example.demo.jooq.tables.records.UsersRecord;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -77,19 +79,19 @@ public class LogController {
         String password = enterPassword.getText();
 
         Result<Record> userInfo = create.select()
-                .from(USERS)
+                .from(NOTES)
 //                .where(USERS.NAME.eq(login))
                 .fetch();
 
         System.out.println(userInfo.size());
 
-        for (Record r : userInfo) {
-            userID = r.get(Tables.USERS.USERID);
-            userName = r.get(Tables.USERS.NAME);
-            userHash = r.get(Tables.USERS.PASSWORDHASH);
-
-            System.out.println("id " + userID + " name " + userName + " hash " + userHash);
-        }
+//        for (Record r : userInfo) {
+//            userID = r.get(USERS.USERID);
+//            userName = r.get(USERS.NAME);
+//            userHash = r.get(USERS.PASSWORDHASH);
+//
+//            System.out.println("id " + userID + " name " + userName + " hash " + userHash);
+//        }
 
 
 //        if (userInfo.size() == 1) {
