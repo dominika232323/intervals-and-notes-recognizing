@@ -1,5 +1,10 @@
 package com.example.demo;
 
+import com.example.demo.jooq.Tables;
+import com.example.demo.jooq.tables.Notes;
+import com.example.demo.jooq.tables.Users;
+import static com.example.demo.jooq.tables.Users.USERS;
+import static com.example.demo.jooq.tables.Notes.NOTES;
 import com.example.demo.jooq.tables.records.UsersRecord;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -12,39 +17,44 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
+import org.jooq.SQLDialect;
+import org.jooq.conf.ParamType;
+import org.jooq.impl.DSL;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class LogController {
+    private int userID = 0;
+    private String userName = "";
+    private String userHash = "";
+
     @FXML
     private TextField enterLogin;
-
     @FXML
     private PasswordField enterPassword;
-
     @FXML
     private Label incorrectLoginPassword;
-
     @FXML
     private Button logInButton;
-
     @FXML
     private Button addAccountButton;
-
     @FXML
     private Button deleteAccountButton;
-
     @FXML
     private Button exitAppButton;
 
     @FXML
-    public void onLogInButtonClick(ActionEvent event) throws IOException {
+    public void onLogInButtonClick(ActionEvent event) throws IOException, SQLException {
         boolean correctLogIn = checkLogIn();
 
         if(correctLogIn)
         {
-            // For test purposes only, implement correct version later
-            UsersRecord guest = new UsersRecord(1, "guest", "hash123");
+            UsersRecord guest = new UsersRecord(userID, userName, userHash);
             ApplicationContext context = ApplicationContext.getInstance();
             context.setUser(guest);
 
@@ -54,12 +64,39 @@ public class LogController {
         else
         {
             incorrectLoginPassword.setText("Niepoprawny login lub hasło!!!");
+
+            userID = 0;
+            userName = "";
+            userHash = "";
         }
     }
 
-    private boolean checkLogIn()
-    {
-        return enterLogin.getText().toString().equals("guest") && enterPassword.getText().toString().equals("guest");
+    private boolean checkLogIn() throws SQLException {
+        Connection connection = DatabaseConnection.getInstance().getConnection();
+        DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
+
+        String login = enterLogin.getText();
+        String password = enterPassword.getText();
+
+        Result<Record> userInfo = create.select()
+                .from(USERS)
+                .where(USERS.NAME.eq(login))
+                .fetch();
+
+        if (userInfo.size() == 1) {
+            Record r = userInfo.get(0);
+
+            userID = r.get(USERS.USERID);
+            userName = r.get(USERS.NAME);
+            userHash = r.get(USERS.PASSWORDHASH);
+        }
+        else {
+            return false;
+        }
+
+        String passwordHash = HashPassword.hashPassword(password);
+
+        return passwordHash.equals(userHash);
     }
 
     @FXML
