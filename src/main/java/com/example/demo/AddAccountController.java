@@ -13,19 +13,14 @@ import java.io.IOException;
 public class AddAccountController {
     @FXML
     private TextField enterLogin;
-
     @FXML
     private PasswordField enterPassword;
-
     @FXML
     private Label incorrectLoginPassword;
-
     @FXML
     private Button addAccountButton;
-
     @FXML
     private Button exitAppButton;
-
     @FXML
     private Button backToLogInButton;
 
