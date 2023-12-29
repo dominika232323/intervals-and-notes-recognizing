@@ -76,40 +76,41 @@ public class LogController {
         String login = enterLogin.getText();
         String password = enterPassword.getText();
 
-        try {
-            Result<Record> userInfo = create.select()
-                    .from(USERS)
-                    .where(USERS.NAME.eq(login))
-                    .fetch();
+        Result<Record> userInfo = create.select()
+                .from(USERS)
+//                .where(USERS.NAME.eq(login))
+                .fetch();
 
-            if (userInfo.size() == 1) {
-                Record r = userInfo.get(0);
+        System.out.println(userInfo.size());
 
-                userID = r.get(USERS.USERID);
-                userName = r.get(USERS.NAME);
-                userHash = r.get(USERS.PASSWORDHASH);
-                System.out.println("alallala");
-            }
-            else {
-                System.out.println("dupa");
-                return false;
-            }
+        for (Record r : userInfo) {
+            userID = r.get(Tables.USERS.USERID);
+            userName = r.get(Tables.USERS.NAME);
+            userHash = r.get(Tables.USERS.PASSWORDHASH);
 
-            String passwordHash = HashPassword.hashPassword(password);
-
-            System.out.println(passwordHash);
-            System.out.println(userHash);
-
-            return passwordHash.equals(userHash);
-
-            // Rest of the code
-        } catch (Exception e) {
-            System.out.println("ERROROROROROR");
-            e.printStackTrace(); // Log or print the exception
-            return false; // Or handle the exception appropriately
+            System.out.println("id " + userID + " name " + userName + " hash " + userHash);
         }
 
 
+//        if (userInfo.size() == 1) {
+//            Record r = userInfo.get(0);
+//
+//            userID = r.get(USERS.USERID);
+//            userName = r.get(USERS.NAME);
+//            userHash = r.get(USERS.PASSWORDHASH);
+//            System.out.println("alallala");
+//        }
+//        else {
+//            System.out.println("dupa");
+//            return false;
+//        }
+
+        String passwordHash = HashPassword.hashPassword(password);
+
+        System.out.println(passwordHash);
+        System.out.println(userHash);
+
+        return passwordHash.equals(userHash);
     }
 
     @FXML
