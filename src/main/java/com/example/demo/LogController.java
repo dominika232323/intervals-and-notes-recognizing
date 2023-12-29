@@ -76,7 +76,7 @@ public class LogController {
             int userID = r.get(Tables.USERS.USERID);
             String userName = r.get(Tables.USERS.NAME);
             String userHash = r.get(Tables.USERS.PASSWORDHASH);
-            String userSalt = r.get(Tables.USERS.SALT);
+//            String userSalt = r.get(Tables.USERS.SALT);
         }
 
         return true;
