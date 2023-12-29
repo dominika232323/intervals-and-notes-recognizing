@@ -86,7 +86,7 @@ public class LogController {
 
         userInfo = create.select()
                 .from(USERS)
-//                .where(USERS.NAME.eq(login))
+                .where(USERS.NAME.eq(login))
                 .fetch();
 
         System.out.println(userInfo.size());
@@ -100,18 +100,18 @@ public class LogController {
 //        }
 
 
-//        if (userInfo.size() == 1) {
-//            Record r = userInfo.get(0);
-//
-//            userID = r.get(USERS.USERID);
-//            userName = r.get(USERS.NAME);
-//            userHash = r.get(USERS.PASSWORDHASH);
-//            System.out.println("alallala");
-//        }
-//        else {
-//            System.out.println("dupa");
-//            return false;
-//        }
+        if (userInfo.size() == 1) {
+            Record r = userInfo.get(0);
+
+            userID = r.get(USERS.USERID);
+            userName = r.get(USERS.NAME);
+            userHash = r.get(USERS.PASSWORDHASH);
+            System.out.println("alallala");
+        }
+        else {
+            System.out.println("dupa");
+            return false;
+        }
 
         String passwordHash = HashPassword.hashPassword(password);
 
