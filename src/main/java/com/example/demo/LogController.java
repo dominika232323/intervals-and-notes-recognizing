@@ -25,6 +25,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class LogController {
+    private int userID = 0;
+    private String userName = "";
+    private String userHash = "";
+
     @FXML
     private TextField enterLogin;
     @FXML
@@ -40,17 +44,13 @@ public class LogController {
     @FXML
     private Button exitAppButton;
 
-    public LogController() throws SQLException {
-    }
-
     @FXML
     public void onLogInButtonClick(ActionEvent event) throws IOException, SQLException {
         boolean correctLogIn = checkLogIn();
 
         if(correctLogIn)
         {
-            // For test purposes only, implement correct version later
-            UsersRecord guest = new UsersRecord(1, "guest", "hash123");
+            UsersRecord guest = new UsersRecord(userID, userName, userHash);
             ApplicationContext context = ApplicationContext.getInstance();
             context.setUser(guest);
 
@@ -60,6 +60,10 @@ public class LogController {
         else
         {
             incorrectLoginPassword.setText("Niepoprawny login lub hasło!!!");
+
+            userID = 0;
+            userName = "";
+            userHash = "";
         }
     }
 
@@ -71,10 +75,6 @@ public class LogController {
         String password = enterPassword.getText();
 
         Result<Record> userInfo = create.select().from(Tables.USERS).where(Tables.USERS.NAME.like(login)).fetch();
-
-        int userID = 0;
-        String userName = "";
-        String userHash = "";
 
         for (Record r : userInfo) {
             userID = r.get(Tables.USERS.USERID);
