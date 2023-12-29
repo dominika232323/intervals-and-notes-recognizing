@@ -76,33 +76,40 @@ public class LogController {
         String login = enterLogin.getText();
         String password = enterPassword.getText();
 
-        String sql = create.select()
-                .from(USERS)
-                .where(USERS.NAME.eq(login))
-                .getSQL(ParamType.INLINED);
-        System.out.println("Generated SQL: " + sql);
+        try {
+            Result<Record> userInfo = create.select()
+                    .from(USERS)
+                    .where(USERS.NAME.eq(login))
+                    .fetch();
 
-        Result<Record> userInfo = create.select().from(USERS).where(USERS.NAME.eq(login)).fetch();
+            if (userInfo.size() == 1) {
+                Record r = userInfo.get(0);
 
-        if (userInfo.size() == 1) {
-            Record r = userInfo.get(0);
+                userID = r.get(USERS.USERID);
+                userName = r.get(USERS.NAME);
+                userHash = r.get(USERS.PASSWORDHASH);
+                System.out.println("alallala");
+            }
+            else {
+                System.out.println("dupa");
+                return false;
+            }
 
-            userID = r.get(USERS.USERID);
-            userName = r.get(USERS.NAME);
-            userHash = r.get(USERS.PASSWORDHASH);
-            System.out.println("alallala");
+            String passwordHash = HashPassword.hashPassword(password);
+
+            System.out.println(passwordHash);
+            System.out.println(userHash);
+
+            return passwordHash.equals(userHash);
+
+            // Rest of the code
+        } catch (Exception e) {
+            System.out.println("ERROROROROROR");
+            e.printStackTrace(); // Log or print the exception
+            return false; // Or handle the exception appropriately
         }
-        else {
-            System.out.println("dupa");
-            return false;
-        }
 
-        String passwordHash = HashPassword.hashPassword(password);
 
-        System.out.println(passwordHash);
-        System.out.println(userHash);
-
-        return passwordHash.equals(userHash);
     }
 
     @FXML
