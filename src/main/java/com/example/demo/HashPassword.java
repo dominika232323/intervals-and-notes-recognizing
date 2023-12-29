@@ -5,9 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class HashPassword {
-    static public String hashPassword(String password/*, String salt*/) {
-//        String saltedPassword = password /*+ salt*/;
-
+    static public String hashPassword(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(password.getBytes());
@@ -21,19 +19,8 @@ public class HashPassword {
         return "";
     }
 
-//    public static String generateSalt() {
-//        return bytesToString(generateSaltBytes());
-//    }
-//
-//    private static byte[] generateSaltBytes() {
-//        byte[] salt = new byte[16];
-//        SecureRandom random = new SecureRandom();
-//        random.nextBytes(salt);
-//        return salt;
-//    }
-
-    static public boolean checkPasswordCorrectness(String password, /*String passwordSalt,*/ String hash) {
-        String passwordHash = hashPassword(password/*, passwordSalt*/);
+    static public boolean checkPasswordCorrectness(String password, String hash) {
+        String passwordHash = hashPassword(password);
         return passwordHash.equals(hash);
     }
 
