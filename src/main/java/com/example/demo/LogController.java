@@ -74,15 +74,19 @@ public class LogController {
         String login = enterLogin.getText();
         String password = enterPassword.getText();
 
-        Result<Record> userInfo = create.select().from(Tables.USERS).where(Tables.USERS.NAME.like(login)).fetch();
+        Result<Record> userInfo = create.select().from(Tables.USERS).where(Tables.USERS.NAME.eq(login)).fetch();
 
         for (Record r : userInfo) {
             userID = r.get(Tables.USERS.USERID);
             userName = r.get(Tables.USERS.NAME);
             userHash = r.get(Tables.USERS.PASSWORDHASH);
+            System.out.println("alallala");
         }
 
         String passwordHash = HashPassword.hashPassword(password);
+
+        System.out.println(passwordHash);
+        System.out.println(userHash);
 
         return passwordHash.equals(userHash);
     }

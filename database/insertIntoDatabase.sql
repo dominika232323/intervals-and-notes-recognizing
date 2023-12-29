@@ -48,8 +48,10 @@ INSERT INTO Notes VALUES(47, "A#5/Bb5");
 INSERT INTO Notes VALUES(48, "B5");
 INSERT INTO Notes VALUES(49, "C6");
 
-INSERT INTO Users VALUES (1, "guest", "hash123");
+# INSERT INTO Users VALUES (1, "guest", "hash123");
+#
+# UPDATE Users
+# SET passwordHash = "QbRjk7UX8b6eN5j7SWFATZ56zeIIsl9EwVQ2C7opwfMBlvEFj9BtC8HhL28tbDX+"
+# WHERE userID = 1;
 
-UPDATE Users
-SET passwordHash = "QbRjk7UX8b6eN5j7SWFATZ56zeIIsl9EwVQ2C7opwfMBlvEFj9BtC8HhL28tbDX+"
-WHERE userID = 1;
+INSERT INTO Users VALUES (1, "guest", "QbRjk7UX8b6eN5j7SWFATZ56zeIIsl9EwVQ2C7opwfMBlvEFj9BtC8HhL28tbDX+");
