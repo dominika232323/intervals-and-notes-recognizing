@@ -80,6 +80,12 @@ public class LogController {
 
         Result<Record> userInfo = create.select()
                 .from(NOTES)
+                .fetch();
+
+        System.out.println(userInfo.size());
+
+        userInfo = create.select()
+                .from(USERS)
 //                .where(USERS.NAME.eq(login))
                 .fetch();
 
