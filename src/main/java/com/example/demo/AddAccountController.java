@@ -55,11 +55,7 @@ public class AddAccountController {
         else {
             int ID = getNextUserID(create);
 
-            create.insertInto(USERS)
-                    .columns(USERS.USERID, USERS.NAME, USERS.PASSWORDHASH)
-                    .values(ID, login, HashPassword.hashPassword(password))
-                    .execute();
-
+            UserTableOperations.insertNewUser(ID, login, HashPassword.hashPassword(password), create);
             UserTableOperations.setUserInApplicationContext(login, create);
 
             SharedFunctionsController clickedButton = new SharedFunctionsController();

@@ -45,4 +45,11 @@ public class UserTableOperations {
         ApplicationContext context = ApplicationContext.getInstance();
         context.setUser(currentUser);
     }
+
+    static public void insertNewUser(int userID, String userName, String userHash, DSLContext create) {
+        create.insertInto(USERS)
+                .columns(USERS.USERID, USERS.NAME, USERS.PASSWORDHASH)
+                .values(userID, userName, userHash)
+                .execute();
+    }
 }
