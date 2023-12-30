@@ -49,7 +49,7 @@ public class AddAccountController {
         String login = enterLogin.getText();
         String password = enterPassword.getText();
 
-        if (checkIfLoginExists(login, create)) {
+        if (UserTableOperations.checkIfLoginExists(login, create)) {
             incorrectLoginPassword.setText("Login jest już zajęty!!!");
         }
         else {
@@ -61,11 +61,6 @@ public class AddAccountController {
             SharedFunctionsController clickedButton = new SharedFunctionsController();
             clickedButton.changeStage(event, "hello-view.fxml");
         }
-    }
-
-    private boolean checkIfLoginExists(String login, DSLContext create) {
-        Result<Record> userInfo = UserTableOperations.getUserRecordByLogin(login, create);
-        return !userInfo.isEmpty();
     }
 
     private int getNextUserID(DSLContext create) {

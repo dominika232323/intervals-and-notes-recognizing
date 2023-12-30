@@ -2,8 +2,7 @@ Create TABLE IF NOT EXISTS Users
 (
     userID INTEGER AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) UNIQUE,
-    passwordHash VARCHAR(64)#,
-#     salt VARCHAR(32)
+    passwordHash VARCHAR(64)
 );
 
 CREATE TABLE IF NOT EXISTS Notes
