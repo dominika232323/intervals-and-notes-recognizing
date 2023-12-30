@@ -54,9 +54,7 @@ public class LogController {
 
         if(correctLogIn)
         {
-            UsersRecord guest = new UsersRecord(userID, userName, userHash);
-            ApplicationContext context = ApplicationContext.getInstance();
-            context.setUser(guest);
+            UserTableOperations.setUserInApplicationContext(userID, userName, userHash);
 
             SharedFunctionsController clickedButton = new SharedFunctionsController();
             clickedButton.changeStage(event, "hello-view.fxml");
@@ -72,16 +70,12 @@ public class LogController {
     }
 
     private boolean checkLogIn() throws SQLException {
-        Connection connection = DatabaseConnection.getInstance().getConnection();
-        DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
+        DSLContext create = SharedFunctionsController.getDLCContex();
 
         String login = enterLogin.getText();
         String password = enterPassword.getText();
 
-        Result<Record> userInfo = create.select()
-                .from(USERS)
-                .where(USERS.NAME.eq(login))
-                .fetch();
+        Result<Record> userInfo = UserTableOperations.getUserRecordByLogin(login, create);
 
         if (userInfo.size() == 1) {
             Record r = userInfo.get(0);
@@ -95,7 +89,6 @@ public class LogController {
         }
 
         String passwordHash = HashPassword.hashPassword(password);
-
         return passwordHash.equals(userHash);
     }
 
