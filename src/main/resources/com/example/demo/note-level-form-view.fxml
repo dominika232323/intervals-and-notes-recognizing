@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.NotesLevelFormController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Pane fx:id="staffPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="160.0" prefWidth="700.0">
+               <children>
+                  <Line endX="680.0" layoutY="40.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="680.0" layoutY="60.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="680.0" layoutY="80.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="680.0" layoutY="100.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="680.0" layoutY="120.0" startX="20.0" strokeWidth="2.0" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <VBox prefHeight="340.0" prefWidth="100.0">
+         <children>
+            <HBox prefHeight="140.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="233.0">
+                     <children>
+                        <Label text="Najniższa nuta">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="lowestNoteComboBox" prefWidth="150.0" style="-fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15; -fx-background-radius: 15;" />
+                     </children>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="233.0">
+                     <children>
+                        <Label text="Instrument">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="instrumentComboBox" prefWidth="150.0" style="-fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15; -fx-background-radius: 15;" />
+                     </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="233.0">
+                     <children>
+                        <Label text="Najwyższa nuta">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="highestNoteComboBox" prefWidth="150.0" style="-fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15; -fx-background-radius: 15;" />
+                     </children>
+                     <padding>
+                        <Insets left="55.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="90.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="233.0">
+                     <children>
+                        <Label text="Fala początka">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="startingWaveTextField" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                     </children>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="233.0">
+                     <children>
+                        <Label text="Powtórzenia w fali">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="repetitionsInWave" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                     </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="233.0">
+                     <children>
+                        <Label text="Fala końcowa">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="endingWaveTextField" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                     </children>
+                     <padding>
+                        <Insets left="55.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="233.0">
+                     <children>
+                        <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitOnClick" prefHeight="75.0" prefWidth="150.0" style="-fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15; -fx-background-radius: 15;" text="Wyjdź">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="233.0">
+                     <children>
+                        <Label fx:id="errorLabel">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="233.0">
+                     <children>
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveOnClick" prefHeight="75.0" prefWidth="150.0" style="-fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15; -fx-background-radius: 15;" text="Zapisz">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets right="30.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>

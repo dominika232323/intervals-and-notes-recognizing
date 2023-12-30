@@ -46,14 +46,9 @@ public class CreateLevelNotesController {
     }
 
     @FXML
-    void createNewLevelOnClick() throws SQLException {
-        // Just for testing databse connection purposes, delete later
-//        DSLContext create = DSL.using(DatabaseConnection.getInstance().getConnection(), SQLDialect.MYSQL);
-//        List<NotesRecord> notes = create.selectFrom(Tables.NOTES).fetch();
-//        for (NotesRecord note: notes){
-//            System.out.println(note.getNotename());
-//        }
-
+    void createNewLevelOnClick(ActionEvent event) throws SQLException, IOException {
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.changeStage(event, "note-level-form-view.fxml");
     }
 
     @FXML
