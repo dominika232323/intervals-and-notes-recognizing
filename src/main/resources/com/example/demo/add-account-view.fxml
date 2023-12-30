@@ -51,7 +51,7 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <Button fx:id="addAccountButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="24.0" prefWidth="328.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Dodaj konto i zaloguj się" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+      <Button fx:id="addAccountButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAddAccountButton" prefHeight="24.0" prefWidth="328.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Dodaj konto i zaloguj się" GridPane.columnIndex="1" GridPane.rowIndex="9" />
       <Button fx:id="backToLogInButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBackToLogInButton" prefHeight="29.0" prefWidth="330.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wróć do menu logowania" GridPane.columnIndex="1" GridPane.rowIndex="11" />
       <Label fx:id="incorrectLoginPassword" prefHeight="36.0" prefWidth="328.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="7">
          <font>
