@@ -10,11 +10,8 @@ import javafx.scene.control.TextField;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import static com.example.demo.jooq.tables.Users.USERS;
@@ -63,7 +60,7 @@ public class AddAccountController {
                     .values(ID, login, HashPassword.hashPassword(password))
                     .execute();
 
-            SharedFunctionsController.setUserInApplicationContext(login, create);
+            UserTableOperations.setUserInApplicationContext(login, create);
 
             SharedFunctionsController clickedButton = new SharedFunctionsController();
             clickedButton.changeStage(event, "hello-view.fxml");
@@ -71,14 +68,12 @@ public class AddAccountController {
     }
 
     private boolean checkIfLoginExists(String login, DSLContext create) {
-        Result<Record> userInfo = SharedFunctionsController.getUserRecordByLogin(login, create);
+        Result<Record> userInfo = UserTableOperations.getUserRecordByLogin(login, create);
         return !userInfo.isEmpty();
     }
 
     private int getNextUserID(DSLContext create) {
-        Result<Record> userInfo = create.select()
-                .from(USERS)
-                .fetch();
+        Result<Record> userInfo = UserTableOperations.getUsersRecords(create);
 
         int nextID = 1;
 

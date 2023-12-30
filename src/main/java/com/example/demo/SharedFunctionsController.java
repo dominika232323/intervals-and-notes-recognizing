@@ -55,32 +55,4 @@ public class SharedFunctionsController {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         return DSL.using(connection, SQLDialect.MYSQL);
     }
-
-    static public void setUserInApplicationContext(String login, DSLContext create) {
-        Result<Record> userInfo = getUserRecordByLogin(login, create);
-
-        if (userInfo.size() == 1) {
-            Record r = userInfo.get(0);
-
-            int userID = r.get(USERS.USERID);
-            String userName = r.get(USERS.NAME);
-            String userHash = r.get(USERS.PASSWORDHASH);
-
-            UsersRecord currentUser = new UsersRecord(userID, userName, userHash);
-            ApplicationContext context = ApplicationContext.getInstance();
-            context.setUser(currentUser);
-        }
-        else {
-            return;
-        }
-    }
-
-    static public Result<Record> getUserRecordByLogin(String login, DSLContext create) {
-        Result<Record> userInfo = create.select()
-                .from(USERS)
-                .where(USERS.NAME.eq(login))
-                .fetch();
-
-        return userInfo;
-    }
 }
