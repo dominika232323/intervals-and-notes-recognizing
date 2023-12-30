@@ -39,4 +39,10 @@ public class UserTableOperations {
             return;
         }
     }
+
+    static public void setUserInApplicationContext(int userID, String userName, String userHash) {
+        UsersRecord currentUser = new UsersRecord(userID, userName, userHash);
+        ApplicationContext context = ApplicationContext.getInstance();
+        context.setUser(currentUser);
+    }
 }
