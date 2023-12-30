@@ -56,9 +56,11 @@ public class AddAccountController {
             incorrectLoginPassword.setText("Login jest już zajęty!!!");
         }
         else {
+            int ID = getNextUserID(create);
+
             create.insertInto(USERS)
-                    .columns(USERS.NAME, USERS.PASSWORDHASH)
-                    .values(login, HashPassword.hashPassword(password))
+                    .columns(USERS.USERID, USERS.NAME, USERS.PASSWORDHASH)
+                    .values(ID, login, HashPassword.hashPassword(password))
                     .execute();
 
             SharedFunctionsController.setUserInApplicationContext(login, create);
@@ -71,5 +73,25 @@ public class AddAccountController {
     private boolean checkIfLoginExists(String login, DSLContext create) {
         Result<Record> userInfo = SharedFunctionsController.getUserRecordByLogin(login, create);
         return !userInfo.isEmpty();
+    }
+
+    private int getNextUserID(DSLContext create) {
+        Result<Record> userInfo = create.select()
+                .from(USERS)
+                .fetch();
+
+        int nextID = 1;
+
+        for (Record r : userInfo) {
+            int userID = r.get(USERS.USERID);
+
+            if (userID != nextID) {
+                return nextID;
+            }
+
+            nextID++;
+        }
+
+        return nextID;
     }
 }
