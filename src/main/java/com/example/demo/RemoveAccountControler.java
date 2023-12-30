@@ -13,19 +13,14 @@ import java.io.IOException;
 public class RemoveAccountControler {
     @FXML
     private TextField enterLogin;
-
     @FXML
     private PasswordField enterPassword;
-
     @FXML
     private Label incorrectLoginPassword;
-
     @FXML
     private Button removeAccountButton;
-
     @FXML
     private Button exitAppButton;
-
     @FXML
     private Button backToLogInButton;
 
