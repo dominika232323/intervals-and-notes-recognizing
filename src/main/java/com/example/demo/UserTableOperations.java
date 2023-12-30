@@ -52,4 +52,9 @@ public class UserTableOperations {
                 .values(userID, userName, userHash)
                 .execute();
     }
+
+    static public boolean checkIfLoginExists(String login, DSLContext create) {
+        Result<Record> userInfo = UserTableOperations.getUserRecordByLogin(login, create);
+        return !userInfo.isEmpty();
+    }
 }
