@@ -7,8 +7,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import static com.example.demo.jooq.tables.Users.USERS;
 
 public class AddAccountController {
     @FXML
@@ -34,5 +43,33 @@ public class AddAccountController {
     public void onExitAppButton()
     {
         Platform.exit();
+    }
+
+    @FXML
+    public void onAddAccountButton(ActionEvent event) throws IOException, SQLException {
+        DSLContext create = SharedFunctionsController.getDLCContex();
+
+        String login = enterLogin.getText();
+        String password = enterPassword.getText();
+
+        if (checkIfLoginExists(login, create)) {
+            incorrectLoginPassword.setText("Login jest już zajęty!!!");
+        }
+        else {
+            create.insertInto(USERS)
+                    .columns(USERS.NAME, USERS.PASSWORDHASH)
+                    .values(login, HashPassword.hashPassword(password))
+                    .execute();
+
+            SharedFunctionsController.setUserInApplicationContext(login, create);
+
+            SharedFunctionsController clickedButton = new SharedFunctionsController();
+            clickedButton.changeStage(event, "hello-view.fxml");
+        }
+    }
+
+    private boolean checkIfLoginExists(String login, DSLContext create) {
+        Result<Record> userInfo = SharedFunctionsController.getUserRecordByLogin(login, create);
+        return !userInfo.isEmpty();
     }
 }
