@@ -140,16 +140,22 @@ public class NotesLevelFormController {
 
     @FXML
     void exitOnClick(ActionEvent event) throws IOException {
+        ApplicationContext context = ApplicationContext.getInstance();
+        context.setLevelNotes(null);
         SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.changeStage(event, "create-level-notes-view.fxml");
     }
 
     @FXML
-    void saveOnClick(ActionEvent event) {
+    void saveOnClick(ActionEvent event) throws IOException, SQLException {
         if (checkFormValid()){
-            LevelnotesRecord selectedLevel = ApplicationContext.getInstance().getLevelNotes();
+            ApplicationContext context = ApplicationContext.getInstance();
+            LevelnotesRecord selectedLevel = context.getLevelNotes();
+            Connection connection = DatabaseConnection.getInstance().getConnection();
+            DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
+
             if (selectedLevel == null){
-                LevelnotesRecord newLevel = new LevelnotesRecord();
+                LevelnotesRecord newLevel = create.newRecord(Tables.LEVELNOTES);
                 newLevel.setName(nameTextField.getText());
                 newLevel.setStartingwave(Integer.parseInt(startingWaveTextField.getText()));
                 newLevel.setEndingwave(Integer.parseInt(endingWaveTextField.getText()));
@@ -168,6 +174,11 @@ public class NotesLevelFormController {
                 selectedLevel.setRepetitionsnextwave(Integer.parseInt(repetitionsInWave.getText()));
                 selectedLevel.store();
             }
+            // We set level interval in context to null as no interval level is selected anymore
+            context.setLevelNotes(null);
+            // Change scene to choosing interval levels in creator
+            SharedFunctionsController button = new SharedFunctionsController();
+            button.changeStage(event, "create-level-notes-view.fxml");
         }
     }
 

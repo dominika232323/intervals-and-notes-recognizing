@@ -80,7 +80,6 @@ public class CreateLevelIntervalsController {
     void deleteLevelOnClick(ActionEvent event) {
         // If any level is selected
         if (!levelsListView.getSelectionModel().isEmpty()) {
-            ApplicationContext context = ApplicationContext.getInstance();
             // We delete selected level from database
             LevelintervalsRecord chosenLevel = levelsListView.getSelectionModel().getSelectedItem();
             chosenLevel.delete();
