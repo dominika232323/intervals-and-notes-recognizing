@@ -10,15 +10,30 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.NotesLevelFormController">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Pane fx:id="staffPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="160.0" prefWidth="700.0">
+            <Pane fx:id="staffPane" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0" prefWidth="700.0">
                <children>
-                  <Line endX="680.0" layoutY="40.0" startX="20.0" strokeWidth="2.0" />
-                  <Line endX="680.0" layoutY="60.0" startX="20.0" strokeWidth="2.0" />
-                  <Line endX="680.0" layoutY="80.0" startX="20.0" strokeWidth="2.0" />
-                  <Line endX="680.0" layoutY="100.0" startX="20.0" strokeWidth="2.0" />
-                  <Line endX="680.0" layoutY="120.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="140.0" layoutY="20.0" startX="100.0" strokeWidth="2.0" />
+                  <Line endX="140.0" layoutY="40.0" startX="100.0" strokeWidth="2.0" />
+                  <Line endX="200.0" layoutY="60.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="200.0" layoutY="80.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="200.0" layoutY="100.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="200.0" layoutY="120.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="200.0" layoutY="140.0" startX="20.0" strokeWidth="2.0" />
+                  <Line endX="140.0" layoutY="160.0" startX="100.0" strokeWidth="2.0" />
+                  <Line endX="140.0" layoutY="180.0" startX="100.0" strokeWidth="2.0" />
+                  <Line endX="620.0" layoutY="20.0" startX="580.0" strokeWidth="2.0" />
+                  <Line endX="620.0" layoutY="40.0" startX="580.0" strokeWidth="2.0" />
+                  <Line endX="680.0" layoutY="60.0" startX="500.0" strokeWidth="2.0" />
+                  <Line endX="680.0" layoutY="80.0" startX="500.0" strokeWidth="2.0" />
+                  <Line endX="680.0" layoutY="100.0" startX="500.0" strokeWidth="2.0" />
+                  <Line endX="680.0" layoutY="120.0" startX="500.0" strokeWidth="2.0" />
+                  <Line endX="680.0" layoutY="140.0" startX="500.0" strokeWidth="2.0" />
+                  <Line endX="620.0" layoutY="160.0" startX="580.0" strokeWidth="2.0" />
+                  <Line endX="620.0" layoutY="180.0" startX="580.0" strokeWidth="2.0" />
+                  <ImageView fx:id="lowestNoteClefImageView" fitHeight="120.0" fitWidth="50.0" layoutX="20.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="highestNoteClefImageView" fitHeight="120.0" fitWidth="50.0" layoutX="500.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </Pane>
          </children>
@@ -68,7 +83,7 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox prefHeight="90.0" prefWidth="200.0">
+            <HBox prefHeight="60.0" prefWidth="200.0">
                <children>
                   <VBox prefHeight="200.0" prefWidth="233.0">
                      <children>

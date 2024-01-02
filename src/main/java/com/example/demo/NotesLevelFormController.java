@@ -1,16 +1,31 @@
 package com.example.demo;
 
+import com.example.demo.jooq.Tables;
+import com.example.demo.jooq.tables.records.LevelintervalsRecord;
+import com.example.demo.jooq.tables.records.NotesRecord;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.util.Callback;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
+
+import static org.jooq.impl.DSL.*;
+import org.jooq.*;
+import org.jooq.impl.*;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NotesLevelFormController {
 
@@ -27,7 +42,7 @@ public class NotesLevelFormController {
     private TextField startingWaveTextField;
 
     @FXML
-    private ComboBox<?> highestNoteComboBox;
+    private ComboBox<NotesRecord> highestNoteComboBox;
 
     @FXML
     private Pane staffPane;
@@ -39,10 +54,74 @@ public class NotesLevelFormController {
     private Label errorLabel;
 
     @FXML
-    private ComboBox<?> lowestNoteComboBox;
+    private ComboBox<NotesRecord> lowestNoteComboBox;
 
     @FXML
     private TextField repetitionsInWave;
+
+    @FXML
+    private ImageView highestNoteClefImageView;
+
+    @FXML
+    private ImageView lowestNoteClefImageView;
+
+    private final Callback<ListView<NotesRecord>, ListCell<NotesRecord>> cellFactory = new Callback<ListView<NotesRecord>, ListCell<NotesRecord>>() {
+        @Override
+        public ListCell<NotesRecord> call(ListView<NotesRecord> l) {
+            return new ListCell<NotesRecord>() {
+
+                @Override
+                protected void updateItem(NotesRecord item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setGraphic(null);
+                    } else {
+                        setText(item.getNotename());
+                    }
+                }
+            } ;
+        }
+    };
+
+    private ObservableList<NotesRecord> allNotes;
+
+    private Image violinClefImage = new Image(getClass().getResourceAsStream("violin_clef_resized.png"));
+    private Image bassClefImage = new Image(getClass().getResourceAsStream("bass_clef_resized.png"));
+
+    private static final Map<String, Integer> notesVerticalPosition = new HashMap<>() {{
+        int position = 20;
+        // violin clef
+        put("C6", position);
+        put("B5", position + 20);
+        put("A5", position + 30);
+        put("G5", position + 40);
+        put("F5", position + 50);
+        put("E5", position + 60);
+        put("D5", position + 70);
+        put("C5", position + 80);
+        put("B4", position + 90);
+        put("A4", position + 100);
+        put("G4", position + 110);
+        put("F4", position + 120);
+        put("E4", position + 130);
+        put("D4", position + 140);
+        put("C4", position + 150);
+        // bass clef
+        put("B3", position + 30);
+        put("A3", position + 40);
+        put("G3", position + 50);
+        put("F3", position + 60);
+        put("E3", position + 70);
+        put("D3", position + 80);
+        put("C3", position + 90);
+        put("B2", position + 100);
+        put("A2", position + 110);
+        put("G2", position + 120);
+        put("F2", position + 130);
+        put("E2", position + 140);
+        put("D2", position + 150);
+        put("C2", position + 160);
+    }};
 
     @FXML
     void exitOnClick(ActionEvent event) throws IOException {
@@ -55,19 +134,42 @@ public class NotesLevelFormController {
 
     }
 
-    public void initialize(){
+    public void initialize() throws SQLException {
         Circle circle = new Circle();
         circle.setRadius(10);
-        circle.setCenterX(90);
-        circle.setCenterY(130);
+        circle.setCenterX(120);
+        circle.setCenterY(150);
         staffPane.getChildren().add(circle);
 
         Circle circle2 = new Circle();
         circle2.setRadius(10);
         circle2.setCenterX(600);
-        circle2.setCenterY(30);
+        circle2.setCenterY(50);
         staffPane.getChildren().add(circle2);
 
+        lowestNoteClefImageView.setImage(violinClefImage);
+        highestNoteClefImageView.setImage(bassClefImage);
+
+
+
+
+        Connection connection = DatabaseConnection.getInstance().getConnection();
+        DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
+
+        allNotes = FXCollections.observableArrayList();
+        allNotes.addAll(create.selectFrom(Tables.NOTES).where(length(Tables.NOTES.NOTENAME).le(2)).fetch());
+
+        setFacotryCell(lowestNoteComboBox);
+        setFacotryCell(highestNoteComboBox);
+
+        lowestNoteComboBox.setItems(allNotes);
+        highestNoteComboBox.setItems(allNotes);
+
+    }
+
+    private void setFacotryCell(ComboBox<NotesRecord> comboBox){
+        comboBox.setButtonCell(cellFactory.call(null));
+        comboBox.setCellFactory(cellFactory);
     }
 
 }
