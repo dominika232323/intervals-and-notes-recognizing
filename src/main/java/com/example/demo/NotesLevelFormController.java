@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.jooq.Tables;
 import com.example.demo.jooq.tables.records.LevelintervalsRecord;
+import com.example.demo.jooq.tables.records.LevelnotesRecord;
 import com.example.demo.jooq.tables.records.NotesRecord;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,7 +33,7 @@ import java.util.Map;
 public class NotesLevelFormController {
 
     @FXML
-    private ComboBox<?> instrumentComboBox;
+    private ComboBox<String> instrumentComboBox;
 
     @FXML
     private Button exitButton;
@@ -67,6 +68,9 @@ public class NotesLevelFormController {
     @FXML
     private ImageView lowestNoteClefImageView;
 
+    @FXML
+    private TextField nameTextField;
+
     private final Callback<ListView<NotesRecord>, ListCell<NotesRecord>> cellFactory = new Callback<ListView<NotesRecord>, ListCell<NotesRecord>>() {
         @Override
         public ListCell<NotesRecord> call(ListView<NotesRecord> l) {
@@ -86,6 +90,8 @@ public class NotesLevelFormController {
     };
 
     private ObservableList<NotesRecord> allNotes;
+
+    private ObservableList<String> instruments;
 
     private Image violinClefImage = new Image(getClass().getResourceAsStream("violin_clef_resized.png"));
     private Image bassClefImage = new Image(getClass().getResourceAsStream("bass_clef_resized.png"));
@@ -140,7 +146,33 @@ public class NotesLevelFormController {
 
     @FXML
     void saveOnClick(ActionEvent event) {
+        if (checkFormValid()){
+            LevelnotesRecord selectedLevel = ApplicationContext.getInstance().getLevelNotes();
+            if (selectedLevel == null){
+                LevelnotesRecord newLevel = new LevelnotesRecord();
+                newLevel.setName(nameTextField.getText());
+                newLevel.setStartingwave(Integer.parseInt(startingWaveTextField.getText()));
+                newLevel.setEndingwave(Integer.parseInt(endingWaveTextField.getText()));
+                newLevel.setUserid(ApplicationContext.getInstance().getUser().getUserid());
+                newLevel.setHighernotebound(highestNoteComboBox.getSelectionModel().getSelectedItem().getNoteid());
+                newLevel.setLowernotebound(lowestNoteComboBox.getSelectionModel().getSelectedItem().getNoteid());
+                newLevel.setRepetitionsnextwave(Integer.parseInt(repetitionsInWave.getText()));
+                newLevel.store();
+            }else{
+                selectedLevel.setName(nameTextField.getText());
+                selectedLevel.setStartingwave(Integer.parseInt(startingWaveTextField.getText()));
+                selectedLevel.setEndingwave(Integer.parseInt(endingWaveTextField.getText()));
+                selectedLevel.setUserid(ApplicationContext.getInstance().getUser().getUserid());
+                selectedLevel.setHighernotebound(highestNoteComboBox.getSelectionModel().getSelectedItem().getNoteid());
+                selectedLevel.setLowernotebound(lowestNoteComboBox.getSelectionModel().getSelectedItem().getNoteid());
+                selectedLevel.setRepetitionsnextwave(Integer.parseInt(repetitionsInWave.getText()));
+                selectedLevel.store();
+            }
+        }
+    }
 
+    private boolean checkFormValid(){
+        return true;
     }
 
     public void initialize() throws SQLException {
@@ -166,8 +198,17 @@ public class NotesLevelFormController {
         lowestNoteComboBox.setItems(allNotes);
         highestNoteComboBox.setItems(allNotes);
 
-        lowestNoteComboBox.getSelectionModel().selectLast();
-        highestNoteComboBox.getSelectionModel().selectFirst();
+        if (ApplicationContext.getInstance().getLevelNotes() == null){
+            lowestNoteComboBox.getSelectionModel().selectLast();
+            highestNoteComboBox.getSelectionModel().selectFirst();
+        }else{
+            setFormFromContext();
+        }
+
+        instruments = FXCollections.observableArrayList();
+        instruments.add("Pianino");
+        instrumentComboBox.setItems(instruments);
+        instrumentComboBox.getSelectionModel().selectFirst();
 
         onLowestNoteValChanged();
         onHighestNoteValChanged();
@@ -176,6 +217,40 @@ public class NotesLevelFormController {
     private void setFacotryCell(ComboBox<NotesRecord> comboBox){
         comboBox.setButtonCell(cellFactory.call(null));
         comboBox.setCellFactory(cellFactory);
+    }
+
+    private void setFormFromContext() throws SQLException {
+        Connection connection = DatabaseConnection.getInstance().getConnection();
+        DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
+
+        LevelnotesRecord selectedLevel = ApplicationContext.getInstance().getLevelNotes();
+        NotesRecord selectedLowestNote = create.selectFrom(Tables.NOTES)
+                .where(Tables.NOTES.NOTEID.eq(selectedLevel.getLowernotebound())).fetchOneInto(NotesRecord.class);
+        NotesRecord selectedHighestNote = create.selectFrom(Tables.NOTES)
+                .where(Tables.NOTES.NOTEID.eq(selectedLevel.getHighernotebound())).fetchOneInto(NotesRecord.class);
+
+        int selectedStartWave = selectedLevel.getStartingwave();
+        int selectedEndingWave = selectedLevel.getEndingwave();
+        int selectedRepetitions = selectedLevel.getRepetitionsnextwave();
+        String selectedName = selectedLevel.getName();
+
+        startingWaveTextField.setText(Integer.toString(selectedStartWave));
+        endingWaveTextField.setText(Integer.toString(selectedEndingWave));
+        repetitionsInWave.setText(Integer.toString(selectedRepetitions));
+        nameTextField.setText(selectedName);
+
+        highestNoteComboBox.getSelectionModel().select(findNoteIndexById(selectedHighestNote.getNoteid()));
+        lowestNoteComboBox.getSelectionModel().select(findNoteIndexById(selectedLowestNote.getNoteid()));
+
+    }
+
+    int findNoteIndexById(int noteId){
+        for (int i =0; i < allNotes.size(); i++){
+            if (allNotes.get(i).getNoteid() == noteId) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @FXML

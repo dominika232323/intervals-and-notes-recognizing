@@ -85,7 +85,7 @@
             </HBox>
             <HBox prefHeight="60.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="233.0">
+                  <VBox prefHeight="200.0" prefWidth="175.0">
                      <children>
                         <Label text="Fala początka">
                            <font>
@@ -98,7 +98,7 @@
                         <Insets left="30.0" />
                      </padding>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="233.0">
+                  <VBox prefHeight="200.0" prefWidth="175.0">
                      <children>
                         <Label text="Powtórzenia w fali">
                            <font>
@@ -108,10 +108,10 @@
                         <TextField fx:id="repetitionsInWave" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
                      </children>
                      <padding>
-                        <Insets left="50.0" />
+                        <Insets left="30.0" />
                      </padding>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="233.0">
+                  <VBox prefHeight="200.0" prefWidth="175.0">
                      <children>
                         <Label text="Fala końcowa">
                            <font>
@@ -121,8 +121,18 @@
                         <TextField fx:id="endingWaveTextField" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
                      </children>
                      <padding>
-                        <Insets left="55.0" />
+                        <Insets left="30.0" />
                      </padding>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="175.0">
+                     <children>
+                        <Label text="Nazwa">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="nameTextField" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
+                     </children>
                   </VBox>
                </children>
             </HBox>
