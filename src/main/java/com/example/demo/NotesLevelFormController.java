@@ -24,7 +24,9 @@ import org.jooq.impl.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NotesLevelFormController {
@@ -123,6 +125,13 @@ public class NotesLevelFormController {
         put("C2", position + 160);
     }};
 
+    private Circle lowestNote;
+    private Circle highestNote;
+
+    private final int lowestNoteHorizontalPosition = 120;
+    private final int highestNoteHorizontalPosition = 600;
+
+
     @FXML
     void exitOnClick(ActionEvent event) throws IOException {
         SharedFunctionsController menuButton = new SharedFunctionsController();
@@ -135,29 +144,21 @@ public class NotesLevelFormController {
     }
 
     public void initialize() throws SQLException {
-        Circle circle = new Circle();
-        circle.setRadius(10);
-        circle.setCenterX(120);
-        circle.setCenterY(150);
-        staffPane.getChildren().add(circle);
+        lowestNote = new Circle();
+        lowestNote.setRadius(10);
+        staffPane.getChildren().add(lowestNote);
 
-        Circle circle2 = new Circle();
-        circle2.setRadius(10);
-        circle2.setCenterX(600);
-        circle2.setCenterY(50);
-        staffPane.getChildren().add(circle2);
-
-        lowestNoteClefImageView.setImage(violinClefImage);
-        highestNoteClefImageView.setImage(bassClefImage);
-
-
-
+        highestNote = new Circle();
+        highestNote.setRadius(10);
+        staffPane.getChildren().add(highestNote);
 
         Connection connection = DatabaseConnection.getInstance().getConnection();
         DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
 
         allNotes = FXCollections.observableArrayList();
-        allNotes.addAll(create.selectFrom(Tables.NOTES).where(length(Tables.NOTES.NOTENAME).le(2)).fetch());
+        List<NotesRecord> notesRecords = create.selectFrom(Tables.NOTES).where(length(Tables.NOTES.NOTENAME).le(2)).fetch();
+        Collections.reverse(notesRecords);
+        allNotes.addAll(notesRecords);
 
         setFacotryCell(lowestNoteComboBox);
         setFacotryCell(highestNoteComboBox);
@@ -165,11 +166,45 @@ public class NotesLevelFormController {
         lowestNoteComboBox.setItems(allNotes);
         highestNoteComboBox.setItems(allNotes);
 
+        lowestNoteComboBox.getSelectionModel().selectLast();
+        highestNoteComboBox.getSelectionModel().selectFirst();
+
+        onLowestNoteValChanged();
+        onHighestNoteValChanged();
     }
 
     private void setFacotryCell(ComboBox<NotesRecord> comboBox){
         comboBox.setButtonCell(cellFactory.call(null));
         comboBox.setCellFactory(cellFactory);
     }
+
+    @FXML
+    void onLowestNoteValChanged() {
+        NotesRecord selectedNote = lowestNoteComboBox.getSelectionModel().getSelectedItem();
+        String noteName = selectedNote.getNotename();
+        lowestNote.setCenterX(lowestNoteHorizontalPosition);
+        lowestNote.setCenterY(notesVerticalPosition.get(noteName));
+
+        if (selectedNote.getNoteid() > 24){
+            lowestNoteClefImageView.setImage(violinClefImage);
+        }else {
+            lowestNoteClefImageView.setImage(bassClefImage);
+        }
+    }
+
+    @FXML
+    void onHighestNoteValChanged() {
+        NotesRecord selectedNote = highestNoteComboBox.getSelectionModel().getSelectedItem();
+        String noteName = selectedNote.getNotename();
+        highestNote.setCenterX(highestNoteHorizontalPosition);
+        highestNote.setCenterY(notesVerticalPosition.get(noteName));
+
+        if (selectedNote.getNoteid() > 24){
+            highestNoteClefImageView.setImage(violinClefImage);
+        }else {
+            highestNoteClefImageView.setImage(bassClefImage);
+        }
+    }
+
 
 }

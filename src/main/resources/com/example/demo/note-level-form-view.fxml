@@ -49,7 +49,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="lowestNoteComboBox" prefWidth="150.0" style="-fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15; -fx-background-radius: 15;" />
+                        <ComboBox fx:id="lowestNoteComboBox" onAction="#onLowestNoteValChanged" prefWidth="150.0" style="-fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15; -fx-background-radius: 15;" visibleRowCount="7" />
                      </children>
                      <padding>
                         <Insets left="30.0" />
@@ -75,7 +75,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="highestNoteComboBox" prefWidth="150.0" style="-fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15; -fx-background-radius: 15;" />
+                        <ComboBox fx:id="highestNoteComboBox" onAction="#onHighestNoteValChanged" prefWidth="150.0" style="-fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15; -fx-background-radius: 15;" visibleRowCount="7" />
                      </children>
                      <padding>
                         <Insets left="55.0" />
