@@ -77,8 +77,15 @@ public class HistoriaController implements Initializable {
         LocalDate firstDate = getDate(firstDatePicker);
         LocalDate secondDate = getDate(secondDatePicker);
 
-        System.out.println(firstDate);
-        System.out.println(secondDate);
+        boolean isNoteGameChosen = notesGameCheckBox.isSelected();
+        boolean isIntervalGameChosen = intervalGameCheckBox.isSelected();
+        boolean isLevelChosen = chooseLevelCheckBox.isSelected();
+        boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
+
+        if (!isNoteGameChosen && !isIntervalGameChosen) {
+            isNoteGameChosen = true;
+            isIntervalGameChosen = true;
+        }
     }
 
     @FXML
