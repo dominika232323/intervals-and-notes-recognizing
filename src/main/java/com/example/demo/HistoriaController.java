@@ -74,17 +74,17 @@ public class HistoriaController implements Initializable {
     }
 
     public void showResults(ActionEvent event) {
-        LocalDate date = firstDatePicker.getValue();
-        System.out.println("Selected Date: " + date);
-//        LocalDate firstDate = getDate(event, firstDatePicker);
-//        LocalDate secondDate = getDate(event, secondDatePicker);
-//
-//        System.out.println(firstDate);
-//        System.out.println(secondDate);
+//        LocalDate date = firstDatePicker.getValue();
+//        System.out.println("Selected Date: " + date);
+        LocalDate firstDate = getDate(firstDatePicker);
+        LocalDate secondDate = getDate(secondDatePicker);
+
+        System.out.println(firstDate);
+        System.out.println(secondDate);
     }
 
-//    @FXML
-//    public LocalDate getDate(ActionEvent event, DatePicker datePicker) {
-//        return datePicker.getValue();
-//    }
+    @FXML
+    public LocalDate getDate(DatePicker datePicker) {
+        return datePicker.getValue();
+    }
 }
