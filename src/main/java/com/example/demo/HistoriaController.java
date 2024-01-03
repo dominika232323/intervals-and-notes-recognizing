@@ -52,6 +52,22 @@ public class HistoriaController implements Initializable {
         menuButton.onBackToMenuButtonClick(event);
     }
 
+    @FXML
+    public void showResults(ActionEvent event) {
+        LocalDate firstDate = getDate(firstDatePicker);
+        LocalDate secondDate = getDate(secondDatePicker);
+
+        boolean isNoteGameChosen = notesGameCheckBox.isSelected();
+        boolean isIntervalGameChosen = intervalGameCheckBox.isSelected();
+        boolean isLevelChosen = chooseLevelCheckBox.isSelected();
+        boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
+
+        if (!isNoteGameChosen && !isIntervalGameChosen) {
+            isNoteGameChosen = true;
+            isIntervalGameChosen = true;
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -72,22 +88,7 @@ public class HistoriaController implements Initializable {
             chooseAnswersCorrectnessCheckBox.setSelected(false);
         }
     }
-
-    public void showResults(ActionEvent event) {
-        LocalDate firstDate = getDate(firstDatePicker);
-        LocalDate secondDate = getDate(secondDatePicker);
-
-        boolean isNoteGameChosen = notesGameCheckBox.isSelected();
-        boolean isIntervalGameChosen = intervalGameCheckBox.isSelected();
-        boolean isLevelChosen = chooseLevelCheckBox.isSelected();
-        boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
-
-        if (!isNoteGameChosen && !isIntervalGameChosen) {
-            isNoteGameChosen = true;
-            isIntervalGameChosen = true;
-        }
-    }
-
+    
     @FXML
     public LocalDate getDate(DatePicker datePicker) {
         return datePicker.getValue();
