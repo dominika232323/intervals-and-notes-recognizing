@@ -57,8 +57,8 @@
              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
            </rowConstraints>
             <children>
-               <DatePicker fx:id="secondDatePicker" onAction="#getDate" prefHeight="26.0" prefWidth="205.0" style="-fx-alignment: BASELINE_RIGHT; -fx-background-color: style = &quot;-fx-background-radius: 15; &quot;: ;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-              <DatePicker fx:id="firstDatePicker" onAction="#getDate" prefHeight="26.0" prefWidth="205.0" style="-fx-alignment: BASELINE_RIGHT; -fx-background-color: style = &quot;-fx-background-radius: 15; &quot;: ;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <DatePicker fx:id="secondDatePicker" prefHeight="26.0" prefWidth="205.0" style="-fx-alignment: BASELINE_RIGHT; -fx-background-color: style = &quot;-fx-background-radius: 15; &quot;: ;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+              <DatePicker fx:id="firstDatePicker" prefHeight="26.0" prefWidth="205.0" style="-fx-alignment: BASELINE_RIGHT; -fx-background-color: style = &quot;-fx-background-radius: 15; &quot;: ;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                <Label alignment="CENTER" prefHeight="16.0" prefWidth="177.0" text="Wybierz gry od dnia" GridPane.columnIndex="1" />
                <Label alignment="CENTER" prefHeight="16.0" prefWidth="185.0" text="Wybierz gry do dnia" GridPane.columnIndex="3" />
             </children>

@@ -57,6 +57,7 @@ public class HistoriaController implements Initializable {
 
     }
 
+    @FXML
     public void selectAll(ActionEvent event) {
         if (selectAllCheckBox.isSelected()) {
             notesGameCheckBox.setSelected(true);
@@ -73,14 +74,17 @@ public class HistoriaController implements Initializable {
     }
 
     public void showResults(ActionEvent event) {
-        LocalDate firstDate = getDate(event, firstDatePicker);
-        LocalDate secondDate = getDate(event, secondDatePicker);
-
-        System.out.println(firstDate);
-        System.out.println(secondDate);
+        LocalDate date = firstDatePicker.getValue();
+        System.out.println("Selected Date: " + date);
+//        LocalDate firstDate = getDate(event, firstDatePicker);
+//        LocalDate secondDate = getDate(event, secondDatePicker);
+//
+//        System.out.println(firstDate);
+//        System.out.println(secondDate);
     }
 
-    public LocalDate getDate(ActionEvent event, DatePicker datePicker) {
-        return datePicker.getValue();
-    }
+//    @FXML
+//    public LocalDate getDate(ActionEvent event, DatePicker datePicker) {
+//        return datePicker.getValue();
+//    }
 }
