@@ -33,7 +33,8 @@ public class HistoriaController {
     private ChoiceBox chosenLevelChoiceBox;
     @FXML
     private ChoiceBox chosenAnswersCorrectnessChoiceBox;
-    @FXML ScrollPane resultsScrollPane;
+    @FXML
+    private ScrollPane resultsScrollPane;
 
     @FXML
     private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
