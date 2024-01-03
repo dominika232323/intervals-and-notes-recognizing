@@ -58,14 +58,19 @@ public class RemoveAccountControler {
             String userName = r.get(USERS.NAME);
             String userHash = r.get(USERS.PASSWORDHASH);
 
-            String passwordHash = HashPassword.hashPassword(password);
-
-            if (passwordHash.equals(userHash)) {
-                UserTableOperations.deleteUser(userID, create);
-                incorrectLoginPassword.setText("Konto " + login + " zostało usunięte.");
+            if (userID == 1) {
+                incorrectLoginPassword.setText("Nie można usunąć konta " + userName + "!!!");
             }
             else {
-                incorrectLoginPassword.setText("Niepoprawne hasło!!!");
+                String passwordHash = HashPassword.hashPassword(password);
+
+                if (passwordHash.equals(userHash)) {
+                    UserTableOperations.deleteUser(userID, create);
+                    incorrectLoginPassword.setText("Konto " + login + " zostało usunięte.");
+                }
+                else {
+                    incorrectLoginPassword.setText("Niepoprawne hasło!!!");
+                }
             }
         }
         else {
