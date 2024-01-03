@@ -57,8 +57,8 @@
              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
            </rowConstraints>
             <children>
-               <DatePicker fx:id="secondDatePicker" prefHeight="26.0" prefWidth="205.0" style="-fx-alignment: BASELINE_RIGHT; -fx-background-color: style = &quot;-fx-background-radius: 15; &quot;: ;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-              <DatePicker fx:id="firstDatePicker" prefHeight="26.0" prefWidth="205.0" style="-fx-alignment: BASELINE_RIGHT; -fx-background-color: style = &quot;-fx-background-radius: 15; &quot;: ;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <DatePicker fx:id="secondDatePicker" onAction="#getDate" prefHeight="26.0" prefWidth="205.0" style="-fx-alignment: BASELINE_RIGHT; -fx-background-color: style = &quot;-fx-background-radius: 15; &quot;: ;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+              <DatePicker fx:id="firstDatePicker" onAction="#getDate" prefHeight="26.0" prefWidth="205.0" style="-fx-alignment: BASELINE_RIGHT; -fx-background-color: style = &quot;-fx-background-radius: 15; &quot;: ;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                <Label alignment="CENTER" prefHeight="16.0" prefWidth="177.0" text="Wybierz gry od dnia" GridPane.columnIndex="1" />
                <Label alignment="CENTER" prefHeight="16.0" prefWidth="185.0" text="Wybierz gry do dnia" GridPane.columnIndex="3" />
             </children>
@@ -71,7 +71,7 @@
                <TableColumn fx:id="dateTableColumn" minWidth="0.0" prefWidth="74.0" text="Data" />
            </columns>
          </TableView>
-        <Button fx:id="showResultsButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="128.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Pokaż wyniki">
+        <Button fx:id="showResultsButton" mnemonicParsing="false" onAction="#showResults" prefHeight="26.0" prefWidth="128.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Pokaż wyniki">
             <font>
                 <Font size="14.0" />
             </font></Button>

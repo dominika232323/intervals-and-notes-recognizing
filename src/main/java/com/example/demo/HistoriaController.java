@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class HistoriaController implements Initializable {
@@ -45,8 +46,6 @@ public class HistoriaController implements Initializable {
     @FXML
     private TableColumn dateTableColumn;
 
-    private CheckBox[] checkBoxList = {notesGameCheckBox, intervalGameCheckBox, chooseLevelCheckBox, chooseAnswersCorrectnessCheckBox};
-
     @FXML
     public void onBackToMenuButtonClick(ActionEvent event) throws IOException {
         SharedFunctionsController menuButton = new SharedFunctionsController();
@@ -71,5 +70,17 @@ public class HistoriaController implements Initializable {
             chooseLevelCheckBox.setSelected(false);
             chooseAnswersCorrectnessCheckBox.setSelected(false);
         }
+    }
+
+    public void showResults(ActionEvent event) {
+        LocalDate firstDate = getDate(event, firstDatePicker);
+        LocalDate secondDate = getDate(event, secondDatePicker);
+
+        System.out.println(firstDate);
+        System.out.println(secondDate);
+    }
+
+    public LocalDate getDate(ActionEvent event, DatePicker datePicker) {
+        return datePicker.getValue();
     }
 }
