@@ -2,11 +2,14 @@ package com.example.demo;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class HistoriaController {
+public class HistoriaController implements Initializable {
     @FXML
     private Label historyLabel;
     @FXML
@@ -30,9 +33,9 @@ public class HistoriaController {
     @FXML
     private DatePicker secondDatePicker;
     @FXML
-    private ChoiceBox chosenLevelChoiceBox;
+    private ChoiceBox<String> chosenLevelChoiceBox;
     @FXML
-    private ChoiceBox chosenAnswersCorrectnessChoiceBox;
+    private ChoiceBox<String> chosenAnswersCorrectnessChoiceBox;
     @FXML
     private ScrollPane resultsScrollPane;
 
@@ -40,5 +43,10 @@ public class HistoriaController {
     private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
         SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.onBackToMenuButtonClick(event);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        
     }
 }
