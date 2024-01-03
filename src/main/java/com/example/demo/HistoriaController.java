@@ -74,8 +74,6 @@ public class HistoriaController implements Initializable {
     }
 
     public void showResults(ActionEvent event) {
-//        LocalDate date = firstDatePicker.getValue();
-//        System.out.println("Selected Date: " + date);
         LocalDate firstDate = getDate(firstDatePicker);
         LocalDate secondDate = getDate(secondDatePicker);
 
