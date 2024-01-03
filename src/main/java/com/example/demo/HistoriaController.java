@@ -67,12 +67,7 @@ public class HistoriaController implements Initializable {
             isIntervalGameChosen = true;
         }
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
+    
     @FXML
     public void selectAll(ActionEvent event) {
         if (selectAllCheckBox.isSelected()) {
@@ -88,9 +83,14 @@ public class HistoriaController implements Initializable {
             chooseAnswersCorrectnessCheckBox.setSelected(false);
         }
     }
-    
+
     @FXML
     public LocalDate getDate(DatePicker datePicker) {
         return datePicker.getValue();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }
