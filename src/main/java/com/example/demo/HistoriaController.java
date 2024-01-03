@@ -39,14 +39,20 @@ public class HistoriaController implements Initializable {
     @FXML
     private ScrollPane resultsScrollPane;
 
+    private CheckBox[] checkBoxList = {notesGameCheckBox, intervalGameCheckBox, chooseLevelCheckBox, chooseAnswersCorrectnessCheckBox};
+
     @FXML
-    private void onBackToMenuButtonClick(ActionEvent event) throws IOException {
+    public void onBackToMenuButtonClick(ActionEvent event) throws IOException {
         SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.onBackToMenuButtonClick(event);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        
+
+    }
+
+    public void selectAll() {
+
     }
 }
