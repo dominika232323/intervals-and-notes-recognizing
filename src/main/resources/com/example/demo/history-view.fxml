@@ -40,7 +40,6 @@
          <ChoiceBox fx:id="chosenAnswersCorrectnessChoiceBox" prefHeight="24.0" prefWidth="158.0" />
         <Region prefHeight="17.0" prefWidth="204.0" />
         <CheckBox fx:id="selectAllCheckBox" prefHeight="18.0" prefWidth="188.0" text="Zaznacz wszystko" />
-        <CheckBox fx:id="unselectAllCheckBox" prefHeight="18.0" prefWidth="198.0" text="Odznacz wszystko" />
     </VBox>
 
     <!-- Right side with DatePicker, BarChart, and Button -->

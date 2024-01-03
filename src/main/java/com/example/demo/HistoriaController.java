@@ -27,8 +27,6 @@ public class HistoriaController implements Initializable {
     @FXML
     private CheckBox selectAllCheckBox;
     @FXML
-    private CheckBox unselectAllCheckBox;
-    @FXML
     private DatePicker firstDatePicker;
     @FXML
     private DatePicker secondDatePicker;
