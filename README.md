@@ -18,3 +18,5 @@ korzystać z już dostępnych oraz śledzić swoje statystyki.
 Znajdując się w lokalnym repozytorium aplikacji pobranym wcześniej z gitlaba, wpisz w terminalu komendę:
 * 'sudo bash ./install.sh', jeśli nie chcesz instalować javy, mavena oraz mysql-server
 * 'sudo bash ./install.sh --install', jeśli chcesz zainstalować javę, mavena oraz mysql-server
+
+Po uruchomieniu aplikacji możesz stworzyć własne konto lub zalogować się na konto gościa (login: guest, hasło: guest).
