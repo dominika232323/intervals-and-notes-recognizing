@@ -59,6 +59,15 @@ public class HistoriaController implements Initializable {
     }
 
     public void selectAll() {
-
+        selectAllCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            for (var checkBox : checkBoxList) {
+                if (selectAllCheckBox.isSelected()) {
+                    checkBox.setSelected(true);
+                }
+                else {
+                    checkBox.setSelected(false);
+                }
+            }
+        });
     }
 }
