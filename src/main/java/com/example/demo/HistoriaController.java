@@ -25,9 +25,9 @@ public class HistoriaController implements Initializable {
     @FXML
     private CheckBox chooseAnswersCorrectnessCheckBox;
     @FXML
-    private CheckBox chooseEverythingCheckBox;
+    private CheckBox selectAllCheckBox;
     @FXML
-    private CheckBox chooseNothingCheckBox;
+    private CheckBox unselectAllCheckBox;
     @FXML
     private DatePicker firstDatePicker;
     @FXML
@@ -37,7 +37,15 @@ public class HistoriaController implements Initializable {
     @FXML
     private ChoiceBox<String> chosenAnswersCorrectnessChoiceBox;
     @FXML
-    private ScrollPane resultsScrollPane;
+    private TableView<String> resultsTableView;
+    @FXML
+    private TableColumn gameNameTableCoulumn;
+    @FXML
+    private TableColumn levelNameTableColumn;
+    @FXML
+    private TableColumn correctnessTableColumn;
+    @FXML
+    private TableColumn dateTableColumn;
 
     private CheckBox[] checkBoxList = {notesGameCheckBox, intervalGameCheckBox, chooseLevelCheckBox, chooseAnswersCorrectnessCheckBox};
 
