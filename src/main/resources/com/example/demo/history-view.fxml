@@ -65,7 +65,7 @@
          </GridPane>
          <TableView fx:id="resultsTableView" prefHeight="200.0" prefWidth="200.0">
            <columns>
-             <TableColumn fx:id="gameNameTableCoulumn" prefWidth="112.0" text="Gra" />
+             <TableColumn fx:id="gameNameTableColumn" prefWidth="112.0" text="Gra" />
              <TableColumn fx:id="levelNameTableColumn" prefWidth="129.0" text="Poziom" />
                <TableColumn fx:id="ccorrectnessTableColumn" minWidth="0.0" prefWidth="102.0" text="Poprawność" />
                <TableColumn fx:id="dateTableColumn" minWidth="0.0" prefWidth="74.0" text="Data" />

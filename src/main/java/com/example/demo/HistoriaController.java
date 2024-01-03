@@ -37,7 +37,7 @@ public class HistoriaController implements Initializable {
     @FXML
     private TableView<String> resultsTableView;
     @FXML
-    private TableColumn gameNameTableCoulumn;
+    private TableColumn gameNameTableColumn;
     @FXML
     private TableColumn levelNameTableColumn;
     @FXML
