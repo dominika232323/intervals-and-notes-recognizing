@@ -1,6 +1,7 @@
 package com.example.demo;
 import com.example.demo.jooq.Tables;
 import com.example.demo.jooq.tables.records.IntervalsRecord;
+import com.example.demo.jooq.tables.records.LevelintervalsRecord;
 import com.example.demo.jooq.tables.records.NotesRecord;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,8 +14,10 @@ import org.jooq.impl.DSL;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class IntervalsGameController {
     @FXML
@@ -29,8 +32,9 @@ public class IntervalsGameController {
     private List<IntervalsRecord> allIntervalsList;
     private List<NotesRecord> allNotesList;
 
+
     @FXML
-    void intervalChosenOnClick(ActionEvent event) {
+    void intervalChosenOnClick(ActionEvent event) throws InterruptedException {
         Button button = (Button) event.getSource();
         System.out.println(button.getText());
     }
@@ -55,6 +59,37 @@ public class IntervalsGameController {
         allIntervalsList = create.selectFrom(Tables.INTERVALS).fetch();
         allNotesList = create.selectFrom(Tables.NOTES).fetch();
 
+
+
+    }
+
+}
+
+class OngoingIntervalGame{
+    private Answers answers;
+    private int repetitions;
+    private int currentQuestion;
+    private LevelintervalsRecord intervalLevel;
+    private HashMap<Integer, Answers> answersIntervalsGameMap;
+    private List<IntervalsRecord> allIntervalsList;
+    private List<NotesRecord> allNotesList;
+
+    public OngoingIntervalGame(LevelintervalsRecord intervalLevel,
+                               List<IntervalsRecord> allIntervalsList,
+                               List<NotesRecord> allNotesList){
+        answers = new Answers();
+        repetitions = intervalLevel.getNumberofrepetitions();
+        currentQuestion = 1;
+        this.intervalLevel = intervalLevel;
+        this.allIntervalsList = allIntervalsList;
+        this.allNotesList = allNotesList;
+        initializeAnswersMap();
+    }
+
+    private void initializeAnswersMap(){
+        for (IntervalsRecord interval:allIntervalsList){
+            answersIntervalsGameMap.put(interval.getIntervalid(), new Answers());
+        }
     }
 
     private IntervalsRecord chooseRandomInterval(){
@@ -76,4 +111,30 @@ public class IntervalsGameController {
         return allNotesList.get(highNote.getNoteid() - 1 - semitones);
     }
 
+}
+
+class Answers{
+    private int answeredCorrectly;
+    private int answeredIncorrectly;
+
+    public int getAnsweredCorrectly() {
+        return answeredCorrectly;
+    }
+
+    public void setAnsweredCorrectly(int answeredCorrectly) {
+        this.answeredCorrectly = answeredCorrectly;
+    }
+
+    public int getAnsweredIncorrectly() {
+        return answeredIncorrectly;
+    }
+
+    public void setAnsweredIncorrectly(int answeredIncorrectly) {
+        this.answeredIncorrectly = answeredIncorrectly;
+    }
+
+    public Answers(){
+        answeredCorrectly = 0;
+        answeredIncorrectly = 0;
+    }
 }
