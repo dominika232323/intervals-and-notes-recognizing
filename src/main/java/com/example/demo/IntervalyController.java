@@ -50,4 +50,10 @@ public class IntervalyController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void onPlayButtonClick(ActionEvent event) throws IOException {
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.changeStage(event, "intervals-game-view.fxml");
+    }
 }
