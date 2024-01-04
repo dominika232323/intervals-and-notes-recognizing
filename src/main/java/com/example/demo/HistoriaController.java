@@ -67,7 +67,7 @@ public class HistoriaController implements Initializable {
             isIntervalGameChosen = true;
         }
     }
-    
+
     @FXML
     public void selectAll(ActionEvent event) {
         if (selectAllCheckBox.isSelected()) {
@@ -81,6 +81,19 @@ public class HistoriaController implements Initializable {
             intervalGameCheckBox.setSelected(false);
             chooseLevelCheckBox.setSelected(false);
             chooseAnswersCorrectnessCheckBox.setSelected(false);
+        }
+    }
+
+    @FXML
+    public void fillChoiceBoxWithLevels(ActionEvent event) {
+        if (notesGameCheckBox.isSelected() == intervalGameCheckBox.isSelected()) {
+
+        }
+        else if (notesGameCheckBox.isSelected()) {
+
+        }
+        else {
+
         }
     }
 
