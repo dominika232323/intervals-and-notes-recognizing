@@ -18,11 +18,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
-import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
-import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
 import static com.example.demo.jooq.tables.Levelintervals.LEVELINTERVALS;
-import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
-import static com.example.demo.jooq.tables.Answersintervalsgame.ANSWERSINTERVALSGAME;
 
 
 public class HistoriaController implements Initializable {
@@ -84,6 +80,37 @@ public class HistoriaController implements Initializable {
             isNoteGameChosen = true;
             isIntervalGameChosen = true;
         }
+
+        if (isLevelChosen) {
+            String level = chosenLevelChoiceBox.getValue();
+        }
+
+        int lowerBound;
+        int upperBound;
+
+        if (isAnswersCorrectnessChosen) {
+            String correctness = chosenAnswersCorrectnessChoiceBox.getValue();
+            lowerBound = getLowerBoundFromCorrectness(correctness);
+            upperBound = getUpperBoundFromCorrectness(correctness);
+        }
+    }
+
+    private int getLowerBoundFromCorrectness(String correctness) {
+        char firstChar = correctness.charAt(0);
+        int lowerBound = Character.getNumericValue(firstChar);
+        return lowerBound * 10;
+    }
+
+    private int getUpperBoundFromCorrectness(String correctness) {
+        char secondLastChar = correctness.charAt(correctness.length() - 2);
+        int upperBound = Character.getNumericValue(secondLastChar);
+        upperBound = upperBound * 10;
+
+        if (upperBound == 0) {
+            upperBound = 100;
+        }
+
+        return upperBound;
     }
 
     @FXML
