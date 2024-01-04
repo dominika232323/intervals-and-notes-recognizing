@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="795.0" prefWidth="1336.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.StatsController">
+<GridPane prefHeight="795.0" prefWidth="1336.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.StatsIntervalsController">
    <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
@@ -62,7 +62,7 @@
                   </GridPane>
                </children>
               </VBox>
-            <GridPane GridPane.columnIndex="1">
+            <GridPane fx:id="GridPane_BarChart" GridPane.columnIndex="1">
                <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                </columnConstraints>

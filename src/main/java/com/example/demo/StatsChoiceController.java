@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -29,6 +30,8 @@ public class StatsChoiceController {
         menuButton.onBackToMenuButtonClick(event);
     }
 
+
+
     @FXML
     private void onNotesButtonClick(){
         StatsNotesApplication app = new StatsNotesApplication();
@@ -46,7 +49,16 @@ public class StatsChoiceController {
 
     @FXML
     private void onIntervalsButtonClick(){
+        StatsIntervalsApplication app = new StatsIntervalsApplication();
+        try{
+            app.start(new Stage());
 
+            Stage currentStage = (Stage)statsLabel.getScene().getWindow();
+            currentStage.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
     }
     // Add other methods for handling actions in the "stats_view.fxml" scene
 }

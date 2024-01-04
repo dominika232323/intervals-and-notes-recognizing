@@ -1,9 +1,14 @@
 package com.example.demo;
 
+import com.example.demo.jooq.tables.records.LevelnotesRecord;
+import com.example.demo.jooq.tables.records.UsersRecord;
+import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
+import javafx.scene.layout.*;
 import javafx.util.Duration;
 
 import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
+import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Notes.NOTES;
 import static com.example.demo.jooq.tables.Users.USERS;
@@ -18,10 +23,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -53,6 +54,30 @@ import javafx.animation.FillTransition;
 
 class NotesDbHelper{
     static DSLContext create;
+    private static int notesGameID;
+
+    public static void insertIntoNotesGames(int userID, int levelNotesID, java.sql.Date datePlayed) {
+        // Finding the largest current notesGameID
+        Integer maxId = create.select(DSL.max(NOTESGAMES.NOTESGAMEID))
+                .from(NOTESGAMES)
+                .fetchOneInto(Integer.class);
+
+        // If the table is empty, start from 1; otherwise use maxId + 1
+        int newId = (maxId == null) ? 1 : maxId + 1;
+
+        // Inserting the new record with the new ID
+        create.insertInto(NOTESGAMES,
+                        NOTESGAMES.NOTESGAMEID, NOTESGAMES.USERID, NOTESGAMES.LEVELNOTESID, NOTESGAMES.DATEPLAYED)
+                .values(newId, userID, levelNotesID, datePlayed.toLocalDate())
+                .execute();
+
+        // Store the new ID in the notesGameID attribute
+        notesGameID = newId;
+    }
+
+    public static int getNotesGameID() {
+        return notesGameID;
+    }
 
     static String getNoteStringFromDb(int note_id) {
         Result<Record> result = create.select().from(NOTES)
@@ -71,40 +96,40 @@ class NotesDbHelper{
         }
         return null;
     }
+
+    public static void updateNoteStatistics(int notesGameID, int noteID, boolean guessedCorrectly) throws SQLException {
+
+        System.out.println("notesGameID: " + notesGameID + ", noteId: " + noteID
+                                + "guessedCorrectly: " + guessedCorrectly);
+        // Check if the note already exists for the given game
+        Record record = (Record) create.select()
+                .from(ANSWERSNOTESGAME)
+                .where(ANSWERSNOTESGAME.NOTESGAMEID.eq(notesGameID)
+                        .and(ANSWERSNOTESGAME.NOTEID.eq(noteID)))
+                .fetchOne();
+
+        if (record != null) {
+            // Update the existing record
+            create.update(ANSWERSNOTESGAME)
+                    .set(ANSWERSNOTESGAME.NOTEOCCURRENCES, ANSWERSNOTESGAME.NOTEOCCURRENCES.plus(1))
+                    .set(ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY, guessedCorrectly ? ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY.plus(1) : ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY)
+                    .where(ANSWERSNOTESGAME.NOTESGAMEID.eq(notesGameID)
+                            .and(ANSWERSNOTESGAME.NOTEID.eq(noteID)))
+                    .execute();
+        } else {
+            // Insert a new record
+            Integer maxId = create.select(DSL.max(ANSWERSNOTESGAME.ANSWERSNOTESGAMEID)).from(ANSWERSNOTESGAME).
+                                                                        fetchOneInto(Integer.class);
+            int newAnswersNotesGameId = (maxId == null) ? 1 : maxId + 1;
+            create.insertInto(ANSWERSNOTESGAME, ANSWERSNOTESGAME.ANSWERSNOTESGAMEID, ANSWERSNOTESGAME.NOTESGAMEID, ANSWERSNOTESGAME.NOTEID, ANSWERSNOTESGAME.NOTEOCCURRENCES, ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY)
+                    .values(newAnswersNotesGameId, notesGameID, noteID, 1, guessedCorrectly ? 1 : 0)
+                    .execute();
+        }
+    }
 }
 
 class HelperMethods{
 //C1, C1H, C_Sharp, D, DH, D_Sharp, E, EH, F, FH, F_Sharp, G, GH, G_Sharp, A, AH, A_Sharp, B, BH, C2, C2H
-    private static final Map<String, String> noteNames = new HashMap<>() {
-    {
-        put("C1", "C");
-        put("C1H", "C");
-        put("D", "D");
-        put("DH", "D");
-        put("E", "E");
-        put("EH", "E");
-        put("F", "F");
-        put("FH", "F");
-        put("G", "G");
-        put("GH", "G");
-        put("A", "A");
-        put("AH", "A");
-        put("B", "B");
-        put("BH", "B");
-        put("C2", "C");
-        put("C2H", "C");
-
-        put("C_Sharp", "C#");
-        put("D_Sharp", "D#");
-        put("F_Sharp", "F#");
-        put("G_Sharp", "G#");
-        put("A_Sharp", "A#");
-    }};
-
-
-    public static String getStringFromButton(Button button){
-        return noteNames.get(button.getId());
-    }
 
     public static void insertStartingDatabase(DSLContext create){
         if(!create.fetchExists(NOTES)) {
@@ -180,11 +205,12 @@ public class NotesGameController {
     @FXML
     private Pane PaneLines;
     @FXML
-    private Label Label_Already_Guessed;
+    private Label Label_Already_Guessed, Label_Green, Label_Red, Label_Wave;
+    @FXML
+    private GridPane GridPane_Green_Red;
 
 
 
-    //Wartosci dotyczace aktualnie wyswietlanej nuty
     //Wartosci dotyczace aktualnie wyswietlanej nuty
     private Circle currentNoteCircle;
     Group noteSymbolGroup;
@@ -193,65 +219,30 @@ public class NotesGameController {
     private int currentNoteInt;
     private NotesHelperClass currentNotesHelperClass;
 
+    //Waartosci dotyczace obecnej fali
+    private int currentWave;
+    private int numberOfValidAnswers;
+    private int numberOfAnswers;
+    private int greenPoints;
+    private TranslateTransition currentTransition;
+
 
     //Dane dotyczace wlasciwosci poziomu
     private static DSLContext create;
-    private  static int levelId = 1;
-    private static int startingWave = 1;
-    private static int endingWave = 25;
-    private static int repetitionsNextWave = 100;
-    private static int lowerNoteBound = 25;
-    private static int higherNoteBound = 30;
+    private  static int levelId = 0;
+    private static int startingWave = 0;
+    private static int endingWave = 0;
+    private static int repetitionsNextWave = 0;
+    private static int lowerNoteBound = 0;
+    private static int higherNoteBound = 0;
+    private int notesGameId;
 
     //Do aktualizowania labelu Prawidłowo x/y
-    private int prawidloweOdpowiedzi;
-    private int liczbaOdpowiedzi;
-
-
-    //Dane dotyczace offsetu nuty (kola)
-    private static final Map<String, Integer> notePositionsViolin = new HashMap<>() {{
-        int position = 20;
-        put("C6", position);
-        put("B5", position + 10);
-        put("A5", position + 10);
-        put("G5", position + 10);
-        put("F5", position + 10);
-        put("E5", position + 10);
-        put("D5", position + 10);
-        put("C5", position + 10);
-        put("B4", position + 10);
-        put("A4", position + 10);
-        put("G4", position + 10);
-        put("F4", position + 10);
-        put("E4", position + 10);
-        put("D4", position + 10);
-        put("C4", position + 10);
-    }};
-
-    private static final Map<String, Integer> notePositionsBass = new HashMap<>() {{
-        int position = 20;
-        put("C4", position);
-        put("B3", position + 10);
-        put("A3", position + 10);
-        put("G3", position + 10);
-        put("F3", position + 10);
-        put("E3", position + 10);
-        put("D3", position + 10);
-        put("C3", position + 10);
-        put("B2", position + 10);
-        put("A2", position + 10);
-        put("G2", position + 10);
-        put("F2", position + 10);
-        put("E2", position + 10);
-        put("D2", position + 10);
-        put("C2", position + 10);
-    }};
-
 
 
     public void initialize(){
         //Button[] whiteButtons = new List<Button>
-
+        currentWave = startingWave;
 
         HelperMethods.insertStartingDatabase(create);
 
@@ -301,37 +292,94 @@ public class NotesGameController {
             handleMouseReleased(anotherButton, originalStyleAnother);});
     }
 
-    private void handleMousePressed(Button button, String color) {
-
-        Label_Already_Guessed.setText(HelperMethods.getStringFromButton(button));
+    private void handleMousePressed(Button button, String color){
         String styleToSet = "-fx-background-color: " + color;
         button.setStyle(styleToSet);
-        if(button.getId().length() != 2) {
+        String currButtonStr = button.getId();
+        if(currButtonStr.length() == 2){
+            return; //Zapobiega podwójnym reakcjom na wciśnięcie przycisku
+            //pianina (tj. pary "F" i "FH", "C1" i "C1H" itd.). Konstrukcja resizable
+            //klawiatury wymagała zbudowania białego przycisku z dwóch różnych elementów.
+        }
+        if(currButtonStr.length() < 4){
+            currButtonStr = currButtonStr.charAt(0) + "1";
+        } else{
+            currButtonStr = currButtonStr.charAt(0) + "#1";
+        }
+        Label_Already_Guessed.setText(currButtonStr);
+
+        numberOfAnswers += 1;
+        boolean ifGuessed = checkIfCorrect(currButtonStr);
+        try {
+            NotesDbHelper.updateNoteStatistics(notesGameId, currentNoteInt, ifGuessed);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(ifGuessed) {
+            generateAndDisplayNote();
+            numberOfValidAnswers += 1;
+            greenPoints = (greenPoints < 49) ? greenPoints + 1 : 50;
+        } else{
+            greenPoints = (greenPoints > 0) ? greenPoints - 1 : 0;
+        }
+        changeWaveIfNeeded();
+        refreshAfterAnswer();
+    }
+
+    private void changeWaveIfNeeded(){
+        if(numberOfAnswers % repetitionsNextWave == 0){
+            currentWave += 1;
             generateAndDisplayNote();
         }
+    }
+
+    private void refreshAfterAnswer(){
+        Label_Already_Guessed.setText("Prawidłowo: " + numberOfValidAnswers
+                + "/" + numberOfAnswers);
+        Label_Wave.setText("Fala: " + currentWave);
+        Label_Green.setText("+" + greenPoints);
+        Label_Red.setText("-" + (50 - greenPoints));
+        GridPane_Green_Red.getColumnConstraints().get(0).setPercentWidth(greenPoints*2);
+        GridPane_Green_Red.getColumnConstraints().get(1).setPercentWidth(100 - greenPoints*2);
     }
 
     private void handleMouseReleased(Button button, String originalStyle) {
         String styleToSet = originalStyle;
         button.setStyle(styleToSet);
+
     }
 
 
-    void checkIfCorrect(String noteString){
+    boolean checkIfCorrect(String noteString){
+        NotesHelperClass buttonNotesHelperClass = new NotesHelperClass(noteString);
+        int currDegree = currentNotesHelperClass.getScaleDegree();
+        NotesHelperClass.NoteType currType = currentNotesHelperClass.getNoteType();
+        //Czarne klawisze zawsze zwracają wartość z krzyżykiem, więc sprowadzamy
+        //wyświetlane nuty z bemolem do ich enharmonicznego odpowiednika z krzyżykiem
+        if(currentNotesHelperClass.getNoteType() == NotesHelperClass.NoteType.FLAT){
+            currDegree = currDegree - 1;
+            currType = NotesHelperClass.NoteType.SHARP;
+        }
+        return (currDegree == buttonNotesHelperClass.getScaleDegree() &&
+                currType == buttonNotesHelperClass.getNoteType());
     }
 
 
 
     public void generateAndDisplayNote() {
         currentNoteInt = new Random().nextInt((higherNoteBound - lowerNoteBound) + 1) + lowerNoteBound;
+        //System.out.println("currentNoteInt: " + currentNoteInt);
         currentNoteString = NotesDbHelper.getNoteStringFromDb(currentNoteInt);
         assert currentNoteString != null;
         currentNotesHelperClass = new NotesHelperClass(currentNoteString);
+        updateClefImage(currentNoteInt);
 
         displayNoteOnStaff();
 
-        System.out.println(currentNoteString);
-        System.out.println("Note generated: " + currentNotesHelperClass.getNoteLetter() + " " + currentNotesHelperClass.getNoteType() + currentNotesHelperClass.getOctave());
+
+        //System.out.println(currentNoteString);
+        //System.out.println("Note generated: " + currentNotesHelperClass.getNoteLetter() + " " + currentNotesHelperClass.getNoteType() + currentNotesHelperClass.getOctave());
     }
 
     private void displayNoteOnStaff() {
@@ -350,6 +398,28 @@ public class NotesGameController {
 
         noteSymbolGroup.getChildren().add(currentNoteCircle);
 
+        if(currentNoteOffsetY >= 160){
+            Line lineUnderStaff = new Line(735, 160, 765, 160);
+            lineUnderStaff.setStrokeWidth(2);
+            noteSymbolGroup.getChildren().add(lineUnderStaff);
+            if(currentNoteOffsetY > 160){
+                Line lineUnderStaff1 = new Line(735, 180, 765, 180);
+                lineUnderStaff1.setStrokeWidth(2);
+                noteSymbolGroup.getChildren().add(lineUnderStaff1);
+            }
+        }
+        if(currentNoteOffsetY <= 40){
+            Line lineUnderStaff = new Line(735, 40, 765, 40);
+            lineUnderStaff.setStrokeWidth(2);
+            noteSymbolGroup.getChildren().add(lineUnderStaff);
+            if(currentNoteOffsetY < 40){
+                Line lineUnderStaff1 = new Line(735, 20, 765, 20);
+                lineUnderStaff1.setStrokeWidth(2);
+                noteSymbolGroup.getChildren().add(lineUnderStaff1);
+            }
+        }
+        //Poniższy kod dodaje krzyżyki i bemole do grupy zawierającej kółko symbolizujące
+        //nutę (o ile jest to konieczne)
         NotesHelperClass.NoteType noteType = currentNotesHelperClass.getNoteType();
         if(noteType != NotesHelperClass.NoteType.NONE){
             if(noteType == NotesHelperClass.NoteType.SHARP){
@@ -357,8 +427,6 @@ public class NotesGameController {
             } else {
                 currentNoteSharpFlat.setImage(new Image(getClass().getResourceAsStream("bemol.png")));
             }
-            System.out.println(currentNoteCircle.getCenterX());
-            System.out.println(PaneLines.getWidth());
             currentNoteSharpFlat.setLayoutX(720); // Example offset
             currentNoteSharpFlat.setLayoutY(currentNoteOffsetY - 15);
             noteSymbolGroup.getChildren().add(currentNoteSharpFlat);
@@ -377,19 +445,38 @@ public class NotesGameController {
     }
 
     private void animateNoteGroup(Group noteGroup) {
-        TranslateTransition transition = new TranslateTransition(Duration.seconds(5), noteGroup);
-        transition.setByX(-300); // For example, move 300 units to the left
-        transition.play();
+        if(currentTransition != null){
+            currentTransition.stop();
+        }
+        int baseTime = 10;
+        int thisAnimationNumberOfAnswers = numberOfValidAnswers + 1;
+        currentTransition = new TranslateTransition(Duration.seconds(Math.pow(0.95, currentWave) * baseTime), noteGroup);
+        currentTransition.setInterpolator(Interpolator.LINEAR);
+        currentTransition.setByX(-600); // For example, move 300 units to the left
+        currentTransition.play();
 
-        // You can also handle the 'finished' event to do something when the animation is done
-        transition.setOnFinished(event -> {
-            // Code to execute when animation finishes
+
+        currentTransition.setOnFinished(event -> {
+            try {
+                NotesDbHelper.updateNoteStatistics(notesGameId, currentNoteInt, false);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            numberOfAnswers += 1;
+            greenPoints = (greenPoints > 0) ? greenPoints - 1 : 0;
+            changeWaveIfNeeded();
+            refreshAfterAnswer();
+            generateAndDisplayNote();
         });
     }
 
     private int getCurrentNoteOffsetY(){
         int octave = currentNotesHelperClass.getOctave();
         int offsetY = 20;
+        if(isBassClef(currentNoteInt)){
+            offsetY = offsetY + 20;
+        }
         if(octave == 6){
             return offsetY;
         } else {
@@ -402,9 +489,28 @@ public class NotesGameController {
     }
 
     public NotesGameController() throws SQLException {
+        numberOfValidAnswers = 0;
+        numberOfAnswers = 0;
+        greenPoints = 5;
         // Using Singleton pattern for database connection
         create = DSL.using(DatabaseConnection.getInstance().getConnection(), SQLDialect.MYSQL);
         NotesDbHelper.create = create;
+
+        //REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE
+        LevelnotesRecord levelRecord = (LevelnotesRecord) create.select().
+                from(LEVELNOTES).
+                where(LEVELNOTES.LEVELID.eq(3)).
+                fetchOne();
+        ApplicationContext.getInstance().setLevelNotes(levelRecord);
+        ApplicationContext.getInstance().setUser((UsersRecord)create.select().from(USERS).where(USERS.USERID.eq(1)).fetchOne());
+        //REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE
+        setUpLevelValuesApplicationContext();
+
+
+        NotesDbHelper.insertIntoNotesGames(ApplicationContext.getInstance().getUser().getUserid(),
+                                            levelId, new java.sql.Date(System.currentTimeMillis()));
+        notesGameId = NotesDbHelper.getNotesGameID();
+
     }
 
     public static int getLevelId(){
@@ -439,10 +545,23 @@ public class NotesGameController {
             higherNoteBound = levelRecord.get(LEVELNOTES.HIGHERNOTEBOUND);
         }
     }
+
+    public static void setUpLevelValuesApplicationContext(){
+        Record levelRecord = (Record) ApplicationContext.getInstance().getLevelNotes();
+        if(levelRecord != null) {
+            levelId = levelRecord.get(LEVELNOTES.LEVELID);
+            startingWave = levelRecord.get(LEVELNOTES.STARTINGWAVE);
+            endingWave = levelRecord.get(LEVELNOTES.ENDINGWAVE);
+            repetitionsNextWave = levelRecord.get(LEVELNOTES.REPETITIONSNEXTWAVE);
+            lowerNoteBound = levelRecord.get(LEVELNOTES.LOWERNOTEBOUND);
+            higherNoteBound = levelRecord.get(LEVELNOTES.HIGHERNOTEBOUND);
+        }
+    }
     @FXML
     private void onBackToMenuButtonClick() {
         try
         {
+            currentTransition.stop();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
             Parent root = loader.load();
 
@@ -464,10 +583,13 @@ public class NotesGameController {
     public void updateClefImage(int noteArgument) {
         Image clefImage;
         if (isBassClef(noteArgument)) {
-            clefImage = new Image(getClass().getResourceAsStream("bass_clef.png"));
+            clefImage = new Image(getClass().getResourceAsStream("bass_clef.jpg"));
+            ImageView_Klucz.setLayoutY(45);
         } else {
-            clefImage = new Image(getClass().getResourceAsStream("violin_clef.png"));
+            clefImage = new Image(getClass().getResourceAsStream("violin_cleff.png"));
+            ImageView_Klucz.setLayoutY(45);
         }
+
         ImageView_Klucz.setImage(clefImage);
     }
 
@@ -476,31 +598,5 @@ public class NotesGameController {
             return true;
         }
         return false;
-    }
-
-
-    public void updateNoteStatistics(int notesGameID, int noteID, boolean guessedCorrectly) throws SQLException {
-
-        // Check if the note already exists for the given game
-        Record record = (Record) create.select()
-                .from(ANSWERSNOTESGAME)
-                .where(ANSWERSNOTESGAME.NOTESGAMEID.eq(notesGameID)
-                        .and(ANSWERSNOTESGAME.NOTEID.eq(noteID)))
-                .fetchOne();
-
-        if (record != null) {
-            // Update the existing record
-            create.update(ANSWERSNOTESGAME)
-                    .set(ANSWERSNOTESGAME.NOTEOCCURRENCES, ANSWERSNOTESGAME.NOTEOCCURRENCES.plus(1))
-                    .set(ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY, guessedCorrectly ? ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY.plus(1) : ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY)
-                    .where(ANSWERSNOTESGAME.NOTESGAMEID.eq(notesGameID)
-                            .and(ANSWERSNOTESGAME.NOTEID.eq(noteID)))
-                    .execute();
-        } else {
-            // Insert a new record
-            create.insertInto(ANSWERSNOTESGAME, ANSWERSNOTESGAME.NOTESGAMEID, ANSWERSNOTESGAME.NOTEID, ANSWERSNOTESGAME.NOTEOCCURRENCES, ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY)
-                    .values(notesGameID, noteID, 1, guessedCorrectly ? 1 : 0)
-                    .execute();
-        }
     }
 }

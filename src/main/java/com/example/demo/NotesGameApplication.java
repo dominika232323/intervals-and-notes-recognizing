@@ -6,9 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import org.jooq.Record;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 
 public class NotesGameApplication extends Application{
 
@@ -21,6 +24,7 @@ public class NotesGameApplication extends Application{
 
     @Override
     public void start(Stage primaryStage) throws IOException, SQLException {
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("note-game-view.fxml"));
         Parent root = loader.load();
 
@@ -30,8 +34,9 @@ public class NotesGameApplication extends Application{
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        NotesGameController ngc = new NotesGameController();
-        NotesGameController.setUpLevelValues(1);
-        System.out.println(NotesGameController.getHigherNoteBound());
+        NotesGameController.setUpLevelValuesApplicationContext();
+
+        //NotesGameController ngc = new NotesGameController();
+
     }
 }
