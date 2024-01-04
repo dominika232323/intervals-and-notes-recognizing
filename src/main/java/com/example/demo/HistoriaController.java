@@ -67,24 +67,21 @@ public class HistoriaController implements Initializable {
     }
 
     @FXML
-    public void showResults(ActionEvent event) {
-        LocalDate firstDate = getDate(firstDatePicker);
-        LocalDate secondDate = getDate(secondDatePicker);
+    public void showResults(ActionEvent event) throws SQLException {
+        DSLContext create = SharedFunctionsController.getDLCContex();
 
         boolean isNoteGameChosen = notesGameCheckBox.isSelected();
         boolean isIntervalGameChosen = intervalGameCheckBox.isSelected();
-        boolean isLevelChosen = chooseLevelCheckBox.isSelected();
-        boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
 
-        if (!isNoteGameChosen && !isIntervalGameChosen) {
-            isNoteGameChosen = true;
-            isIntervalGameChosen = true;
-        }
+        Result<Record> games = getGames(isNoteGameChosen, isIntervalGameChosen, create);
+
+        boolean isLevelChosen = chooseLevelCheckBox.isSelected();
 
         if (isLevelChosen) {
             String level = chosenLevelChoiceBox.getValue();
         }
 
+        boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
         int lowerBound;
         int upperBound;
 
@@ -93,6 +90,30 @@ public class HistoriaController implements Initializable {
             lowerBound = getLowerBoundFromCorrectness(correctness);
             upperBound = getUpperBoundFromCorrectness(correctness);
         }
+
+        LocalDate firstDate = getDate(firstDatePicker);
+        LocalDate secondDate = getDate(secondDatePicker);
+
+    }
+
+    private Result<Record> getGames(boolean isNotesGameChosen, boolean isIntervalsGameChosen, DSLContext create) {
+        Result<Record> games;
+
+        if (isNotesGameChosen == isIntervalsGameChosen) {
+            games = GameHistoryTablesOperations.getAllGamesByUserID(user.getUserid(), create);
+        }
+        else if (isNotesGameChosen) {
+            games = GameHistoryTablesOperations.getNotesGamesByUserID(user.getUserid(), create);
+        }
+        else {
+            games = GameHistoryTablesOperations.getIntervalGamesByUserID(user.getUserid(), create);
+        }
+
+        return games;
+    }
+
+    private Result<Record> filterGamesByChosenLevel(String levelName, Result<Record> games) {
+        
     }
 
     private int getLowerBoundFromCorrectness(String correctness) {
