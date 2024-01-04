@@ -19,7 +19,7 @@ public class GameHistoryTablesOperations {
     static public Result<Record> getIntervalLevelsByID(int id, DSLContext create) {
         return create.select()
                 .from(LEVELINTERVALS)
-                .where(LEVELNOTES.USERID.eq(id))
+                .where(LEVELINTERVALS.USERID.eq(id))
                 .fetch();
     }
 }
