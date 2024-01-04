@@ -149,7 +149,7 @@ public class HistoriaController implements Initializable {
     }
 
     private ArrayList<String> createArrayWithNotesLevels(DSLContext create) {
-        Result<Record> levelsInfo = GameHistoryTablesOperations.getNotesLevelsByID(user.getUserid(), create);
+        Result<Record> levelsInfo = GameHistoryTablesOperations.getNotesLevelsByUserID(user.getUserid(), create);
         ArrayList<String> levelNames = new ArrayList<String>();
 
         for (Record r : levelsInfo) {
@@ -161,7 +161,7 @@ public class HistoriaController implements Initializable {
     }
 
     private ArrayList<String> createArrayWithIntervalLevels(DSLContext create) {
-        Result<Record> levelsInfo = GameHistoryTablesOperations.getIntervalLevelsByID(user.getUserid(), create);
+        Result<Record> levelsInfo = GameHistoryTablesOperations.getIntervalLevelsByUserID(user.getUserid(), create);
         ArrayList<String> levelNames = new ArrayList<String>();
 
         for (Record r : levelsInfo) {
