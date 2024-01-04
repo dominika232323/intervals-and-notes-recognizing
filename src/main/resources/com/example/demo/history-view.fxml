@@ -36,7 +36,7 @@
         <CheckBox fx:id="intervalGameCheckBox" prefHeight="38.0" prefWidth="204.0" text="Gra rozpoznawanie interwałów" wrapText="true" />
         <CheckBox fx:id="chooseLevelCheckBox" onAction="#fillChoiceBoxWithLevels" prefHeight="18.0" prefWidth="207.0" text="Wybrany poziom gry" wrapText="true" />
          <ChoiceBox fx:id="chosenLevelChoiceBox" prefHeight="24.0" prefWidth="157.0" />
-        <CheckBox fx:id="chooseAnswersCorrectnessCheckBox" onAction="#fillChoiceBoxWithAnswersCorrectness" prefHeight="41.0" prefWidth="204.0" text="Wybrany procent poprawnych odpowiedzi" wrapText="true" />
+        <CheckBox fx:id="chooseAnswersCorrectnessCheckBox" prefHeight="41.0" prefWidth="204.0" text="Wybrany procent poprawnych odpowiedzi" wrapText="true" />
          <ChoiceBox fx:id="chosenAnswersCorrectnessChoiceBox" prefHeight="24.0" prefWidth="158.0" />
         <Region prefHeight="17.0" prefWidth="204.0" />
         <CheckBox fx:id="selectAllCheckBox" onAction="#selectAll" prefHeight="18.0" prefWidth="188.0" text="Zaznacz wszystko" />

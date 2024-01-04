@@ -102,23 +102,6 @@ public class HistoriaController implements Initializable {
         }
     }
 
-    @FXML void fillChoiceBoxWithAnswersCorrectness(ActionEvent event) {
-        ArrayList<String> answersCorrectness = new ArrayList<String>();
-
-        int lower_bound = 0;
-        int upper_bound = 10;
-
-        while (upper_bound < 110) {
-            String correctness = lower_bound + "% - " + upper_bound + "%";
-            answersCorrectness.add(correctness);
-
-            lower_bound = lower_bound + 10;
-            upper_bound = upper_bound + 10;
-        }
-
-        chosenAnswersCorrectnessChoiceBox.setItems(FXCollections.observableArrayList(answersCorrectness));
-    }
-
     @FXML
     public void fillChoiceBoxWithLevels(ActionEvent event) throws SQLException {
         DSLContext create = SharedFunctionsController.getDLCContex();
@@ -169,6 +152,23 @@ public class HistoriaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        fillChoiceBoxWithAnswersCorrectness();
+    }
 
+    private void fillChoiceBoxWithAnswersCorrectness() {
+        ArrayList<String> answersCorrectness = new ArrayList<String>();
+
+        int lower_bound = 0;
+        int upper_bound = 10;
+
+        while (upper_bound < 110) {
+            String correctness = lower_bound + "% - " + upper_bound + "%";
+            answersCorrectness.add(correctness);
+
+            lower_bound = lower_bound + 10;
+            upper_bound = upper_bound + 10;
+        }
+
+        chosenAnswersCorrectnessChoiceBox.setItems(FXCollections.observableArrayList(answersCorrectness));
     }
 }
