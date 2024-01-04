@@ -1,9 +1,11 @@
 package com.example.demo;
 
+import com.example.demo.jooq.tables.records.UsersRecord;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import org.jooq.Result;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,6 +47,9 @@ public class HistoriaController implements Initializable {
     private TableColumn correctnessTableColumn;
     @FXML
     private TableColumn dateTableColumn;
+
+    ApplicationContext context = ApplicationContext.getInstance();
+    UsersRecord user = context.getUser();
 
     @FXML
     public void onBackToMenuButtonClick(ActionEvent event) throws IOException {
@@ -90,7 +95,7 @@ public class HistoriaController implements Initializable {
 
         }
         else if (notesGameCheckBox.isSelected()) {
-
+            Result<Record> levelsInfo = GameHistoryTablesOperations.getNotesLevelsByID()
         }
         else {
 
