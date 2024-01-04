@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.IntervalsGameController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="500.0">
+               <children>
+                  <Label fx:id="correct_answers_label" text="Poprawne odpowiedzi:">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="incorrect_answers_label" text="Niepoprawne odpowiedzi:">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Label>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="current_question_label" text="1/20">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Pryma czysta" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Sekunda mała" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Sekunda wielka" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Tercja mała" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Tercja wielka" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Kwarta czysta" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Tryton" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Kwinta czysta" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Seksta mała" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Seksta wielka" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Septyma mała" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Septyma wielka" />
+            <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Oktawa czysta" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="350.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#exitOnClick" prefHeight="80.0" prefWidth="160.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Wyjdź">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="350.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#exitAndSaveOnClick" prefHeight="80.0" prefWidth="160.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Wyjdź i zapisz">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
