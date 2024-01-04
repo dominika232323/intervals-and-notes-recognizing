@@ -1,16 +1,29 @@
 package com.example.demo;
 
 import com.example.demo.jooq.tables.records.UsersRecord;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.jooq.Result;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
+import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
+import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
+import static com.example.demo.jooq.tables.Levelintervals.LEVELINTERVALS;
+import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
+import static com.example.demo.jooq.tables.Answersintervalsgame.ANSWERSINTERVALSGAME;
+
 
 public class HistoriaController implements Initializable {
     @FXML
@@ -90,16 +103,46 @@ public class HistoriaController implements Initializable {
     }
 
     @FXML
-    public void fillChoiceBoxWithLevels(ActionEvent event) {
-        if (notesGameCheckBox.isSelected() == intervalGameCheckBox.isSelected()) {
+    public void fillChoiceBoxWithLevels(ActionEvent event) throws SQLException {
+        DSLContext create = SharedFunctionsController.getDLCContex();
+        ArrayList<String> levelNames = new ArrayList<String>();
 
+        if (notesGameCheckBox.isSelected() == intervalGameCheckBox.isSelected()) {
+            levelNames = createArrayWithNotesLevels(create);
+            levelNames.addAll(createArrayWithIntervalLevels(create));
         }
         else if (notesGameCheckBox.isSelected()) {
-            Result<Record> levelsInfo = GameHistoryTablesOperations.getNotesLevelsByID()
+            levelNames = createArrayWithNotesLevels(create);
         }
         else {
-
+            levelNames = createArrayWithIntervalLevels(create);
         }
+
+        chosenLevelChoiceBox.setItems(FXCollections.observableArrayList(levelNames));
+    }
+
+    private ArrayList<String> createArrayWithNotesLevels(DSLContext create) {
+        Result<Record> levelsInfo = GameHistoryTablesOperations.getNotesLevelsByID(user.getUserid(), create);
+        ArrayList<String> levelNames = new ArrayList<String>();
+
+        for (Record r : levelsInfo) {
+            String name = r.get(LEVELNOTES.NAME);
+            levelNames.add(name);
+        }
+
+        return levelNames;
+    }
+
+    private ArrayList<String> createArrayWithIntervalLevels(DSLContext create) {
+        Result<Record> levelsInfo = GameHistoryTablesOperations.getIntervalLevelsByID(user.getUserid(), create);
+        ArrayList<String> levelNames = new ArrayList<String>();
+
+        for (Record r : levelsInfo) {
+            String name = r.get(LEVELINTERVALS.NAME);
+            levelNames.add(name);
+        }
+
+        return levelNames;
     }
 
     @FXML
