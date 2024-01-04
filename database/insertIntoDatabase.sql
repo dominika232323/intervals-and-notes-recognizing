@@ -49,3 +49,17 @@ INSERT INTO Notes VALUES(46, "A5");
 INSERT INTO Notes VALUES(47, "A#5/Bb5");
 INSERT INTO Notes VALUES(48, "B5");
 INSERT INTO Notes VALUES(49, "C6");
+
+INSERT INTO Intervals VALUES (1, "Pryma czysta");
+INSERT INTO Intervals VALUES (2, "Sekunda mała");
+INSERT INTO Intervals VALUES (3, "Sekunda wielka");
+INSERT INTO Intervals VALUES (4, "Tercja mała");
+INSERT INTO Intervals VALUES (5, "Tercja wielka");
+INSERT INTO Intervals VALUES (6, "Kwarta czysta");
+INSERT INTO Intervals VALUES (7, "Tryton");
+INSERT INTO Intervals VALUES (8, "Kwinta czysta");
+INSERT INTO Intervals VALUES (9, "Seksta mała");
+INSERT INTO Intervals VALUES (10, "Seksta wielka");
+INSERT INTO Intervals VALUES (11, "Septyma mała");
+INSERT INTO Intervals VALUES (12, "Septyma wielka");
+INSERT INTO Intervals VALUES (13, "Oktawa czysta");
