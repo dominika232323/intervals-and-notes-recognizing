@@ -50,6 +50,11 @@ public class IntervalsGameController {
 
     }
 
+    @FXML
+    void nextQuestionOnClick(ActionEvent event) {
+
+    }
+
     public void initialize() throws SQLException {
         // getting connection with database
         Connection connection = DatabaseConnection.getInstance().getConnection();
@@ -59,11 +64,9 @@ public class IntervalsGameController {
         allIntervalsList = create.selectFrom(Tables.INTERVALS).fetch();
         allNotesList = create.selectFrom(Tables.NOTES).fetch();
 
-
-
     }
-
 }
+
 
 class OngoingIntervalGame{
     private Answers answers;

@@ -6,7 +6,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.IntervalsGameController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
@@ -69,7 +68,7 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="350.0">
+            <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#exitOnClick" prefHeight="80.0" prefWidth="160.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Wyjdź">
                      <font>
@@ -84,7 +83,16 @@
                   <Insets left="10.0" />
                </padding>
             </VBox>
-            <VBox alignment="CENTER_RIGHT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="350.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#nextQuestionOnClick" prefHeight="60.0" prefWidth="200.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Następne pytanie">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#exitAndSaveOnClick" prefHeight="80.0" prefWidth="160.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Wyjdź i zapisz">
                      <font>
