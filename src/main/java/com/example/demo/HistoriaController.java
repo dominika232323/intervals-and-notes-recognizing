@@ -45,7 +45,9 @@ public class HistoriaController implements Initializable {
     @FXML
     private ChoiceBox<String> chosenLevelChoiceBox;
     @FXML
-    private ChoiceBox<String> chosenAnswersCorrectnessChoiceBox;
+    private ChoiceBox<String> lowerBoundCorrectnessChoiceBox;
+    @FXML
+    private ChoiceBox<String> upperBoundCorrectnessChoiceBox;
     @FXML
     private TableView<String> resultsTableView;
     @FXML
@@ -77,23 +79,37 @@ public class HistoriaController implements Initializable {
 
         boolean isLevelChosen = chooseLevelCheckBox.isSelected();
 
+        String level = null;
         if (isLevelChosen) {
-            String level = chosenLevelChoiceBox.getValue();
+            level = chosenLevelChoiceBox.getValue();
         }
 
         boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
-        int lowerBound;
-        int upperBound;
+        int lowerBound = 0;
+        int upperBound = 0;
 
         if (isAnswersCorrectnessChosen) {
-            String correctness = chosenAnswersCorrectnessChoiceBox.getValue();
-            lowerBound = getLowerBoundFromCorrectness(correctness);
-            upperBound = getUpperBoundFromCorrectness(correctness);
+            String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
+            String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
+
+            lowerBound = getNumberFromCorrectness(lowerBoundCorrectness);
+            upperBound = getNumberFromCorrectness(upperBoundCorrectness);
+
+            if (upperBound < lowerBound) {
+                int temp = lowerBound;
+                lowerBound = upperBound;
+                upperBound = temp;
+            }
         }
 
         LocalDate firstDate = getDate(firstDatePicker);
         LocalDate secondDate = getDate(secondDatePicker);
 
+        System.out.println(level);
+        System.out.println(lowerBound);
+        System.out.println(upperBound);
+        System.out.println(firstDate);
+        System.out.println(secondDate);
     }
 
     private Result<Record> getGames(boolean isNotesGameChosen, boolean isIntervalsGameChosen, DSLContext create) {
@@ -116,22 +132,9 @@ public class HistoriaController implements Initializable {
 //
 //    }
 
-    private int getLowerBoundFromCorrectness(String correctness) {
-        char firstChar = correctness.charAt(0);
-        int lowerBound = Character.getNumericValue(firstChar);
-        return lowerBound * 10;
-    }
-
-    private int getUpperBoundFromCorrectness(String correctness) {
-        char secondLastChar = correctness.charAt(correctness.length() - 2);
-        int upperBound = Character.getNumericValue(secondLastChar);
-        upperBound = upperBound * 10;
-
-        if (upperBound == 0) {
-            upperBound = 100;
-        }
-
-        return upperBound;
+    private int getNumberFromCorrectness(String correctness) {
+        String numberStr = correctness.substring(0, correctness.length() - 1);
+        return Integer.parseInt(numberStr);
     }
 
     @FXML
@@ -200,23 +203,22 @@ public class HistoriaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fillChoiceBoxWithAnswersCorrectness();
+        fillChoiceBoxWithAnswersCorrectness(lowerBoundCorrectnessChoiceBox);
+        fillChoiceBoxWithAnswersCorrectness(upperBoundCorrectnessChoiceBox);
     }
 
-    private void fillChoiceBoxWithAnswersCorrectness() {
+    private void fillChoiceBoxWithAnswersCorrectness(ChoiceBox<String> choiceBox) {
         ArrayList<String> answersCorrectness = new ArrayList<String>();
 
-        int lower_bound = 0;
-        int upper_bound = 10;
+        int number = 0;
 
-        while (upper_bound < 110) {
-            String correctness = lower_bound + "% - " + upper_bound + "%";
+        while (number <= 100) {
+            String correctness = number + "%";
             answersCorrectness.add(correctness);
 
-            lower_bound = lower_bound + 10;
-            upper_bound = upper_bound + 10;
+            number = number + 10;
         }
 
-        chosenAnswersCorrectnessChoiceBox.setItems(FXCollections.observableArrayList(answersCorrectness));
+        choiceBox.setItems(FXCollections.observableArrayList(answersCorrectness));
     }
 }
