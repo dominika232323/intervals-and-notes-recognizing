@@ -1,7 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.jooq.tables.records.LevelnotesRecord;
-import com.example.demo.jooq.tables.records.UsersRecord;
+
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.scene.layout.*;
@@ -12,11 +11,8 @@ import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Notes.NOTES;
 import static com.example.demo.jooq.tables.Users.USERS;
-import com.example.demo.NotesHelperClass;
 
 import com.example.demo.jooq.tables.records.NotesRecord;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,7 +22,6 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -38,18 +33,12 @@ import org.jooq.impl.DSL;
 import org.jooq.Record;
 import org.jooq.Result;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 import java.util.Random;
-import java.util.HashMap;
-import java.util.Map;
 
-import javafx.util.Duration;
-import javafx.animation.FillTransition;
 
 
 class NotesDbHelper{
@@ -86,7 +75,7 @@ class NotesDbHelper{
 
         if (!result.isEmpty()) {
             NotesRecord record = (NotesRecord) result.get(0);
-            String noteName = (String) record.getNotename();
+            String noteName = record.getNotename();
 
             if (noteName.length() > 2) { // Czyli mamy np. C#5/Db5 albo F#4/Gb4 itd.
                 String[] parts = noteName.split("/");
@@ -102,7 +91,7 @@ class NotesDbHelper{
         System.out.println("notesGameID: " + notesGameID + ", noteId: " + noteID
                                 + "guessedCorrectly: " + guessedCorrectly);
         // Check if the note already exists for the given game
-        Record record = (Record) create.select()
+        Record record = create.select()
                 .from(ANSWERSNOTESGAME)
                 .where(ANSWERSNOTESGAME.NOTESGAMEID.eq(notesGameID)
                         .and(ANSWERSNOTESGAME.NOTEID.eq(noteID)))
@@ -240,7 +229,23 @@ public class NotesGameController {
     //Do aktualizowania labelu Prawidłowo x/y
 
 
-    public void initialize(){
+    public void initialize() throws SQLException{
+        numberOfValidAnswers = 0;
+        numberOfAnswers = 0;
+        greenPoints = 25;
+        // Using Singleton pattern for database connection
+        create = DSL.using(DatabaseConnection.getInstance().getConnection(), SQLDialect.MYSQL);
+        NotesDbHelper.create = create;
+
+
+        setUpLevelValuesApplicationContext();
+
+
+        NotesDbHelper.insertIntoNotesGames(ApplicationContext.getInstance().getUser().getUserid(),
+                levelId, new java.sql.Date(System.currentTimeMillis()));
+        notesGameId = NotesDbHelper.getNotesGameID();
+
+
         //Button[] whiteButtons = new List<Button>
         currentWave = startingWave;
 
@@ -328,6 +333,9 @@ public class NotesGameController {
     }
 
     private void changeWaveIfNeeded(){
+        if(currentWave == endingWave){
+            onBackToMenuButtonClick();
+        }
         if(numberOfAnswers % repetitionsNextWave == 0){
             currentWave += 1;
             generateAndDisplayNote();
@@ -432,7 +440,7 @@ public class NotesGameController {
             noteSymbolGroup.getChildren().add(currentNoteSharpFlat);
         }
 
-        //PaneLines.getChildren().add(currentNoteCircle);
+
 
 
         PaneLines.getChildren().add(noteSymbolGroup);
@@ -450,7 +458,7 @@ public class NotesGameController {
         }
         int baseTime = 10;
         int thisAnimationNumberOfAnswers = numberOfValidAnswers + 1;
-        currentTransition = new TranslateTransition(Duration.seconds(Math.pow(0.95, currentWave) * baseTime), noteGroup);
+        currentTransition = new TranslateTransition(Duration.seconds(Math.pow(0.9, currentWave) * baseTime), noteGroup);
         currentTransition.setInterpolator(Interpolator.LINEAR);
         currentTransition.setByX(-600); // For example, move 300 units to the left
         currentTransition.play();
@@ -489,27 +497,7 @@ public class NotesGameController {
     }
 
     public NotesGameController() throws SQLException {
-        numberOfValidAnswers = 0;
-        numberOfAnswers = 0;
-        greenPoints = 5;
-        // Using Singleton pattern for database connection
-        create = DSL.using(DatabaseConnection.getInstance().getConnection(), SQLDialect.MYSQL);
-        NotesDbHelper.create = create;
 
-        //REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE
-        LevelnotesRecord levelRecord = (LevelnotesRecord) create.select().
-                from(LEVELNOTES).
-                where(LEVELNOTES.LEVELID.eq(3)).
-                fetchOne();
-        ApplicationContext.getInstance().setLevelNotes(levelRecord);
-        ApplicationContext.getInstance().setUser((UsersRecord)create.select().from(USERS).where(USERS.USERID.eq(1)).fetchOne());
-        //REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE
-        setUpLevelValuesApplicationContext();
-
-
-        NotesDbHelper.insertIntoNotesGames(ApplicationContext.getInstance().getUser().getUserid(),
-                                            levelId, new java.sql.Date(System.currentTimeMillis()));
-        notesGameId = NotesDbHelper.getNotesGameID();
 
     }
 

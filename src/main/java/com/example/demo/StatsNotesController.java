@@ -1,11 +1,13 @@
 package com.example.demo;
 
-import com.example.demo.jooq.Db;
+import com.example.demo.jooq.tables.Notesgames;
+import com.example.demo.jooq.tables.records.LevelnotesRecord;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.DatePicker;
@@ -14,55 +16,44 @@ import javafx.scene.control.Label;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import org.jooq.DSLContext;
-import org.jooq.Result;
+import org.jooq.*;
 import org.jooq.Record;
-import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
+import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
-import com.example.demo.jooq.tables.records.LevelnotesRecord;
 
 import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
 import com.example.demo.jooq.tables.records.NotesgamesRecord;
 
-import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
-import com.example.demo.jooq.tables.records.AnswersnotesgameRecord;
-import org.jooq.impl.QOM;
-
 import java.time.LocalDate;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.List;
+
+import com.example.demo.StatsSharedFunctions;
+
+
 
 class DbHelper{
     public static DSLContext create;
+
     public static Result<Record> getNotesGamesBetweenDates(LocalDate fromDate, LocalDate toDate){
         Result<Record> toReturn;
         toReturn = create.select().from(NOTESGAMES).where(
                 NOTESGAMES.DATEPLAYED.between(fromDate, toDate)
         ).fetch();
         return toReturn;
+        //return StatsSharedFunctions.StatsDbHelper.getGamesBetweenDates(fromDate, toDate, NOTESGAMES, NOTESGAMES.DATEPLAYED);
     }
 
-    public static HashMap<LocalDate, Integer> getNumberOfGamesPlayedPerDay(LocalDate fromDate, LocalDate toDate){ //throws SQLException{
-        HashMap<LocalDate, Integer> toReturn = new HashMap<LocalDate, Integer>();
-        Result<Record> recordsNoteGames = getNotesGamesBetweenDates(fromDate, toDate);
-        for(Record record : recordsNoteGames){
-            LocalDate datePlayed = ((NotesgamesRecord)record).getDateplayed();
-            //LocalDate datePlayed1 = record.get(NOTESGAMES.DATEPLAYED); //alternative
-            toReturn.put(datePlayed, toReturn.getOrDefault(datePlayed, 0) + 1);
-        }
-        return toReturn;
-    }
+
 
     private DbHelper(){}
 }
@@ -81,38 +72,21 @@ public class StatsNotesController {
 
     private LocalDate dateFromValue, dateToValue;
 
+    private ArrayList<LevelBox<LevelnotesRecord>> levelBoxArrayList;
+    private HashSet<Integer> chosenLevelIDs;
     private HashMap<Integer, Integer> numberOfAnswers;
     private HashMap<Integer, Integer> numberOfValidAnswers;
     private HashMap<Integer, Label> integerToLabel;
 
     public void initialize() {
-        numberOfAnswers = new HashMap<Integer, Integer>();
-        numberOfAnswers.put(0, 0);
-        numberOfAnswers.put(1, 0);
-        numberOfAnswers.put(2, 0);
-        numberOfAnswers.put(3, 0);
-        numberOfAnswers.put(4, 0);
-        numberOfAnswers.put(5, 0);
-        numberOfAnswers.put(6, 0);
-        numberOfAnswers.put(7, 0);
-        numberOfAnswers.put(8, 0);
-        numberOfAnswers.put(9, 0);
-        numberOfAnswers.put(10, 0);
-        numberOfAnswers.put(11, 0);
-
+        chosenLevelIDs = new HashSet<Integer>();
+        levelBoxArrayList = new ArrayList<LevelBox<LevelnotesRecord>>();
+        numberOfAnswers = new HashMap<>();
         numberOfValidAnswers = new HashMap<Integer, Integer>();
-        numberOfValidAnswers.put(0, 0);
-        numberOfValidAnswers.put(1, 0);
-        numberOfValidAnswers.put(2, 0);
-        numberOfValidAnswers.put(3, 0);
-        numberOfValidAnswers.put(4, 0);
-        numberOfValidAnswers.put(5, 0);
-        numberOfValidAnswers.put(6, 0);
-        numberOfValidAnswers.put(7, 0);
-        numberOfValidAnswers.put(8, 0);
-        numberOfValidAnswers.put(9, 0);
-        numberOfValidAnswers.put(10, 0);
-        numberOfValidAnswers.put(11, 0);
+        for(int i = 0; i < 12; i+= 1){
+            numberOfAnswers.put(i, 0);
+            numberOfValidAnswers.put(i, 0);
+        }
 
         integerToLabel = new HashMap<Integer, Label>();
         integerToLabel.put(0, C1);
@@ -131,101 +105,59 @@ public class StatsNotesController {
         try {
             create = DSL.using(DatabaseConnection.getInstance().getConnection(), SQLDialect.MYSQL);
             DbHelper.create = create;
+            StatsSharedFunctions.create = create;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         loadLevelNotesIntoScrollPane();
 
 
-        //DateFrom.setOnMouseClicked(event -> checkDatePickers());
-        //DateTo.setOnMouseClicked(event -> checkDatePickers());
 
-        DateFrom.valueProperty().addListener((obj, oldData, newData) -> refreshBarChart());
+        DateFrom.valueProperty().addListener((obj, oldData, newData) -> refreshResultsAndBarChart());
         DateTo.valueProperty().addListener(new ChangeListener<LocalDate>() {
             @Override
             public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldDate, LocalDate newDate) {
-                refreshBarChart();
+                refreshResultsAndBarChart();
             }
         }); //Do DateFrom użyliśmy funkcji lambda, która jest funkcjonalnie równa użyciu
-        //klasy anonimowej, jak w przypadku DateTo.
-
-
-        C1.setOnMouseClicked(event -> {
-
-            XYChart.Series dataSeries1 = new XYChart.Series<>();
-            UsageChart.getXAxis().setTickLabelRotation(-90);
-
-            dataSeries1.getData().add(new XYChart.Data<>("11-12-2002", 567));
-            dataSeries1.getData().add(new XYChart.Data<>("2", 65));
-            dataSeries1.getData().add(new XYChart.Data<>("3", 23));
-
-            UsageChart.getData().clear();
-
-
-            UsageChart.getData().add(dataSeries1);
-
-        });
-
+        //klasy anonimowej, jak w przypadku DateTo. Poczytaj o interfejsach SAM
     }
 
-    private void refreshBarChart(){
-        System.out.println("A");
-        dateFromValue = DateFrom.getValue();
-        dateToValue = DateTo.getValue();
-        if(dateFromValue == null || dateToValue == null){
-            return;
-        }
+    private void refreshResultsAndBarChart(){
+        Result<NotesgamesRecord> notesGamesRecords_ID_Date =
+                StatsSharedFunctions.StatsDbHelper.getGamesBetweenDatesAndWithLevelIDs(
+                        DateFrom.getValue(), DateTo.getValue(), chosenLevelIDs,
+                        NOTESGAMES, NOTESGAMES.DATEPLAYED, NOTESGAMES.LEVELNOTESID
+                );
 
-        HashMap<LocalDate, Integer> numberOfGamesPerDay = DbHelper.getNumberOfGamesPlayedPerDay(
-                                                            dateFromValue, dateToValue);
+        HashMap<LocalDate, Integer> gamesPerDay =
+                StatsSharedFunctions.getNumberOfGamesPlayedPerDay(
+                        notesGamesRecords_ID_Date, NOTESGAMES.DATEPLAYED
+                );
 
-        LocalDate nextDate = dateFromValue;
-        XYChart.Series<String, Integer> dateSeries= new XYChart.Series<>();
-        while(nextDate.isBefore(dateToValue)){
-            int count = numberOfGamesPerDay.getOrDefault(nextDate, 0);
-            dateSeries.getData().add(new XYChart.Data<>(nextDate.toString(), count));
-            System.out.println(nextDate.toString() + ": " + numberOfGamesPerDay.getOrDefault(nextDate, 0));
-            nextDate = nextDate.plusDays(1);
-        }
-
-        UsageChart.getData().clear();
-        UsageChart.getData().add(dateSeries);
-        UsageChart.getXAxis().setTickLabelRotation(-90);
-        UsageChart.getXAxis().setTickLabelFont(Font.font("Verdana", FontWeight.BOLD, 7));
-        //UsageChart.requestLayout();
-        //UsageChart.requestFocus();
-        UsageChart.getParent().requestLayout();
+        StatsSharedFunctions.refreshBarChart(DateFrom.getValue(), DateTo.getValue(),
+                        UsageChart, gamesPerDay);
     }
+    //private Result<NotesgamesRecord> gamesRecordProperIdAndDate;
 
 
+    private void loadLevelNotesIntoScrollPane(){
+        levelBoxArrayList = StatsSharedFunctions.loadLevelsIntoScrollPane(Lista, LEVELNOTES, LEVELNOTES.NAME);
+        VBox vbox = (VBox)Lista.getContent();
 
-    private void loadLevelNotesIntoScrollPane() {
-        VBox vbox = new VBox(10); // VBox with spacing 10
-        vbox.setPadding(new Insets(10, 10, 10, 10)); // Optional padding
-
-        // Fetch data from LevelNotes table
-        Result<?> result = create.selectFrom(LEVELNOTES).fetch();
-
-        // For each row in the result, create a checkbox
-        for (Record record : result) {
-            String levelName = record.get(LEVELNOTES.NAME);
-            CheckBox checkBox = new CheckBox(levelName);
-            checkBox.setId("CheckBox: " + record.get(LEVELNOTES.LEVELID));
+        for(LevelBox<LevelnotesRecord> levelBox : levelBoxArrayList){
+            CheckBox checkBox = levelBox.getCheckBox();
             checkBox.setOnMouseClicked(event -> {
                 if (checkBox.isSelected()) {
-                    System.out.println("Selected: " + checkBox.getId().substring(10));
+                    chosenLevelIDs.add(levelBox.getRecord().getLevelid());
+                    refreshResultsAndBarChart();
                 } else {
-                    System.out.println("Not selected");
+                    chosenLevelIDs.remove(levelBox.getRecord().getLevelid());
+                    refreshResultsAndBarChart();
                 }
             });
-            checkBox.setPadding(new Insets(5, 10, 5, 10));
-            checkBox.setStyle("-fx-border-color: black");
-            vbox.getChildren().add(checkBox);
         }
-
-        Lista.setContent(vbox);
     }
-
 
 
     @FXML
