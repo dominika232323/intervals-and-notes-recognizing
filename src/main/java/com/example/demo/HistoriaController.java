@@ -112,9 +112,9 @@ public class HistoriaController implements Initializable {
         return games;
     }
 
-    private Result<Record> filterGamesByChosenLevel(String levelName, Result<Record> games) {
-
-    }
+//    private Result<Record> filterGamesByChosenLevel(String levelName, Result<Record> games) {
+//
+//    }
 
     private int getLowerBoundFromCorrectness(String correctness) {
         char firstChar = correctness.charAt(0);
