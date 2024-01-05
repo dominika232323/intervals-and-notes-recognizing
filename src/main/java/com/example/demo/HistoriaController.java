@@ -96,7 +96,10 @@ public class HistoriaController implements Initializable {
             upperBound = getNumberFromCorrectness(upperBoundCorrectness);
 
             if (upperBound < lowerBound) {
-                swap(lowerBound, upperBound);
+                int[] numbers = {lowerBound, upperBound};
+                swap(numbers);
+                lowerBound = numbers[0];
+                upperBound = numbers[1];
 //                int temp = lowerBound;
 //                lowerBound = upperBound;
 //                upperBound = temp;
@@ -130,10 +133,10 @@ public class HistoriaController implements Initializable {
 //
 //    }
 
-    private void swap(Integer a, Integer b) {
-        Integer temp = a;
-        a = b;
-        b = temp;
+    private void swap(int[] numbers) {
+        int temp = numbers[0];
+        numbers[0] = numbers[1];
+        numbers[1] = temp;
     }
 
     private int getNumberFromCorrectness(String correctness) {
