@@ -122,9 +122,9 @@ public class HistoriaController implements Initializable {
         return games;
     }
 
-//    private Result<Record> filterGamesByChosenLevel(String levelName, Result<Record> games) {
-//
-//    }
+    private void filterGamesByChosenLevel(String levelName, Result<Record> games) {
+        games.removeIf(record -> !record.getValue("levelName").equals(levelName));
+    }
 
     private void swap(int[] numbers) {
         int temp = numbers[0];
