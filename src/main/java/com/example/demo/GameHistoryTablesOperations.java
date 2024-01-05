@@ -47,4 +47,20 @@ public class GameHistoryTablesOperations {
 
         return allGames;
     }
+
+    static public Result<Record> a(int id, DSLContext create) {
+        var firstTableColumns = NOTESGAMES.fields();
+        var secondTableColumns = LEVELNOTES.LEVELID;
+        secondTableColumns.add(LEVELNOTES.NAME);
+
+        var joinCondition = NOTESGAMES.LEVELNOTESID.eq(LEVELNOTES.LEVELID);
+
+        return create
+                .select(firstTableColumns)
+                .select(secondTableColumns)
+                .from(NOTESGAMES)
+                .join(LEVELNOTES).on(joinCondition)
+                .where(LEVELNOTES.USERID.eq(id))
+                .fetch();
+    }
 }
