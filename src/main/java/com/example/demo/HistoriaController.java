@@ -85,32 +85,25 @@ public class HistoriaController implements Initializable {
         }
 
         boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
-        int lowerBound = 0;
-        int upperBound = 0;
+        int[] bounds = {0, 0};
 
         if (isAnswersCorrectnessChosen) {
             String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
             String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
 
-            lowerBound = getNumberFromCorrectness(lowerBoundCorrectness);
-            upperBound = getNumberFromCorrectness(upperBoundCorrectness);
+            bounds[0] = getNumberFromCorrectness(lowerBoundCorrectness);
+            bounds[1] = getNumberFromCorrectness(upperBoundCorrectness);
 
-            if (upperBound < lowerBound) {
-                int[] numbers = {lowerBound, upperBound};
-                swap(numbers);
-                lowerBound = numbers[0];
-                upperBound = numbers[1];
-//                int temp = lowerBound;
-//                lowerBound = upperBound;
-//                upperBound = temp;
+            if (bounds[1] < bounds[0]) {
+                swap(bounds);
             }
         }
 
         LocalDate firstDate = getDate(firstDatePicker);
         LocalDate secondDate = getDate(secondDatePicker);
 
-        System.out.println(lowerBound);
-        System.out.println(upperBound);
+        System.out.println(bounds[0]);
+        System.out.println(bounds[1]);
     }
 
     private Result<Record> getGames(boolean isNotesGameChosen, boolean isIntervalsGameChosen, DSLContext create) {
