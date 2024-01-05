@@ -96,14 +96,18 @@ public class HistoriaController implements Initializable {
             upperBound = getNumberFromCorrectness(upperBoundCorrectness);
 
             if (upperBound < lowerBound) {
-                int temp = lowerBound;
-                lowerBound = upperBound;
-                upperBound = temp;
+                swap(lowerBound, upperBound);
+//                int temp = lowerBound;
+//                lowerBound = upperBound;
+//                upperBound = temp;
             }
         }
 
         LocalDate firstDate = getDate(firstDatePicker);
         LocalDate secondDate = getDate(secondDatePicker);
+
+        System.out.println(lowerBound);
+        System.out.println(upperBound);
     }
 
     private Result<Record> getGames(boolean isNotesGameChosen, boolean isIntervalsGameChosen, DSLContext create) {
@@ -125,6 +129,12 @@ public class HistoriaController implements Initializable {
 //    private Result<Record> filterGamesByChosenLevel(String levelName, Result<Record> games) {
 //
 //    }
+
+    private void swap(Integer a, Integer b) {
+        Integer temp = a;
+        a = b;
+        b = temp;
+    }
 
     private int getNumberFromCorrectness(String correctness) {
         String numberStr = correctness.substring(0, correctness.length() - 1);
