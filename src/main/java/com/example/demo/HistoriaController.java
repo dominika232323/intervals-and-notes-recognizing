@@ -104,12 +104,6 @@ public class HistoriaController implements Initializable {
 
         LocalDate firstDate = getDate(firstDatePicker);
         LocalDate secondDate = getDate(secondDatePicker);
-
-        System.out.println(level);
-        System.out.println(lowerBound);
-        System.out.println(upperBound);
-        System.out.println(firstDate);
-        System.out.println(secondDate);
     }
 
     private Result<Record> getGames(boolean isNotesGameChosen, boolean isIntervalsGameChosen, DSLContext create) {
