@@ -77,19 +77,6 @@ public class HistoriaController implements Initializable {
 
         Result<Record> games = getGames(isNoteGameChosen, isIntervalGameChosen, create);
         filterGamesByLevel(games);
-
-        boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
-        int[] bounds = {0, 0};
-
-        if (isAnswersCorrectnessChosen) {
-            getBounds(bounds);
-        }
-
-        LocalDate firstDate = getDate(firstDatePicker);
-        LocalDate secondDate = getDate(secondDatePicker);
-
-        System.out.println(bounds[0]);
-        System.out.println(bounds[1]);
     }
 
     private Result<Record> getGames(boolean isNotesGameChosen, boolean isIntervalsGameChosen, DSLContext create) {
@@ -120,7 +107,17 @@ public class HistoriaController implements Initializable {
     private void removeLevelsOtherThanLevel(String levelName, Result<Record> games) {
         games.removeIf(record -> !record.getValue("levelName").equals(levelName));
     }
-    
+
+    private void filterGamesByAnswersCorrectness(Result<Record> games) {
+        boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
+        int[] bounds = {0, 0};
+
+        if (isAnswersCorrectnessChosen) {
+            getBounds(bounds);
+            //TODO
+        }
+    }
+
     private void getBounds(int[] bounds) {
         String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
         String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
@@ -142,6 +139,12 @@ public class HistoriaController implements Initializable {
         int temp = numbers[0];
         numbers[0] = numbers[1];
         numbers[1] = temp;
+    }
+
+    private void filterGamesByDatePlayed(Result<Record> games) {
+        LocalDate firstDate = getDate(firstDatePicker);
+        LocalDate secondDate = getDate(secondDatePicker);
+        //TODO
     }
 
     @FXML
