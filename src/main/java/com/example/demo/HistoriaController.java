@@ -76,14 +76,8 @@ public class HistoriaController implements Initializable {
         boolean isIntervalGameChosen = intervalGameCheckBox.isSelected();
 
         Result<Record> games = getGames(isNoteGameChosen, isIntervalGameChosen, create);
-
-        boolean isLevelChosen = chooseLevelCheckBox.isSelected();
-
-        if (isLevelChosen) {
-            String level = chosenLevelChoiceBox.getValue();
-            filterGamesByChosenLevel(level, games);
-        }
-
+        filterGamesByLevel(games);
+        
         boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
         int[] bounds = {0, 0};
 
@@ -114,7 +108,16 @@ public class HistoriaController implements Initializable {
         return games;
     }
 
-    private void filterGamesByChosenLevel(String levelName, Result<Record> games) {
+    private void filterGamesByLevel(Result<Record> games) {
+        boolean isLevelChosen = chooseLevelCheckBox.isSelected();
+
+        if (isLevelChosen) {
+            String level = chosenLevelChoiceBox.getValue();
+            removeLevelsOtherThanLevel(level, games);
+        }
+    }
+
+    private void removeLevelsOtherThanLevel(String levelName, Result<Record> games) {
         games.removeIf(record -> !record.getValue("levelName").equals(levelName));
     }
 
