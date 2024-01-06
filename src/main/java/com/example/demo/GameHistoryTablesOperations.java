@@ -48,8 +48,8 @@ public class GameHistoryTablesOperations {
 
     static public Result<Record> getNotesGamesJoinedWithLevelsByUserID(int id, DSLContext create) {
         var firstTableColumns = NOTESGAMES.fields();
-        var secondTableColumns = LEVELNOTES.LEVELID;
-        secondTableColumns.add(LEVELNOTES.NAME);
+        var secondTableColumns = LEVELNOTES.NAME;
+//        secondTableColumns.add(LEVELNOTES.LEVELID);
 
         var joinCondition = NOTESGAMES.LEVELNOTESID.eq(LEVELNOTES.LEVELID);
 
@@ -64,8 +64,8 @@ public class GameHistoryTablesOperations {
 
     static public Result<Record> getIntervalsGamesJoinedWithLevelsByUserID(int id, DSLContext create) {
         var firstTableColumns = INTERVALSGAME.fields();
-        var secondTableColumns = LEVELINTERVALS.LEVELID;
-        secondTableColumns.add(LEVELINTERVALS.NAME);
+        var secondTableColumns = LEVELINTERVALS.NAME;
+//        secondTableColumns.add(LEVELINTERVALS.LEVELID);
 
         var joinCondition = INTERVALSGAME.INTERVALLEVELID.eq(LEVELINTERVALS.LEVELID);
 
