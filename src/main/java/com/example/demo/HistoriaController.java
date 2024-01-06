@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
+import org.jooq.impl.DSL;
 
 import java.io.IOException;
 import java.net.URL;
@@ -105,7 +106,15 @@ public class HistoriaController implements Initializable {
     }
 
     private void removeLevelsOtherThanLevel(String levelName, Result<Record> games) {
-        games.removeIf(record -> !record.getValue("levelName").equals(levelName));
+//        games.removeIf(record -> !record.getValue("levelName").equals(levelName));
+
+        for (Record r : games) {
+            String gameLevelName = r.get(DSL.field("name", String.class));
+
+            if (gameLevelName.equals(levelName)) {
+                games.remove(r);
+            }
+        }
     }
 
     private void filterGamesByAnswersCorrectness(Result<Record> games) {
