@@ -77,7 +77,7 @@ public class HistoriaController implements Initializable {
 
         Result<Record> games = getGames(isNoteGameChosen, isIntervalGameChosen, create);
         filterGamesByLevel(games);
-        
+
         boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
         int[] bounds = {0, 0};
 
@@ -120,13 +120,7 @@ public class HistoriaController implements Initializable {
     private void removeLevelsOtherThanLevel(String levelName, Result<Record> games) {
         games.removeIf(record -> !record.getValue("levelName").equals(levelName));
     }
-
-    private void swap(int[] numbers) {
-        int temp = numbers[0];
-        numbers[0] = numbers[1];
-        numbers[1] = temp;
-    }
-
+    
     private void getBounds(int[] bounds) {
         String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
         String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
@@ -142,6 +136,12 @@ public class HistoriaController implements Initializable {
     private int getNumberFromCorrectness(String correctness) {
         String numberStr = correctness.substring(0, correctness.length() - 1);
         return Integer.parseInt(numberStr);
+    }
+
+    private void swap(int[] numbers) {
+        int temp = numbers[0];
+        numbers[0] = numbers[1];
+        numbers[1] = temp;
     }
 
     @FXML
