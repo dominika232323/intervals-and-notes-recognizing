@@ -102,13 +102,13 @@ public class HistoriaController implements Initializable {
         Result<Record> games;
 
         if (isNotesGameChosen == isIntervalsGameChosen) {
-            games = GameHistoryTablesOperations.getAllGamesByUserID(user.getUserid(), create);
+            games = GameHistoryTablesOperations.getAllGamesJoinedWithLevelsByUserID(user.getUserid(), create);
         }
         else if (isNotesGameChosen) {
-            games = GameHistoryTablesOperations.getNotesGamesByUserID(user.getUserid(), create);
+            games = GameHistoryTablesOperations.getNotesGamesJoinedWithLevelsByUserID(user.getUserid(), create);
         }
         else {
-            games = GameHistoryTablesOperations.getIntervalGamesByUserID(user.getUserid(), create);
+            games = GameHistoryTablesOperations.getIntervalsGamesJoinedWithLevelsByUserID(user.getUserid(), create);
         }
 
         return games;

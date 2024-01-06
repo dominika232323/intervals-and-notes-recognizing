@@ -7,9 +7,7 @@ import org.jooq.Result;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Levelintervals.LEVELINTERVALS;
 import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
-import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
 import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
-import static com.example.demo.jooq.tables.Answersintervalsgame.ANSWERSINTERVALSGAME;
 
 
 public class GameHistoryTablesOperations {
@@ -48,7 +46,7 @@ public class GameHistoryTablesOperations {
         return allGames;
     }
 
-    static public Result<Record> a(int id, DSLContext create) {
+    static public Result<Record> getNotesGamesJoinedWithLevelsByUserID(int id, DSLContext create) {
         var firstTableColumns = NOTESGAMES.fields();
         var secondTableColumns = LEVELNOTES.LEVELID;
         secondTableColumns.add(LEVELNOTES.NAME);
@@ -62,5 +60,28 @@ public class GameHistoryTablesOperations {
                 .join(LEVELNOTES).on(joinCondition)
                 .where(LEVELNOTES.USERID.eq(id))
                 .fetch();
+    }
+
+    static public Result<Record> getIntervalsGamesJoinedWithLevelsByUserID(int id, DSLContext create) {
+        var firstTableColumns = INTERVALSGAME.fields();
+        var secondTableColumns = LEVELINTERVALS.LEVELID;
+        secondTableColumns.add(LEVELINTERVALS.NAME);
+
+        var joinCondition = INTERVALSGAME.INTERVALLEVELID.eq(LEVELINTERVALS.LEVELID);
+
+        return create
+                .select(firstTableColumns)
+                .select(secondTableColumns)
+                .from(INTERVALSGAME)
+                .join(LEVELINTERVALS).on(joinCondition)
+                .where(LEVELINTERVALS.USERID.eq(id))
+                .fetch();
+    }
+
+    static public Result<Record> getAllGamesJoinedWithLevelsByUserID(int id, DSLContext create) {
+        Result<Record> allGames = getNotesGamesJoinedWithLevelsByUserID(id, create);
+        allGames.addAll(getIntervalsGamesJoinedWithLevelsByUserID(id, create));
+
+        return allGames;
     }
 }
