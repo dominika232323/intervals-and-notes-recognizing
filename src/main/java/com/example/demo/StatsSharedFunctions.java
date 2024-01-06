@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.jooq.tables.records.LevelnotesRecord;
 import com.example.demo.jooq.tables.records.NotesgamesRecord;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
@@ -9,6 +10,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -60,7 +62,6 @@ public class StatsSharedFunctions {
 
         public static <A extends Record> HashMap<Integer, Integer> getAnswersIntoDictFilterByGameIDs(
                 HashSet<Integer> gameIDs,
-                Table<A> answersGamesTable,
                 TableField<A, Integer> answersGamesGameIDField,
                 Table<A> answersTable, TableField<A, Integer> answersOccurencesField,
                 TableField<A, Integer> answersKeyIDField, boolean trueIfNotes) {
@@ -120,7 +121,6 @@ public class StatsSharedFunctions {
             });
         }
     }
-
 
 
     public static <R extends Record> HashMap<LocalDate, Integer>

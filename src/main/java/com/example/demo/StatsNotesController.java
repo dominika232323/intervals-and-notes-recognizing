@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.jooq.tables.Levelintervals;
 import com.example.demo.jooq.tables.Levelnotes;
 import com.example.demo.jooq.tables.Notesgames;
 import com.example.demo.jooq.tables.records.LevelnotesRecord;
@@ -23,7 +24,7 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
+
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 
 import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
@@ -33,7 +34,6 @@ import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
 import com.example.demo.jooq.tables.records.AnswersnotesgameRecord;
 
 import static com.example.demo.jooq.tables.Users.USERS;
-//import com.example.demo.jooq.tables.records.AnswersnotesgameRecord;
 
 import java.time.LocalDate;
 import java.io.IOException;
@@ -136,13 +136,13 @@ public class StatsNotesController {
                 noteGamesRecords, NOTESGAMES.NOTESGAMEID);
 
         numberOfAnswers = StatsSharedFunctions.
-                StatsDbHelper.getAnswersIntoDictFilterByGameIDs(notesGamesID, ANSWERSNOTESGAME,
+                StatsDbHelper.getAnswersIntoDictFilterByGameIDs(notesGamesID,
                     ANSWERSNOTESGAME.NOTESGAMEID, ANSWERSNOTESGAME,
                         ANSWERSNOTESGAME.NOTEOCCURRENCES,
                         ANSWERSNOTESGAME.NOTEID, true);
 
         numberOfValidAnswers = StatsSharedFunctions.
-                StatsDbHelper.getAnswersIntoDictFilterByGameIDs(notesGamesID, ANSWERSNOTESGAME,
+                StatsDbHelper.getAnswersIntoDictFilterByGameIDs(notesGamesID,
                         ANSWERSNOTESGAME.NOTESGAMEID, ANSWERSNOTESGAME,
                         ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY,
                         ANSWERSNOTESGAME.NOTEID, true);
@@ -176,6 +176,7 @@ public class StatsNotesController {
                     refreshResultsAndBarChart();
                 }
             });
+            //checkBox.setO EventHandler<? super MouseEvent>
         }
     }
 
