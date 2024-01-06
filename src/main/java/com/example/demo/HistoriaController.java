@@ -79,24 +79,16 @@ public class HistoriaController implements Initializable {
 
         boolean isLevelChosen = chooseLevelCheckBox.isSelected();
 
-        String level = null;
         if (isLevelChosen) {
-            level = chosenLevelChoiceBox.getValue();
+            String level = chosenLevelChoiceBox.getValue();
+            filterGamesByChosenLevel(level, games);
         }
 
         boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
         int[] bounds = {0, 0};
 
         if (isAnswersCorrectnessChosen) {
-            String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
-            String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
-
-            bounds[0] = getNumberFromCorrectness(lowerBoundCorrectness);
-            bounds[1] = getNumberFromCorrectness(upperBoundCorrectness);
-
-            if (bounds[1] < bounds[0]) {
-                swap(bounds);
-            }
+            getBounds(bounds);
         }
 
         LocalDate firstDate = getDate(firstDatePicker);
@@ -130,6 +122,18 @@ public class HistoriaController implements Initializable {
         int temp = numbers[0];
         numbers[0] = numbers[1];
         numbers[1] = temp;
+    }
+
+    private void getBounds(int[] bounds) {
+        String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
+        String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
+
+        bounds[0] = getNumberFromCorrectness(lowerBoundCorrectness);
+        bounds[1] = getNumberFromCorrectness(upperBoundCorrectness);
+
+        if (bounds[1] < bounds[0]) {
+            swap(bounds);
+        }
     }
 
     private int getNumberFromCorrectness(String correctness) {
