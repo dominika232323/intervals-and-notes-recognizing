@@ -128,6 +128,8 @@ INSERT INTO Notes VALUES(49, "C6");
 
 
 INSERT INTO Users VALUES (1, 'User1', 'User1Password')
+INSERT INTO Users VALUES (2, 'User2', 'User2Password')
+INSERT INTO Users VALUES (3, 'User3', 'User3Password')
 
 INSERT INTO LevelNotes VALUES (1, 1, 'name1', 25, 49, 1, 5, 10);
 INSERT INTO LevelNotes VALUES (2, 1, 'name2', 1, 24, 5, 10, 5);
@@ -149,4 +151,17 @@ INSERT INTO LevelNotes VALUES (16, 1, 'name16', 1, 49, 1, 20, 10);
 INSERT INTO LevelNotes VALUES (17, 1, 'name17', 1, 49, 1, 20, 10);
 INSERT INTO LevelNotes VALUES (18, 1, 'name18', 1, 49, 1, 20, 10);
 INSERT INTO LevelNotes VALUES (19, 1, 'name19', 1, 49, 1, 20, 10);
+
+INSERT INTO LevelNotes (levelID, userID, name, lowerNoteBound, higherNoteBound, startingWave, endingWave, repetitionsNextWave) VALUES
+        (45, 2, 'Level45ForUser2', 1, 45, 1, 5, 20);
+
+INSERT INTO LevelNotes (levelID, userID, name, lowerNoteBound, higherNoteBound, startingWave, endingWave, repetitionsNextWave) VALUES
+    (46, 2, 'Level24to40ForUser2', 24, 40, 8, 12, 10);
+
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (160, 2, 45, '2024-01-02')
+
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (161, 2, 45, '2024-01-02');
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (162, 2, 46, '2023-12-30');
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (163, 2, 46, '2023-12-29');
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (164, 2, 46, '2023-12-30');
 

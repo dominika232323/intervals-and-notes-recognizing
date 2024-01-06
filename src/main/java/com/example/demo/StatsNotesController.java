@@ -1,21 +1,21 @@
 package com.example.demo;
 
+import com.example.demo.jooq.tables.Levelnotes;
 import com.example.demo.jooq.tables.Notesgames;
 import com.example.demo.jooq.tables.records.LevelnotesRecord;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -29,34 +29,22 @@ import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
 import com.example.demo.jooq.tables.records.NotesgamesRecord;
 
+import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
+import com.example.demo.jooq.tables.records.AnswersnotesgameRecord;
+
+import static com.example.demo.jooq.tables.Users.USERS;
+//import com.example.demo.jooq.tables.records.AnswersnotesgameRecord;
+
 import java.time.LocalDate;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import com.example.demo.StatsSharedFunctions;
 
 
 
-class DbHelper{
-    public static DSLContext create;
 
-    public static Result<Record> getNotesGamesBetweenDates(LocalDate fromDate, LocalDate toDate){
-        Result<Record> toReturn;
-        toReturn = create.select().from(NOTESGAMES).where(
-                NOTESGAMES.DATEPLAYED.between(fromDate, toDate)
-        ).fetch();
-        return toReturn;
-        //return StatsSharedFunctions.StatsDbHelper.getGamesBetweenDates(fromDate, toDate, NOTESGAMES, NOTESGAMES.DATEPLAYED);
-    }
-
-
-
-    private DbHelper(){}
-}
 
 public class StatsNotesController {
     @FXML
@@ -69,18 +57,21 @@ public class StatsNotesController {
     private DSLContext create;
     @FXML
     private DatePicker DateFrom, DateTo;
+    @FXML
+    private Button ZaznaczWszystko, OdznaczWszystko;
+
 
     private LocalDate dateFromValue, dateToValue;
 
-    private ArrayList<LevelBox<LevelnotesRecord>> levelBoxArrayList;
-    private HashSet<Integer> chosenLevelIDs;
+    private ArrayList<LevelBox<LevelnotesRecord>> levelBoxArrayList =
+            new ArrayList<LevelBox<LevelnotesRecord>>();
+    private HashSet<Integer> chosenLevelIDs = new HashSet<Integer>();
     private HashMap<Integer, Integer> numberOfAnswers;
     private HashMap<Integer, Integer> numberOfValidAnswers;
     private HashMap<Integer, Label> integerToLabel;
 
     public void initialize() {
-        chosenLevelIDs = new HashSet<Integer>();
-        levelBoxArrayList = new ArrayList<LevelBox<LevelnotesRecord>>();
+
         numberOfAnswers = new HashMap<>();
         numberOfValidAnswers = new HashMap<Integer, Integer>();
         for(int i = 0; i < 12; i+= 1){
@@ -101,17 +92,18 @@ public class StatsNotesController {
         integerToLabel.put(9, A);
         integerToLabel.put(10, ASharp);
         integerToLabel.put(11, B);
+        integerToLabel.put(12, C2);
 
         try {
             create = DSL.using(DatabaseConnection.getInstance().getConnection(), SQLDialect.MYSQL);
-            DbHelper.create = create;
             StatsSharedFunctions.create = create;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         loadLevelNotesIntoScrollPane();
-
-
+        StatsSharedFunctions.putEmptyTextInEachLabel(
+                new HashSet<Label>(Arrays.asList(integerToLabel.values().toArray( new Label[0] ))));
+        setZaznaczOdznaczAction();
 
         DateFrom.valueProperty().addListener((obj, oldData, newData) -> refreshResultsAndBarChart());
         DateTo.valueProperty().addListener(new ChangeListener<LocalDate>() {
@@ -121,29 +113,56 @@ public class StatsNotesController {
             }
         }); //Do DateFrom użyliśmy funkcji lambda, która jest funkcjonalnie równa użyciu
         //klasy anonimowej, jak w przypadku DateTo. Poczytaj o interfejsach SAM
-    }
 
+        StatsSharedFunctions.setLabelKeysAction(Arrays.asList(C1, CSharp, D, DSharp, E, F,
+                FSharp, G, GSharp, A, ASharp, B, C2), statsLabel);
+    }
     private void refreshResultsAndBarChart(){
-        Result<NotesgamesRecord> notesGamesRecords_ID_Date =
+        Result<NotesgamesRecord> noteGamesRecords =
                 StatsSharedFunctions.StatsDbHelper.getGamesBetweenDatesAndWithLevelIDs(
                         DateFrom.getValue(), DateTo.getValue(), chosenLevelIDs,
-                        NOTESGAMES, NOTESGAMES.DATEPLAYED, NOTESGAMES.LEVELNOTESID
+                        NOTESGAMES, NOTESGAMES.DATEPLAYED, NOTESGAMES.LEVELNOTESID,
+                        NOTESGAMES.USERID
                 );
-
         HashMap<LocalDate, Integer> gamesPerDay =
                 StatsSharedFunctions.getNumberOfGamesPlayedPerDay(
-                        notesGamesRecords_ID_Date, NOTESGAMES.DATEPLAYED
+                        noteGamesRecords, NOTESGAMES.DATEPLAYED
                 );
 
         StatsSharedFunctions.refreshBarChart(DateFrom.getValue(), DateTo.getValue(),
                         UsageChart, gamesPerDay);
+
+        HashSet<Integer> notesGamesID = StatsSharedFunctions.StatsDbHelper.getIntegerColumnIntoSet(
+                noteGamesRecords, NOTESGAMES.NOTESGAMEID);
+
+        numberOfAnswers = StatsSharedFunctions.
+                StatsDbHelper.getAnswersIntoDictFilterByGameIDs(notesGamesID, ANSWERSNOTESGAME,
+                    ANSWERSNOTESGAME.NOTESGAMEID, ANSWERSNOTESGAME,
+                        ANSWERSNOTESGAME.NOTEOCCURRENCES,
+                        ANSWERSNOTESGAME.NOTEID, true);
+
+        numberOfValidAnswers = StatsSharedFunctions.
+                StatsDbHelper.getAnswersIntoDictFilterByGameIDs(notesGamesID, ANSWERSNOTESGAME,
+                        ANSWERSNOTESGAME.NOTESGAMEID, ANSWERSNOTESGAME,
+                        ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY,
+                        ANSWERSNOTESGAME.NOTEID, true);
+
+        StatsSharedFunctions.loadResultsIntoLabels(integerToLabel, numberOfAnswers,
+                                    numberOfValidAnswers);
+
+        if(DateFrom.getValue() == null || DateTo.getValue() == null || DateFrom.getValue().isAfter(DateTo.getValue()) ||
+                DateFrom.getValue().equals(DateTo.getValue()) || chosenLevelIDs.isEmpty()){
+            StatsSharedFunctions.putEmptyTextInEachLabel(
+                    new HashSet<Label>(Arrays.asList(integerToLabel.values().toArray( new Label[0] ))));
+        }
     }
-    //private Result<NotesgamesRecord> gamesRecordProperIdAndDate;
 
 
     private void loadLevelNotesIntoScrollPane(){
-        levelBoxArrayList = StatsSharedFunctions.loadLevelsIntoScrollPane(Lista, LEVELNOTES, LEVELNOTES.NAME);
+        levelBoxArrayList = StatsSharedFunctions.loadLevelsIntoScrollPane(Lista, LEVELNOTES, LEVELNOTES.NAME,
+                            LEVELNOTES.USERID);
         VBox vbox = (VBox)Lista.getContent();
+
 
         for(LevelBox<LevelnotesRecord> levelBox : levelBoxArrayList){
             CheckBox checkBox = levelBox.getCheckBox();
@@ -151,12 +170,31 @@ public class StatsNotesController {
                 if (checkBox.isSelected()) {
                     chosenLevelIDs.add(levelBox.getRecord().getLevelid());
                     refreshResultsAndBarChart();
+
                 } else {
                     chosenLevelIDs.remove(levelBox.getRecord().getLevelid());
                     refreshResultsAndBarChart();
                 }
             });
         }
+    }
+
+    private void setZaznaczOdznaczAction(){
+        ZaznaczWszystko.setOnMouseClicked(event ->
+        {
+            StatsSharedFunctions.selectAllCheckboxes(
+                levelBoxArrayList, chosenLevelIDs,
+                LEVELNOTES.LEVELID, true);
+            refreshResultsAndBarChart();
+        });
+
+        OdznaczWszystko.setOnMouseClicked(event ->
+        {
+            StatsSharedFunctions.selectAllCheckboxes(
+                levelBoxArrayList, chosenLevelIDs,
+                LEVELNOTES.LEVELID, false);
+            refreshResultsAndBarChart();
+        });
     }
 
 

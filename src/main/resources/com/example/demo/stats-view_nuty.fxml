@@ -171,7 +171,7 @@
         </rowConstraints>
          <children>
                <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBackToMenuButtonClick" prefHeight="30.0" prefWidth="150.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Wróć do menu" GridPane.columnIndex="1" />
-            <Label fx:id="DokladneWyniki" text="Kliknij przycisk, aby wypisac wyniki" />
+            <Label fx:id="DokladneWyniki" />
          </children>
       </GridPane>
    </children>
