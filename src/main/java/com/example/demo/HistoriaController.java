@@ -13,6 +13,7 @@ import org.jooq.impl.DSL;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -78,6 +79,8 @@ public class HistoriaController implements Initializable {
 
         Result<Record> games = getGames(isNoteGameChosen, isIntervalGameChosen, create);
         filterGamesByLevel(games);
+
+        filterGamesByDatePlayed(games);
     }
 
     private Result<Record> getGames(boolean isNotesGameChosen, boolean isIntervalsGameChosen, DSLContext create) {
@@ -153,7 +156,34 @@ public class HistoriaController implements Initializable {
     private void filterGamesByDatePlayed(Result<Record> games) {
         LocalDate firstDate = getDate(firstDatePicker);
         LocalDate secondDate = getDate(secondDatePicker);
-        //TODO
+
+        if (firstDate != null) {
+            removeRecordsPlayedBefore(firstDate, games);
+        }
+
+        if (secondDate != null) {
+            removeRecordsPlayedAfter(secondDate, games);
+        }
+    }
+
+    private void removeRecordsPlayedBefore(LocalDate date, Result<Record> games) {
+        for (Record r : games) {
+            LocalDate gameDatePlayed = r.get(DSL.field("datePlayed", Date.class)).toLocalDate();
+
+            if (gameDatePlayed.isBefore(date)) {
+                games.remove(r);
+            }
+        }
+    }
+
+    private void removeRecordsPlayedAfter(LocalDate date, Result<Record> games) {
+        for (Record r : games) {
+            LocalDate gameDatePlayed = r.get(DSL.field("datePlayed", Date.class)).toLocalDate();
+
+            if (gameDatePlayed.isAfter(date)) {
+                games.remove(r);
+            }
+        }
     }
 
     @FXML
