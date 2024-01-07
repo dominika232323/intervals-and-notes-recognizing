@@ -5,8 +5,10 @@ import com.example.demo.jooq.tables.records.LevelintervalsRecord;
 import com.example.demo.jooq.tables.records.NotesRecord;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import org.jooq.DSLContext;
@@ -19,6 +21,10 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class IntervalsGameController {
+
+    @FXML
+    private Label errorLabel;
+
     @FXML
     private Label current_question_label;
 
@@ -27,6 +33,15 @@ public class IntervalsGameController {
 
     @FXML
     private Label correct_answers_label;
+
+    @FXML
+    private HBox firstIntervalsHbox;
+
+    @FXML
+    private HBox secondIntervalsHbox;
+
+    @FXML
+    private HBox thirdIntervalsHbox;
 
     private List<IntervalsRecord> allIntervalsList;
     private List<NotesRecord> allNotesList;
@@ -38,14 +53,83 @@ public class IntervalsGameController {
 
     private IntervalTypeEnum intervalType;
 
+    private List<Button> allButtonsIntervals;
+
+    private final String buttonIntervalDefaultStyle = "-fx-background-radius: 15;" +
+            " -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;";
+    private final String buttonIntervalCorrectStyle = "-fx-background-radius: 15;" +
+            " -fx-border-radius: 15; -fx-background-color: green; -fx-border-color: BBAB8C;";
+    private final String buttonIntervalIncorrectStyle = "-fx-background-radius: 15;" +
+            " -fx-border-radius: 15; -fx-background-color: red; -fx-border-color: BBAB8C;";
+
+    private IntervalsRecord guessedInterval;
+
+
     @FXML
     void intervalChosenOnClick(ActionEvent event) throws InterruptedException {
-        Button button = (Button) event.getSource();
-        System.out.println(button.getText());
-
-        if (notesPlayer.isAvailable()) {
-            notesPlayer.playNotesSequentially(allNotesList);
+        if (canChooseInterval()){
+            Button clickedButton = (Button) event.getSource();
+            Button correctButton = getButtonFromInterval(currentGame.getChosenInterval());
+            guessedInterval = getIntervalFromButton(clickedButton);
+            clickedButton.setStyle(buttonIntervalIncorrectStyle);
+            correctButton.setStyle(buttonIntervalCorrectStyle);
+            currentGame.updateAnswers(guessedInterval);
+            updateLabels();
+            if (clickedButton.getText().equals(correctButton.getText())){
+                if (currentGame.getAnswers().getSumOfAllAnswers() != currentGame.getRepetitions()){
+                    errorLabel.setText("Odpowiedź prawidłowa, przejdź do następnego pytania.");
+                }else {
+                    errorLabel.setText("Odpowiedź prawidłowa, rozgrywka zakończyła się i możesz ją zapisać.");
+                }
+            } else {
+                if (currentGame.getAnswers().getSumOfAllAnswers() != currentGame.getRepetitions()){
+                    errorLabel.setText("Odpowiedź nieprawidłowa, przejdź do następnego pytania.");
+                }else {
+                    errorLabel.setText("Odpowiedź nieprawidłowa, rozgrywka zakończyła się i możesz ją zapisać.");
+                }
+            }
         }
+
+    }
+
+    void resetButtonsColor(){
+        for (Button button: allButtonsIntervals){
+            button.setStyle(buttonIntervalDefaultStyle);
+        }
+    }
+
+    Button getButtonFromInterval(IntervalsRecord interval){
+        for (Button button: allButtonsIntervals){
+            if (button.getText().equals(interval.getIntervalname())){
+                return button;
+            }
+        }
+        return null;
+    }
+
+    IntervalsRecord getIntervalFromButton(Button button){
+        for (IntervalsRecord interval: allIntervalsList){
+            if (interval.getIntervalname().equals(button.getText())){
+                return interval;
+            }
+        }
+        return null;
+    }
+
+
+
+    boolean canChooseInterval(){
+        System.out.println(Boolean.toString(notesPlayer.isAvailable()) + " notesPlayer.isAvailable()");
+        System.out.println(Boolean.toString(guessedInterval == null) + " guessedInterval == null");
+        System.out.println(Boolean.toString(currentGame.getChosenInterval() != null) + " currentGame.getChosenInterval() != null");
+        System.out.println(Boolean.toString(currentGame.getAnswers().getSumOfAllAnswers() < currentGame.getRepetitions()) +
+                " currentGame.getAnswers().getSumOfAllAnswers() < currentGame.getRepetitions()");
+
+
+        boolean condition = notesPlayer.isAvailable() && guessedInterval == null &&
+                currentGame.getChosenInterval() != null &&
+                currentGame.getAnswers().getSumOfAllAnswers() < currentGame.getRepetitions();
+        return condition;
     }
 
     @FXML
@@ -79,13 +163,28 @@ public class IntervalsGameController {
     @FXML
     void nextQuestionOnClick(ActionEvent event) {
         if (canNextQuestion()){
+            resetButtonsColor();
             currentGame.prepareNextQuestion();
+            updateLabels();
+            guessedInterval = null;
             playChosenInterval();
+            errorLabel.setText("Wybierz odpowiedź po odsłuchaniu");
         }
     }
 
+    private void updateLabels(){
+        correct_answers_label.setText("Poprawne odpowiedzi: " + Integer.toString(
+                currentGame.getAnswers().getAnsweredCorrectly()));
+        incorrect_answers_label.setText("Niepoprawne odpowiedzi: " + Integer.toString(
+                currentGame.getAnswers().getAnsweredIncorrectly()));
+        current_question_label.setText(currentGame.getCurrentQuestion() + "/" + currentGame.getRepetitions());
+    }
+
     boolean canNextQuestion(){
-        return true;
+        boolean condition = notesPlayer.isAvailable() &&
+                (guessedInterval!=null || currentGame.getChosenInterval()==null) &&
+                currentGame.getAnswers().getSumOfAllAnswers() < currentGame.getRepetitions();
+        return condition;
     }
 
     public void initialize() throws SQLException {
@@ -102,7 +201,7 @@ public class IntervalsGameController {
         // TODO change it later to level from context
         Byte zero = 0;
         Byte one = 1;
-        LevelintervalsRecord testLevel = new LevelintervalsRecord(2137, 1, "Test", 20, one, zero, zero);
+        LevelintervalsRecord testLevel = new LevelintervalsRecord(2137, 1, "Test", 5, one, zero, zero);
 
         currentGame = new OngoingIntervalGame(testLevel, allIntervalsList, allNotesList);
 
@@ -114,7 +213,26 @@ public class IntervalsGameController {
             intervalType = IntervalTypeEnum.TOGETHER;
         }
 
+        initializeAllButtonsIntervals();
+
+        errorLabel.setText("Rozpocznij rozgrywkę");
+
     }
+
+    private void initializeAllButtonsIntervals(){
+        allButtonsIntervals = new ArrayList<Button>();
+        for (Node button: firstIntervalsHbox.getChildren()){
+            allButtonsIntervals.add((Button) button);
+        }
+        for (Node button: secondIntervalsHbox.getChildren()){
+            allButtonsIntervals.add((Button) button);
+        }
+        for (Node button: thirdIntervalsHbox.getChildren()){
+            allButtonsIntervals.add((Button) button);
+        }
+    }
+
+
 }
 
 
@@ -203,6 +321,22 @@ class OngoingIntervalGame{
     public NotesRecord getChosenLowerNote() {
         return chosenLowerNote;
     }
+
+    public void updateAnswers(IntervalsRecord guessedInterval){
+        if (guessedInterval == null){
+            return;
+        }
+
+        if (guessedInterval.getIntervalid().equals(chosenInterval.getIntervalid())){
+            answers.incrementAnsweredCorrectly();
+            answersIntervalsGameMap.get(chosenInterval.getIntervalid()).incrementAnsweredCorrectly();
+        }else {
+            answers.incrementAnsweredIncorrectly();
+            answersIntervalsGameMap.get(chosenInterval.getIntervalid()).incrementAnsweredIncorrectly();
+        }
+    }
+
+
 }
 
 class Answers{
@@ -225,6 +359,18 @@ class Answers{
         this.answeredIncorrectly = answeredIncorrectly;
     }
 
+    public void incrementAnsweredCorrectly(){
+        answeredCorrectly++;
+    }
+
+    public void incrementAnsweredIncorrectly(){
+        answeredIncorrectly++;
+    }
+
+    public int getSumOfAllAnswers(){
+        return answeredCorrectly+answeredIncorrectly;
+    }
+
     public Answers(){
         answeredCorrectly = 0;
         answeredIncorrectly = 0;
@@ -234,14 +380,16 @@ class Answers{
 class NotesPlayer{
 
     List<MediaPlayer> players;
+    List<Boolean> playersState; // True if player is still playing
 
     public NotesPlayer(){
         players = new ArrayList<MediaPlayer>();
+        playersState = new ArrayList<>();
     }
 
     public boolean isAvailable(){
-        for (MediaPlayer player: players){
-            if (player.getStatus().equals(MediaPlayer.Status.PLAYING)){
+        for (Boolean state: playersState){
+            if (state.booleanValue()){
                 return false;
             }
         }
@@ -263,30 +411,55 @@ class NotesPlayer{
 
     public void playNotesSequentially(List<NotesRecord> notesToPlay){
         players = new ArrayList<MediaPlayer>();
+        playersState = new ArrayList<Boolean>();
         for (NotesRecord note:notesToPlay){
             players.add(new MediaPlayer(new Media(getClass()
                     .getResource("notes_sounds/" + getNoteSoundPath(note)).toExternalForm())));
+            playersState.add(true);
         }
 
         for (int i = 0; i < players.size() - 1; i++) {
             final MediaPlayer player     = players.get(i);
 //            final MediaPlayer nextPlayer = players.get((i + 1) % players.size());
             final MediaPlayer nextPlayer = players.get(i + 1);
+            final int index = i;
             player.setOnEndOfMedia(new Runnable() {
                 @Override
                 public void run() {
                     nextPlayer.play();
+                    playersState.set(index, false);
                 }
             });
         }
+
+        players.get(players.size()-1).setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                playersState.set(playersState.size() - 1, false);
+            }
+        });
+
         players.get(0).play();
     }
 
     public void playNotesSimultaneously(List<NotesRecord> notesToPlay){
         players = new ArrayList<MediaPlayer>();
+        playersState = new ArrayList<Boolean>();
+
         for (NotesRecord note:notesToPlay){
             players.add(new MediaPlayer(new Media(getClass()
                     .getResource("notes_sounds/" + getNoteSoundPath(note)).toExternalForm())));
+        }
+
+        for (int i = 0; i < players.size(); i++) {
+            final MediaPlayer player = players.get(i);
+            final int index = i;
+            player.setOnEndOfMedia(new Runnable() {
+                @Override
+                public void run() {
+                    playersState.set(index, false);
+                }
+            });
         }
 
         for (MediaPlayer player: players){
@@ -294,8 +467,7 @@ class NotesPlayer{
         }
     }
 
-
-    }
+}
 
 
 
