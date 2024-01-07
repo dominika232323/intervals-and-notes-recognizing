@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.jooq.tables.records.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -29,7 +30,6 @@ import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
 import com.example.demo.jooq.tables.records.IntervalsgameRecord;
 
 import static com.example.demo.jooq.tables.Answersintervalsgame.ANSWERSINTERVALSGAME;
-
 import com.example.demo.jooq.tables.records.AnswersintervalsgameRecord;
 
 
@@ -191,7 +191,7 @@ public class StatsIntervalsController {
         });
     }
     @FXML
-    private void onBackToMenuButtonClick(){
-
+    private void onBackToMenuButtonClick(ActionEvent event) throws IOException{
+        (new SharedFunctionsController()).onBackToMenuButtonClick(event);
     }
 }

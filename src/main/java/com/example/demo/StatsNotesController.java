@@ -1,27 +1,17 @@
 package com.example.demo;
 
-import com.example.demo.jooq.tables.Levelintervals;
-import com.example.demo.jooq.tables.Levelnotes;
-import com.example.demo.jooq.tables.Notesgames;
 import com.example.demo.jooq.tables.records.LevelnotesRecord;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+
 import org.jooq.*;
-import org.jooq.Record;
+
 import org.jooq.impl.DSL;
 
 
@@ -31,16 +21,13 @@ import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
 import com.example.demo.jooq.tables.records.NotesgamesRecord;
 
 import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
-import com.example.demo.jooq.tables.records.AnswersnotesgameRecord;
 
-import static com.example.demo.jooq.tables.Users.USERS;
 
 import java.time.LocalDate;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
-import com.example.demo.StatsSharedFunctions;
 
 
 

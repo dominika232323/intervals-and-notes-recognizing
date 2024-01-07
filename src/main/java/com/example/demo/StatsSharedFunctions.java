@@ -98,9 +98,33 @@ public class StatsSharedFunctions {
                     .select()
                     .from(table)
                     .where(levelIDField.in(levelIDs)).and(dateField.between(fromDate, toDate)).
-                    and(userIDField.eq(ApplicationContext.getInstance().getUser().getUserid()))
+                    and(userIDField.eq(ApplicationContext.getInstance().getUser().getUserid())).
+                    orderBy(dateField)
                     .fetch();
+        }
+    }
 
+    public static class History{
+        public static <R extends Record> ArrayList<LevelBox<R>> loadGamesIntoScrollPane(ScrollPane Lista, Result<R> results,
+                                                                                         TableField<R, LocalDate> dateField,
+                                                                                         TableField<R, Integer> gamesIDField,
+                                                                                         TableField<R, Integer> tableUserID) {
+            ArrayList<LevelBox<R>> toReturn = new ArrayList<LevelBox<R>>();
+            VBox vbox = new VBox(10); // VBox with spacing 10
+            vbox.setPadding(new Insets(10, 10, 10, 10)); // Optional padding
+
+            Integer currUserID = ApplicationContext.getInstance().getUser().getUserid();
+            for (R record : results) {
+                String levelName = record.get(dateField) + ", " + record.get(gamesIDField);
+                LevelBox<R> levelBox = new LevelBox<R>(record, levelName);
+                levelBox.getCheckBox().setPadding(new Insets(5, 10, 5, 10));
+                levelBox.getCheckBox().setStyle("-fx-border-color: black");
+                vbox.getChildren().add(levelBox.getCheckBox());
+                toReturn.add(levelBox);
+            }
+
+            Lista.setContent(vbox);
+            return toReturn;
         }
     }
 
@@ -178,6 +202,8 @@ public class StatsSharedFunctions {
         Lista.setContent(vbox);
         return toReturn;
     }
+
+
 
     public static void loadResultsIntoLabels(HashMap<Integer, Label> integerToLabel,
                                       HashMap<Integer, Integer> numberOfAnswers,
