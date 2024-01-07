@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="795.0" prefWidth="1336.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.StatsIntervalsController">
+<GridPane prefHeight="795.0" prefWidth="1336.0" style="-fx-background-color: FDF7E4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HistoryIntervalsController">
    <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
@@ -73,14 +73,6 @@
                   <RowConstraints minHeight="10.0" percentHeight="35.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                     <BarChart fx:id="UsageChart" titleSide="LEFT" GridPane.rowIndex="1">
-                         <xAxis>
-                             <CategoryAxis prefHeight="0.0" prefWidth="422.0" side="BOTTOM" />
-                         </xAxis>
-                         <yAxis>
-                             <NumberAxis side="LEFT" />
-                         </yAxis>
-                     </BarChart>
                   <HBox alignment="TOP_CENTER">
                      <children>
                            <DatePicker fx:id="DateFrom" style="-fx-alignment: BASELINE_RIGHT; -fx-background-color: style = &quot;-fx-background-radius: 15; &quot;: ;" />
@@ -157,13 +149,18 @@
                         </GridPane>
                      </children>
                   </GridPane>
+                  <ScrollPane fx:id="ListaGames" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
                </children>
             </GridPane>
          </children>
       </GridPane>
    
                                <!-- Header -->
-       <Label fx:id="statsLabel" text="STATYSTYKI">
+       <Label fx:id="statsLabel" text="Historia">
            <font>
                <Font size="25.0" />
            </font>

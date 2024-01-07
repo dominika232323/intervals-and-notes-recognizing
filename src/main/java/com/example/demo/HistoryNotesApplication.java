@@ -17,11 +17,9 @@ import java.sql.SQLException;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Users.USERS;
 
-public class NotesGameApplication extends Application{
-
-
+public class HistoryNotesApplication extends Application {
     @Override
-    public void start(Stage primaryStage) throws IOException{
+    public void start(Stage primaryStage) throws IOException {
         //REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE
         DSLContext create = null;
         try {
@@ -31,25 +29,17 @@ public class NotesGameApplication extends Application{
         }
         LevelnotesRecord levelRecord = (LevelnotesRecord) create.select().
                 from(LEVELNOTES).
-                where(LEVELNOTES.LEVELID.eq(46)).
+                where(LEVELNOTES.LEVELID.eq(9)).
                 fetchOne();
         ApplicationContext.getInstance().setLevelNotes(levelRecord);
-        ApplicationContext.getInstance().setUser((UsersRecord)create.select().from(USERS).where(USERS.USERID.eq(2)).fetchOne());
+        ApplicationContext.getInstance().setUser((UsersRecord)create.select().from(USERS).where(USERS.USERID.eq(1)).fetchOne());
         //REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("note-game-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("history-view_nuty.fxml"));
         Parent root = loader.load();
 
-
-        Scene scene = new Scene(root, 1000, 668);
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(667);
+        Scene scene = new Scene(root, 720, 480);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        NotesGameController.setUpLevelValuesApplicationContext();
-
-        //NotesGameController ngc = new NotesGameController();
-
     }
 }
+
