@@ -226,9 +226,6 @@ public class IntervalsGameController {
 
         notesPlayer = new NotesPlayer();
 
-        // TODO change it later to level from context
-        Byte zero = 0;
-        Byte one = 1;
         intervalLevel = context.getLevelInterval();
 
         currentGame = new OngoingIntervalGame(intervalLevel, allIntervalsList, allNotesList);
@@ -247,6 +244,8 @@ public class IntervalsGameController {
 
         errorLabel.setText("Rozpocznij rozgrywkę");
         currentDate = LocalDate.now();
+
+        updateLabels();
 
     }
 
@@ -308,7 +307,7 @@ class OngoingIntervalGame{
     private NotesRecord getRandomHigherNoteFromInterval(IntervalsRecord interval){
         int semitones = interval.getIntervalid() - 1;
         Random random = new Random();
-        int randomIndex = random.nextInt(allIntervalsList.size() - semitones) + semitones;
+        int randomIndex = random.nextInt(allNotesList.size() - semitones) + semitones;
 
         return allNotesList.get(randomIndex);
     }
@@ -483,6 +482,8 @@ class NotesPlayer{
         for (NotesRecord note:notesToPlay){
             players.add(new MediaPlayer(new Media(getClass()
                     .getResource("notes_sounds/" + getNoteSoundPath(note)).toExternalForm())));
+
+            playersState.add(true);
         }
 
         for (int i = 0; i < players.size(); i++) {
