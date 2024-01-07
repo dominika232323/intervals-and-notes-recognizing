@@ -41,7 +41,7 @@
             </VBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <HBox fx:id="firstIntervalsHbox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Pryma czysta" />
             <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Sekunda mała" />
@@ -49,7 +49,7 @@
             <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Tercja mała" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <HBox fx:id="secondIntervalsHbox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Tercja wielka" />
             <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Kwarta czysta" />
@@ -57,7 +57,7 @@
             <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Kwinta czysta" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <HBox fx:id="thirdIntervalsHbox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Seksta mała" />
             <Button mnemonicParsing="false" onAction="#intervalChosenOnClick" prefHeight="70.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: DED0B6; -fx-border-color: BBAB8C;" text="Seksta wielka" />
