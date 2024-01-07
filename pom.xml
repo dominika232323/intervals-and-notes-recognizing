@@ -25,6 +25,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>17.0.2</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -68,6 +73,8 @@
         <artifactId>jooq-codegen-maven</artifactId>
         <version>3.17.3</version>
         </dependency>
+
+
 
 
     </dependencies>

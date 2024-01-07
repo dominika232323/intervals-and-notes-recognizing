@@ -84,7 +84,16 @@ public class IntervalsLevelFormController {
     }
 
     boolean checkIfValid(){
-        // TODO make it work properly
+        try {
+            int reps = Integer.parseInt(repetitionsTextField.getText());
+            if (reps < 1) {
+                return false;
+            } else if (levelNameTextField.getText().equals("")) {
+                return false;
+            }
+        } catch (Exception e){
+            return false;
+        }
         return true;
     }
 
