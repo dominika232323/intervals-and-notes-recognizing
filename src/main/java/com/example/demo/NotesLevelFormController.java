@@ -183,6 +183,25 @@ public class NotesLevelFormController {
     }
 
     private boolean checkFormValid(){
+        try {
+            int startWave = Integer.parseInt(startingWaveTextField.getText());
+            int reps = Integer.parseInt(repetitionsInWave.getText());
+            int endWave = Integer.parseInt(endingWaveTextField.getText());
+            String name = nameTextField.getText();
+            if (startWave >= endWave){
+                return false;
+            } else if (startWave < 1 || endWave < 1){
+                return false;
+            } else if (highestNoteComboBox.getSelectionModel().getSelectedItem().getNoteid() <=
+                        lowestNoteComboBox.getSelectionModel().getSelectedItem().getNoteid()) {
+                return false;
+            } else if (name.equals("")) {
+                return false;
+            }
+
+        } catch (Exception e){
+            return false;
+        }
         return true;
     }
 
