@@ -63,3 +63,7 @@ INSERT INTO Intervals VALUES (10, "Seksta wielka");
 INSERT INTO Intervals VALUES (11, "Septyma mała");
 INSERT INTO Intervals VALUES (12, "Septyma wielka");
 INSERT INTO Intervals VALUES (13, "Oktawa czysta");
+
+insert into LevelIntervals (userID, name, numberOfRepetitions, up, together, down) values (null, '10 powtórzeń, w górę', 10, 1, 0, 0);
+insert into LevelIntervals (userID, name, numberOfRepetitions, up, together, down) values (null, '10 powtórzeń, w dół', 10, 0, 0, 1);
+insert into LevelIntervals (userID, name, numberOfRepetitions, up, together, down) values (null, '10 powtórzeń, razem', 10, 0, 1, 0);
