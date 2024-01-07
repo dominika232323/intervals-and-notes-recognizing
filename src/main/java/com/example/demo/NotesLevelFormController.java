@@ -180,6 +180,9 @@ public class NotesLevelFormController {
             SharedFunctionsController button = new SharedFunctionsController();
             button.changeStage(event, "create-level-notes-view.fxml");
         }
+        else {
+            errorLabel.setText("Nieprawidłowe dane");
+        }
     }
 
     private boolean checkFormValid(){
