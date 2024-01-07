@@ -1,6 +1,7 @@
 module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
     requires org.jooq;
     requires org.jooq.codegen;
     requires org.jooq.meta;
