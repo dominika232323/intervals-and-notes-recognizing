@@ -1,8 +1,6 @@
 package com.example.demo;
 import com.example.demo.jooq.Tables;
-import com.example.demo.jooq.tables.records.IntervalsRecord;
-import com.example.demo.jooq.tables.records.LevelintervalsRecord;
-import com.example.demo.jooq.tables.records.NotesRecord;
+import com.example.demo.jooq.tables.records.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -18,6 +16,7 @@ import org.jooq.impl.DSL;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class IntervalsGameController {
@@ -63,6 +62,9 @@ public class IntervalsGameController {
             " -fx-border-radius: 15; -fx-background-color: red; -fx-border-color: BBAB8C;";
 
     private IntervalsRecord guessedInterval;
+    LocalDate currentDate;
+    LevelintervalsRecord intervalLevel;
+    UsersRecord currentUser;
 
 
     @FXML
@@ -119,28 +121,52 @@ public class IntervalsGameController {
 
 
     boolean canChooseInterval(){
-        System.out.println(Boolean.toString(notesPlayer.isAvailable()) + " notesPlayer.isAvailable()");
-        System.out.println(Boolean.toString(guessedInterval == null) + " guessedInterval == null");
-        System.out.println(Boolean.toString(currentGame.getChosenInterval() != null) + " currentGame.getChosenInterval() != null");
-        System.out.println(Boolean.toString(currentGame.getAnswers().getSumOfAllAnswers() < currentGame.getRepetitions()) +
-                " currentGame.getAnswers().getSumOfAllAnswers() < currentGame.getRepetitions()");
-
-
         boolean condition = notesPlayer.isAvailable() && guessedInterval == null &&
                 currentGame.getChosenInterval() != null &&
                 currentGame.getAnswers().getSumOfAllAnswers() < currentGame.getRepetitions();
         return condition;
     }
 
+    void saveGameToDatabase() throws SQLException {
+
+        Connection connection = DatabaseConnection.getInstance().getConnection();
+        DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
+
+        IntervalsgameRecord game = create.newRecord(Tables.INTERVALSGAME);
+        game.setUserid(currentUser.getUserid());
+        game.setDateplayed(currentDate);
+        game.setIntervallevelid(intervalLevel.getLevelid());
+        game.store();
+
+        System.out.println(Integer.toString(game.getIntervalsgameid()));
+
+        currentGame.getAnswersIntervalsGameMap().forEach((k,v) -> {
+            AnswersintervalsgameRecord answer = create.newRecord(Tables.ANSWERSINTERVALSGAME);
+            answer.setIntervalid(k);
+            answer.setIntervalsgameid(game.getIntervalsgameid());
+            answer.setIntervaloccurrences(v.getSumOfAllAnswers());
+            answer.setIntervalguessedcorrectly(v.getAnsweredCorrectly());
+            answer.store();
+        });
+    }
+
     @FXML
     void exitOnClick(ActionEvent event) throws IOException {
+        ApplicationContext.getInstance().setLevelInterval(null);
         SharedFunctionsController menuButton = new SharedFunctionsController();
         menuButton.changeStage(event, "inter-view.fxml");
     }
 
     @FXML
-    void exitAndSaveOnClick(ActionEvent event) {
+    void exitAndSaveOnClick(ActionEvent event) throws SQLException, IOException {
+        if (currentGame.getAnswers().getSumOfAllAnswers() != currentGame.getRepetitions()){
+            return;
+        }
 
+        saveGameToDatabase();
+        ApplicationContext.getInstance().setLevelInterval(null);
+        SharedFunctionsController menuButton = new SharedFunctionsController();
+        menuButton.changeStage(event, "inter-view.fxml");
     }
 
     private void playChosenInterval(){
@@ -192,6 +218,8 @@ public class IntervalsGameController {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
 
+        ApplicationContext context = ApplicationContext.getInstance();
+
         // initializing allIntervalsList and allNotesList
         allIntervalsList = create.selectFrom(Tables.INTERVALS).fetch();
         allNotesList = create.selectFrom(Tables.NOTES).fetch();
@@ -201,21 +229,24 @@ public class IntervalsGameController {
         // TODO change it later to level from context
         Byte zero = 0;
         Byte one = 1;
-        LevelintervalsRecord testLevel = new LevelintervalsRecord(2137, 1, "Test", 5, one, zero, zero);
+        intervalLevel = context.getLevelInterval();
 
-        currentGame = new OngoingIntervalGame(testLevel, allIntervalsList, allNotesList);
+        currentGame = new OngoingIntervalGame(intervalLevel, allIntervalsList, allNotesList);
 
-        if (testLevel.getUp() == 1){
+        if (intervalLevel.getUp() == 1){
             intervalType = IntervalTypeEnum.UP;
-        } else if (testLevel.getDown() == 1) {
+        } else if (intervalLevel.getDown() == 1) {
             intervalType = IntervalTypeEnum.DOWN;
         } else {
             intervalType = IntervalTypeEnum.TOGETHER;
         }
 
+        currentUser = context.getUser();
+
         initializeAllButtonsIntervals();
 
         errorLabel.setText("Rozpocznij rozgrywkę");
+        currentDate = LocalDate.now();
 
     }
 
@@ -337,6 +368,9 @@ class OngoingIntervalGame{
     }
 
 
+    public HashMap<Integer, Answers> getAnswersIntervalsGameMap() {
+        return answersIntervalsGameMap;
+    }
 }
 
 class Answers{
