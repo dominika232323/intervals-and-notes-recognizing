@@ -92,7 +92,12 @@ public class HistoriaController implements Initializable {
         ObservableList<Game> list = FXCollections.observableArrayList();
 
         for (Record r : games) {
-            Game g = new Game("Nuty", r.get(DSL.field("name", String.class)), 0, r.get(DSL.field("datePlayed", LocalDate.class)));
+            String name = r.get(DSL.field("game", String.class));
+            String level = r.get(DSL.field("name", String.class));
+            int correctness = 0;
+            LocalDate date = r.get(DSL.field("datePlayed", LocalDate.class));
+
+            Game g = new Game(name, level, correctness, date);
             list.add(g);
         }
 

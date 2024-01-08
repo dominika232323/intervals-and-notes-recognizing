@@ -8,6 +8,7 @@ import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Levelintervals.LEVELINTERVALS;
 import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
 import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
+import static org.jooq.impl.DSL.val;
 
 
 public class GameHistoryTablesOperations {
@@ -32,6 +33,7 @@ public class GameHistoryTablesOperations {
         var joinCondition = NOTESGAMES.LEVELNOTESID.eq(LEVELNOTES.LEVELID);
 
         return create
+                .select(val("Nuty").as("game"))
                 .select(firstTableColumns)
                 .select(secondTableColumns)
                 .from(NOTESGAMES)
@@ -47,6 +49,7 @@ public class GameHistoryTablesOperations {
         var joinCondition = INTERVALSGAME.INTERVALLEVELID.eq(LEVELINTERVALS.LEVELID);
 
         return create
+                .select(val("Interwały").as("game"))
                 .select(firstTableColumns)
                 .select(secondTableColumns)
                 .from(INTERVALSGAME)
