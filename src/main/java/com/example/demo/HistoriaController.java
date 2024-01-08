@@ -84,7 +84,7 @@ public class HistoriaController implements Initializable {
     }
 
     private void fillTableView(Result<Record> games) {
-        gameNameTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("game"));
+        gameNameTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("name"));
         levelNameTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("level"));
         correctnessTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("correctness"));
         dateTableColumn.setCellValueFactory(new PropertyValueFactory<Game, LocalDate>("date"));
