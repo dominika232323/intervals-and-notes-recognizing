@@ -192,23 +192,11 @@ public class HistoriaController implements Initializable {
     }
 
     private void removeRecordsPlayedBefore(LocalDate date, Result<Record> games) {
-        for (Record r : games) {
-            LocalDate gameDatePlayed = r.get(DSL.field("datePlayed", Date.class)).toLocalDate();
-
-            if (gameDatePlayed.isBefore(date)) {
-                games.remove(r);
-            }
-        }
+        games.removeIf(record -> record.get(DSL.field("datePlayed", LocalDate.class)).isBefore(date));
     }
 
     private void removeRecordsPlayedAfter(LocalDate date, Result<Record> games) {
-        for (Record r : games) {
-            LocalDate gameDatePlayed = r.get(DSL.field("datePlayed", Date.class)).toLocalDate();
-
-            if (gameDatePlayed.isAfter(date)) {
-                games.remove(r);
-            }
-        }
+        games.removeIf(record -> record.get(DSL.field("datePlayed", LocalDate.class)).isAfter(date));
     }
 
     @FXML
