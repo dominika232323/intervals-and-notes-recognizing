@@ -116,34 +116,44 @@ public class HistoriaController implements Initializable {
     }
 
     private void filterGamesByAnswersCorrectness(Result<Record> games) {
-        int[] bounds = {0, 0};
-
-        getBounds(bounds);
-        //TODO
-    }
-
-    private void getBounds(int[] bounds) {
         String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
         String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
 
-        boolean nullValues = false;
+        if (lowerBoundCorrectness != null && upperBoundCorrectness != null)
+        {
+            int lowerBound = getNumberFromCorrectness(lowerBoundCorrectness);
+            int upperBound = getNumberFromCorrectness(upperBoundCorrectness);
 
-        if (lowerBoundCorrectness == null) {
-            bounds[0] = Integer.parseInt(null);
-            nullValues = true;
-        }
+            int[] bounds = {lowerBound, upperBound};
 
-        if (upperBoundCorrectness == null) {
-            
-        }
-
-        bounds[0] = getNumberFromCorrectness(lowerBoundCorrectness);
-        bounds[1] = getNumberFromCorrectness(upperBoundCorrectness);
-
-        if (bounds[1] < bounds[0]) {
-            swap(bounds);
+            if (bounds[1] < bounds[0]) {
+                swap(bounds);
+            }
         }
     }
+
+//    private void getBounds(int[] bounds) {
+//        String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
+//        String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
+//
+//        boolean nullValues = false;
+//
+//        if (lowerBoundCorrectness == null) {
+//            bounds[0] = Integer.parseInt(null);
+//            nullValues = true;
+//        }
+//
+//        if (upperBoundCorrectness == null) {
+//
+//        }
+//
+//        bounds[0] = getNumberFromCorrectness(lowerBoundCorrectness);
+//        bounds[1] = getNumberFromCorrectness(upperBoundCorrectness);
+//
+//        if (bounds[1] < bounds[0]) {
+//            swap(bounds);
+//        }
+//    }
 
     private int getNumberFromCorrectness(String correctness) {
         String numberStr = correctness.substring(0, correctness.length() - 1);
