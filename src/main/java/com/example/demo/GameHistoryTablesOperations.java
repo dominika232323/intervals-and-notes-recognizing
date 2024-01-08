@@ -14,14 +14,14 @@ public class GameHistoryTablesOperations {
     static public Result<Record> getNotesLevelsByUserID(int id, DSLContext create) {
         return create.select()
                 .from(LEVELNOTES)
-                .where(LEVELNOTES.USERID.eq(id))
+                .where(LEVELNOTES.USERID.eq(id).or(LEVELNOTES.USERID.isNull()))
                 .fetch();
     }
 
     static public Result<Record> getIntervalLevelsByUserID(int id, DSLContext create) {
         return create.select()
                 .from(LEVELINTERVALS)
-                .where(LEVELINTERVALS.USERID.eq(id))
+                .where(LEVELINTERVALS.USERID.eq(id).or(LEVELINTERVALS.USERID.isNull()))
                 .fetch();
     }
 
