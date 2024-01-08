@@ -99,7 +99,10 @@ public class HistoriaController implements Initializable {
 
     private void filterGamesByLevel(Result<Record> games) {
         String level = chosenLevelChoiceBox.getValue();
-        removeLevelsOtherThanLevel(level, games);
+
+        if (level != null) {
+            removeLevelsOtherThanLevel(level, games);
+        }
     }
 
     private void removeLevelsOtherThanLevel(String levelName, Result<Record> games) {
