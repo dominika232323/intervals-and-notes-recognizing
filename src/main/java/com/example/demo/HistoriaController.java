@@ -2,10 +2,12 @@ package com.example.demo;
 
 import com.example.demo.jooq.tables.records.UsersRecord;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
@@ -47,15 +49,15 @@ public class HistoriaController implements Initializable {
     @FXML
     private ChoiceBox<String> upperBoundCorrectnessChoiceBox;
     @FXML
-    private TableView<String> resultsTableView;
+    private TableView<Game> resultsTableView;
     @FXML
-    private TableColumn gameNameTableColumn;
+    private TableColumn<Game, String> gameNameTableColumn;
     @FXML
-    private TableColumn levelNameTableColumn;
+    private TableColumn<Game, String> levelNameTableColumn;
     @FXML
-    private TableColumn correctnessTableColumn;
+    private TableColumn<Game, String> correctnessTableColumn;
     @FXML
-    private TableColumn dateTableColumn;
+    private TableColumn<Game, LocalDate> dateTableColumn;
 
     ApplicationContext context = ApplicationContext.getInstance();
     UsersRecord user = context.getUser();
@@ -77,6 +79,24 @@ public class HistoriaController implements Initializable {
         filterGamesByLevel(games);
 
         filterGamesByDatePlayed(games);
+
+        fillTableView(games);
+    }
+
+    private void fillTableView(Result<Record> games) {
+        gameNameTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("game"));
+        levelNameTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("level"));
+        correctnessTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("correctness"));
+        dateTableColumn.setCellValueFactory(new PropertyValueFactory<Game, LocalDate>("date"));
+
+        ObservableList<Game> list = FXCollections.observableArrayList();
+
+        for (Record r : games) {
+            Game g = new Game("Nuty", r.get(DSL.field("name", String.class)), 0, r.get(DSL.field("datePlayed", LocalDate.class)));
+            list.add(g);
+        }
+
+        resultsTableView.setItems(list);
     }
 
     private Result<Record> getGames(boolean isNotesGameChosen, boolean isIntervalsGameChosen, DSLContext create) {
