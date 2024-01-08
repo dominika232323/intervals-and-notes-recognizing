@@ -124,15 +124,7 @@ public class HistoriaController implements Initializable {
     }
 
     private void removeLevelsOtherThanLevel(String levelName, Result<Record> games) {
-//        games.removeIf(record -> !record.getValue("levelName").equals(levelName));
-
-        for (Record r : games) {
-            String gameLevelName = r.get(DSL.field("name", String.class));
-
-            if (gameLevelName.equals(levelName)) {
-                games.remove(r);
-            }
-        }
+        games.removeIf(record -> !record.get(DSL.field("name", String.class)).equals(levelName));
     }
 
     private void filterGamesByAnswersCorrectness(Result<Record> games) {
