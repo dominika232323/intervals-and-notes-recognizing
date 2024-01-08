@@ -35,8 +35,6 @@ public class HistoriaController implements Initializable {
     @FXML
     private CheckBox intervalGameCheckBox;
     @FXML
-    private CheckBox chooseAnswersCorrectnessCheckBox;
-    @FXML
     private CheckBox selectAllCheckBox;
     @FXML
     private DatePicker firstDatePicker;
@@ -118,13 +116,10 @@ public class HistoriaController implements Initializable {
     }
 
     private void filterGamesByAnswersCorrectness(Result<Record> games) {
-        boolean isAnswersCorrectnessChosen = chooseAnswersCorrectnessCheckBox.isSelected();
         int[] bounds = {0, 0};
 
-        if (isAnswersCorrectnessChosen) {
-            getBounds(bounds);
-            //TODO
-        }
+        getBounds(bounds);
+        //TODO
     }
 
     private void getBounds(int[] bounds) {
@@ -199,13 +194,11 @@ public class HistoriaController implements Initializable {
         if (selectAllCheckBox.isSelected()) {
             notesGameCheckBox.setSelected(true);
             intervalGameCheckBox.setSelected(true);
-            chooseAnswersCorrectnessCheckBox.setSelected(true);
             fillLevelsChoiceBox();
         }
         else {
             notesGameCheckBox.setSelected(false);
             intervalGameCheckBox.setSelected(false);
-            chooseAnswersCorrectnessCheckBox.setSelected(false);
             fillLevelsChoiceBox();
         }
     }
