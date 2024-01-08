@@ -181,21 +181,27 @@ public class HistoriaController implements Initializable {
     }
 
     @FXML
-    public void selectAll(ActionEvent event) {
+    public void selectAll(ActionEvent event) throws SQLException {
         if (selectAllCheckBox.isSelected()) {
             notesGameCheckBox.setSelected(true);
             intervalGameCheckBox.setSelected(true);
             chooseAnswersCorrectnessCheckBox.setSelected(true);
+            fillLevelsChoiceBox();
         }
         else {
             notesGameCheckBox.setSelected(false);
             intervalGameCheckBox.setSelected(false);
             chooseAnswersCorrectnessCheckBox.setSelected(false);
+            fillLevelsChoiceBox();
         }
     }
 
     @FXML
-    public void fillChoiceBoxWithLevels(ActionEvent event) throws SQLException {
+    public void onChosenGameCheckBox(ActionEvent event) throws SQLException {
+        fillLevelsChoiceBox();
+    }
+
+    private void fillLevelsChoiceBox() throws SQLException {
         DSLContext create = SharedFunctionsController.getDLCContex();
         ArrayList<String> levelNames = new ArrayList<String>();
 
@@ -246,6 +252,12 @@ public class HistoriaController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fillChoiceBoxWithAnswersCorrectness(lowerBoundCorrectnessChoiceBox);
         fillChoiceBoxWithAnswersCorrectness(upperBoundCorrectnessChoiceBox);
+
+        try {
+            fillLevelsChoiceBox();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void fillChoiceBoxWithAnswersCorrectness(ChoiceBox<String> choiceBox) {
