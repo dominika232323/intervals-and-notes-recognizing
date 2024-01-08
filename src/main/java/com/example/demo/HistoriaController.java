@@ -131,6 +131,17 @@ public class HistoriaController implements Initializable {
         String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
         String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
 
+        boolean nullValues = false;
+
+        if (lowerBoundCorrectness == null) {
+            bounds[0] = Integer.parseInt(null);
+            nullValues = true;
+        }
+
+        if (upperBoundCorrectness == null) {
+            
+        }
+
         bounds[0] = getNumberFromCorrectness(lowerBoundCorrectness);
         bounds[1] = getNumberFromCorrectness(upperBoundCorrectness);
 
