@@ -32,9 +32,9 @@
     <!-- Left side with checkboxes -->
     <VBox prefHeight="294.0" prefWidth="204.0" spacing="10.0">
         <Region prefHeight="10.0" />
-        <CheckBox fx:id="notesGameCheckBox" prefHeight="30.0" prefWidth="206.0" text="Gra rozpoznawanie nut" wrapText="true" />
-        <CheckBox fx:id="intervalGameCheckBox" prefHeight="38.0" prefWidth="204.0" text="Gra rozpoznawanie interwałów" wrapText="true" />
-        <CheckBox fx:id="chooseLevelCheckBox" onAction="#fillChoiceBoxWithLevels" prefHeight="18.0" prefWidth="207.0" text="Wybrany poziom gry" wrapText="true" />
+        <CheckBox fx:id="notesGameCheckBox" onAction="#fillChoiceBoxWithLevels" prefHeight="30.0" prefWidth="206.0" text="Gra rozpoznawanie nut" wrapText="true" />
+        <CheckBox fx:id="intervalGameCheckBox" onAction="#fillChoiceBoxWithLevels" prefHeight="38.0" prefWidth="204.0" text="Gra rozpoznawanie interwałów" wrapText="true" />
+         <Label prefHeight="16.0" prefWidth="197.0" text="Wybrany poziom gry" />
          <ChoiceBox fx:id="chosenLevelChoiceBox" prefHeight="24.0" prefWidth="157.0" />
         <CheckBox fx:id="chooseAnswersCorrectnessCheckBox" prefHeight="41.0" prefWidth="204.0" text="Wybrany procent poprawnych odpowiedzi" wrapText="true" />
          <HBox prefHeight="22.0" prefWidth="186.0">

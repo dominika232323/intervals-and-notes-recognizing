@@ -35,8 +35,6 @@ public class HistoriaController implements Initializable {
     @FXML
     private CheckBox intervalGameCheckBox;
     @FXML
-    private CheckBox chooseLevelCheckBox;
-    @FXML
     private CheckBox chooseAnswersCorrectnessCheckBox;
     @FXML
     private CheckBox selectAllCheckBox;
@@ -100,12 +98,8 @@ public class HistoriaController implements Initializable {
     }
 
     private void filterGamesByLevel(Result<Record> games) {
-        boolean isLevelChosen = chooseLevelCheckBox.isSelected();
-
-        if (isLevelChosen) {
-            String level = chosenLevelChoiceBox.getValue();
-            removeLevelsOtherThanLevel(level, games);
-        }
+        String level = chosenLevelChoiceBox.getValue();
+        removeLevelsOtherThanLevel(level, games);
     }
 
     private void removeLevelsOtherThanLevel(String levelName, Result<Record> games) {
@@ -191,13 +185,11 @@ public class HistoriaController implements Initializable {
         if (selectAllCheckBox.isSelected()) {
             notesGameCheckBox.setSelected(true);
             intervalGameCheckBox.setSelected(true);
-            chooseLevelCheckBox.setSelected(true);
             chooseAnswersCorrectnessCheckBox.setSelected(true);
         }
         else {
             notesGameCheckBox.setSelected(false);
             intervalGameCheckBox.setSelected(false);
-            chooseLevelCheckBox.setSelected(false);
             chooseAnswersCorrectnessCheckBox.setSelected(false);
         }
     }
