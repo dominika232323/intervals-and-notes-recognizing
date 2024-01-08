@@ -216,6 +216,7 @@ public class HistoriaController implements Initializable {
             levelNames = createArrayWithIntervalLevels(create);
         }
 
+        levelNames.add(0, null);
         chosenLevelChoiceBox.setItems(FXCollections.observableArrayList(levelNames));
     }
 
@@ -272,6 +273,7 @@ public class HistoriaController implements Initializable {
             number = number + 10;
         }
 
+        answersCorrectness.add(0, null);
         choiceBox.setItems(FXCollections.observableArrayList(answersCorrectness));
     }
 }
