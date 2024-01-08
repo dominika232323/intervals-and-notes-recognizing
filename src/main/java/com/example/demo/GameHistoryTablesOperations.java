@@ -25,31 +25,9 @@ public class GameHistoryTablesOperations {
                 .fetch();
     }
 
-    static public Result<Record> getNotesGamesByUserID(int id, DSLContext create) {
-        return create.select()
-                .from(NOTESGAMES)
-                .where(NOTESGAMES.USERID.eq(id))
-                .fetch();
-    }
-
-    static public Result<Record> getIntervalGamesByUserID(int id, DSLContext create) {
-        return create.select()
-                .from(INTERVALSGAME)
-                .where(INTERVALSGAME.USERID.eq(id))
-                .fetch();
-    }
-
-    static public Result<Record> getAllGamesByUserID(int id, DSLContext create) {
-        Result<Record> allGames = getNotesGamesByUserID(id, create);
-        allGames.addAll(getIntervalGamesByUserID(id, create));
-
-        return allGames;
-    }
-
     static public Result<Record> getNotesGamesJoinedWithLevelsByUserID(int id, DSLContext create) {
         var firstTableColumns = NOTESGAMES.fields();
         var secondTableColumns = LEVELNOTES.NAME;
-//        secondTableColumns.add(LEVELNOTES.LEVELID);
 
         var joinCondition = NOTESGAMES.LEVELNOTESID.eq(LEVELNOTES.LEVELID);
 
@@ -65,7 +43,6 @@ public class GameHistoryTablesOperations {
     static public Result<Record> getIntervalsGamesJoinedWithLevelsByUserID(int id, DSLContext create) {
         var firstTableColumns = INTERVALSGAME.fields();
         var secondTableColumns = LEVELINTERVALS.NAME;
-//        secondTableColumns.add(LEVELINTERVALS.LEVELID);
 
         var joinCondition = INTERVALSGAME.INTERVALLEVELID.eq(LEVELINTERVALS.LEVELID);
 
