@@ -71,7 +71,7 @@ public class HelloController {
     @FXML
     protected void onHistoryButtonClick() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("history-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("wybierz-history-view.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();

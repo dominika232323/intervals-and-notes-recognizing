@@ -1,6 +1,7 @@
 package com.example.demo;
 
 
+import com.example.demo.jooq.tables.records.LevelnotesRecord;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.scene.layout.*;
@@ -535,7 +536,7 @@ public class NotesGameController {
     }
 
     public static void setUpLevelValuesApplicationContext(){
-        Record levelRecord = (Record) ApplicationContext.getInstance().getLevelNotes();
+        LevelnotesRecord levelRecord = (LevelnotesRecord) ApplicationContext.getInstance().getLevelNotes();
         if(levelRecord != null) {
             levelId = levelRecord.get(LEVELNOTES.LEVELID);
             startingWave = levelRecord.get(LEVELNOTES.STARTINGWAVE);
@@ -543,6 +544,13 @@ public class NotesGameController {
             repetitionsNextWave = levelRecord.get(LEVELNOTES.REPETITIONSNEXTWAVE);
             lowerNoteBound = levelRecord.get(LEVELNOTES.LOWERNOTEBOUND);
             higherNoteBound = levelRecord.get(LEVELNOTES.HIGHERNOTEBOUND);
+        } else {
+            levelId = 1;
+            startingWave = 1;
+            endingWave = 20;
+            repetitionsNextWave = 10;
+            lowerNoteBound = 1;
+            higherNoteBound = 49;
         }
     }
     @FXML

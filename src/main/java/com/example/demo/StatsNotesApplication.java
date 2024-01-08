@@ -27,20 +27,6 @@ import static com.example.demo.jooq.tables.Users.USERS;
 public class StatsNotesApplication extends Application{
     @Override
     public void start(Stage primaryStage) throws IOException {
-        //REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE
-        DSLContext create = null;
-        try {
-            create = DSL.using(DatabaseConnection.getInstance().getConnection(), SQLDialect.MYSQL);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        LevelnotesRecord levelRecord = (LevelnotesRecord) create.select().
-                from(LEVELNOTES).
-                where(LEVELNOTES.LEVELID.eq(9)).
-                fetchOne();
-        ApplicationContext.getInstance().setLevelNotes(levelRecord);
-        ApplicationContext.getInstance().setUser((UsersRecord)create.select().from(USERS).where(USERS.USERID.eq(2)).fetchOne());
-        //REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE REMOVE
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("stats-view_nuty.fxml"));
         Parent root = loader.load();
