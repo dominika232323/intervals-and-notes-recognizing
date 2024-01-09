@@ -92,6 +92,9 @@ public class HistoriaController implements Initializable {
 
         ObservableList<Game> list = FXCollections.observableArrayList();
 
+        int[] correctnessBounds = {0, 100};
+        getAnswersCorrectnessBounds(correctnessBounds);
+
         for (Record r : games) {
             String name = r.get(DSL.field("game", String.class));
             String level = r.get(DSL.field("name", String.class));
@@ -103,6 +106,10 @@ public class HistoriaController implements Initializable {
             }
             else {
                 correctness = GameHistoryTablesOperations.getIntervalsCorrectnessByGameID(r.get(DSL.field("intervalsGameID", int.class)), create);
+            }
+
+            if (correctness.compareTo(BigDecimal.valueOf(correctnessBounds[0])) == -1 || correctness.compareTo(BigDecimal.valueOf(correctnessBounds[1])) == 1) {
+                continue;
             }
 
             LocalDate date = r.get(DSL.field("datePlayed", LocalDate.class));
@@ -142,20 +149,22 @@ public class HistoriaController implements Initializable {
         games.removeIf(record -> !record.get(DSL.field("name", String.class)).equals(levelName));
     }
 
-    private void filterGamesByAnswersCorrectness(Result<Record> games) {
+    private void getAnswersCorrectnessBounds(int[] bounds) {
         String lowerBoundCorrectness = lowerBoundCorrectnessChoiceBox.getValue();
         String upperBoundCorrectness = upperBoundCorrectnessChoiceBox.getValue();
 
-        if (lowerBoundCorrectness != null && upperBoundCorrectness != null)
-        {
-            int lowerBound = getNumberFromCorrectness(lowerBoundCorrectness);
-            int upperBound = getNumberFromCorrectness(upperBoundCorrectness);
+        if (lowerBoundCorrectness == null) {
+            lowerBoundCorrectness = "0%";
+        }
+        if (upperBoundCorrectness == null) {
+            upperBoundCorrectness = "100%";
+        }
 
-            int[] bounds = {lowerBound, upperBound};
+        bounds[0] = getNumberFromCorrectness(lowerBoundCorrectness);
+        bounds[1] = getNumberFromCorrectness(upperBoundCorrectness);
 
-            if (bounds[1] < bounds[0]) {
-                swap(bounds);
-            }
+        if (bounds[1] < bounds[0]) {
+            swap(bounds);
         }
     }
 
