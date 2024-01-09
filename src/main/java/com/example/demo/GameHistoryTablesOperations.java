@@ -47,7 +47,7 @@ public class GameHistoryTablesOperations {
                 .select(secondTableColumns)
                 .from(NOTESGAMES)
                 .join(LEVELNOTES).on(joinCondition)
-                .where(LEVELNOTES.USERID.eq(id).or(LEVELNOTES.USERID.isNull()))
+                .where(NOTESGAMES.USERID.eq(id))
                 .fetch();
     }
 
@@ -63,7 +63,7 @@ public class GameHistoryTablesOperations {
                 .select(secondTableColumns)
                 .from(INTERVALSGAME)
                 .join(LEVELINTERVALS).on(joinCondition)
-                .where(LEVELINTERVALS.USERID.eq(id).or(LEVELINTERVALS.USERID.isNull()))
+                .where(INTERVALSGAME.USERID.eq(id))
                 .fetch();
     }
 
