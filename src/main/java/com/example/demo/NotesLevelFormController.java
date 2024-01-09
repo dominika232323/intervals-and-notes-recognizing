@@ -100,20 +100,20 @@ public class NotesLevelFormController {
         int position = 20;
         // violin clef
         put("C6", position);
-        put("B5", position + 20);
-        put("A5", position + 30);
-        put("G5", position + 40);
-        put("F5", position + 50);
-        put("E5", position + 60);
-        put("D5", position + 70);
-        put("C5", position + 80);
-        put("B4", position + 90);
-        put("A4", position + 100);
-        put("G4", position + 110);
-        put("F4", position + 120);
-        put("E4", position + 130);
-        put("D4", position + 140);
-        put("C4", position + 150);
+        put("B5", position + 10);
+        put("A5", position + 20);
+        put("G5", position + 30);
+        put("F5", position + 40);
+        put("E5", position + 50);
+        put("D5", position + 60);
+        put("C5", position + 70);
+        put("B4", position + 80);
+        put("A4", position + 90);
+        put("G4", position + 100);
+        put("F4", position + 110);
+        put("E4", position + 120);
+        put("D4", position + 130);
+        put("C4", position + 140);
         // bass clef
         put("B3", position + 30);
         put("A3", position + 40);
