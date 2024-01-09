@@ -3,12 +3,18 @@ package com.example.demo;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
+import org.jooq.impl.DSL;
 
+import static com.example.demo.jooq.tables.Users.USERS;
+import static com.example.demo.jooq.tables.Notes.NOTES;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
-import static com.example.demo.jooq.tables.Levelintervals.LEVELINTERVALS;
 import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
+import static com.example.demo.jooq.tables.Answersnotesgame.ANSWERSNOTESGAME;
+import static com.example.demo.jooq.tables.Levelintervals.LEVELINTERVALS;
 import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
-import static org.jooq.impl.DSL.val;
+import static com.example.demo.jooq.tables.Intervals.INTERVALS;
+import static com.example.demo.jooq.tables.Answersintervalsgame.ANSWERSINTERVALSGAME;
+import static org.jooq.impl.DSL.*;
 
 
 public class GameHistoryTablesOperations {
@@ -63,5 +69,21 @@ public class GameHistoryTablesOperations {
         allGames.addAll(getIntervalsGamesJoinedWithLevelsByUserID(id, create));
 
         return allGames;
+    }
+
+    static public int getNotesCorrectnessByGameID(int gameID, DSLContext create) {
+        Result<?> result = create
+                .select(sum(ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY).divide(sum(ANSWERSNOTESGAME.NOTEOCCURRENCES)).as("correctness"))
+                .from(ANSWERSNOTESGAME)
+                .where(ANSWERSNOTESGAME.NOTESGAMEID.eq(gameID))
+                .fetch();
+
+        int correctness = 0;
+
+        for (var r : result) {
+               correctness = r.get(DSL.field("correctness", int.class));
+        }
+
+        return correctness;
     }
 }
