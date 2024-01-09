@@ -95,7 +95,16 @@ public class HistoriaController implements Initializable {
         for (Record r : games) {
             String name = r.get(DSL.field("game", String.class));
             String level = r.get(DSL.field("name", String.class));
-            BigDecimal correctness = GameHistoryTablesOperations.getNotesCorrectnessByGameID(r.get(DSL.field("notesGameID", int.class)), create);
+
+            BigDecimal correctness = new BigDecimal(0);
+
+            if (name.equals("Nuty")) {
+                correctness = GameHistoryTablesOperations.getNotesCorrectnessByGameID(r.get(DSL.field("notesGameID", int.class)), create);
+            }
+            else {
+                correctness = GameHistoryTablesOperations.getIntervalsCorrectnessByGameID(r.get(DSL.field("intervalsGameID", int.class)), create);
+            }
+
             LocalDate date = r.get(DSL.field("datePlayed", LocalDate.class));
 
             Game g = new Game(name, level, correctness, date);

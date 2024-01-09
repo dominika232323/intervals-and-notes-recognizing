@@ -6,6 +6,7 @@ import org.jooq.Result;
 import org.jooq.impl.DSL;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static com.example.demo.jooq.tables.Users.USERS;
 import static com.example.demo.jooq.tables.Notes.NOTES;
@@ -46,7 +47,7 @@ public class GameHistoryTablesOperations {
                 .select(secondTableColumns)
                 .from(NOTESGAMES)
                 .join(LEVELNOTES).on(joinCondition)
-                .where(LEVELNOTES.USERID.eq(id))
+                .where(LEVELNOTES.USERID.eq(id).or(LEVELNOTES.USERID.isNull()))
                 .fetch();
     }
 
@@ -62,7 +63,7 @@ public class GameHistoryTablesOperations {
                 .select(secondTableColumns)
                 .from(INTERVALSGAME)
                 .join(LEVELINTERVALS).on(joinCondition)
-                .where(LEVELINTERVALS.USERID.eq(id))
+                .where(LEVELINTERVALS.USERID.eq(id).or(LEVELINTERVALS.USERID.isNull()))
                 .fetch();
     }
 
@@ -75,16 +76,45 @@ public class GameHistoryTablesOperations {
 
     static public BigDecimal getNotesCorrectnessByGameID(int gameID, DSLContext create) {
         Result<?> result = create
-                .select(sum(ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY).divide(sum(ANSWERSNOTESGAME.NOTEOCCURRENCES)).as("correctness"))
+                .select(ANSWERSNOTESGAME.NOTESGAMEID)
+                .select(sum(ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY)
+                        .divide(sum(ANSWERSNOTESGAME.NOTEOCCURRENCES))
+                        .as("correctness"))
                 .from(ANSWERSNOTESGAME)
                 .where(ANSWERSNOTESGAME.NOTESGAMEID.eq(gameID))
                 .fetch();
 
         BigDecimal correctness = new BigDecimal(0);
 
+        System.out.println(result);
+
         for (var r : result) {
                correctness = r.get(DSL.field("correctness", BigDecimal.class));
                correctness = correctness.multiply(BigDecimal.valueOf(100));
+               correctness = correctness.setScale(2, RoundingMode.HALF_UP);
+        }
+
+        return correctness;
+    }
+
+    static public BigDecimal getIntervalsCorrectnessByGameID(int gameID, DSLContext create) {
+        Result<?> result = create
+                .select(ANSWERSINTERVALSGAME.INTERVALSGAMEID)
+                .select(sum(ANSWERSINTERVALSGAME.INTERVALGUESSEDCORRECTLY)
+                        .divide(sum(ANSWERSINTERVALSGAME.INTERVALOCCURRENCES))
+                        .as("correctness"))
+                .from(ANSWERSINTERVALSGAME)
+                .where(ANSWERSINTERVALSGAME.INTERVALSGAMEID.eq(gameID))
+                .fetch();
+
+        BigDecimal correctness = new BigDecimal(0);
+
+        System.out.println(result);
+
+        for (var r : result) {
+               correctness = r.get(DSL.field("correctness", BigDecimal.class));
+               correctness = correctness.multiply(BigDecimal.valueOf(100));
+               correctness = correctness.setScale(2, RoundingMode.HALF_UP);
         }
 
         return correctness;
