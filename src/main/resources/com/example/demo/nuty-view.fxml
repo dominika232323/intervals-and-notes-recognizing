@@ -21,11 +21,11 @@
        <HBox spacing="20.0">
           <children>
               <!-- Two buttons at the same level -->
-              <Button prefHeight="26.0" prefWidth="330.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Poziomy domyślne" />
-              <Button prefHeight="26.0" prefWidth="330.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Poziomy użytkownika" />
+              <Button onAction="#onDefaultLevelsButtonClick" prefHeight="26.0" prefWidth="330.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Poziomy domyślne" />
+              <Button onAction="#onUserLevelsButtonClick" prefHeight="26.0" prefWidth="330.0" style="-fx-background-radius: 15; -fx-border-color: BBAB8C; -fx-background-color: DED0B6; -fx-border-radius: 15;" text="Poziomy użytkownika" />
           </children>
        </HBox>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0">
+      <ScrollPane fx:id="notesLevelsListView" prefHeight="200.0" prefWidth="200.0">
          <content>
             <VBox fx:id="VBox_nuty_view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
          </content>
