@@ -1,10 +1,7 @@
 package com.example.demo;
 import com.example.demo.jooq.Tables;
 import com.example.demo.jooq.tables.Notes;
-import com.example.demo.jooq.tables.records.LevelintervalsRecord;
-import com.example.demo.jooq.tables.records.LevelnotesRecord;
-import com.example.demo.jooq.tables.records.NotesRecord;
-import com.example.demo.jooq.tables.records.UsersRecord;
+import com.example.demo.jooq.tables.records.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +16,8 @@ import javafx.stage.Stage;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.Table;
-import org.jooq.impl.DSL;
+import org.jooq.impl.*;
+import static org.jooq.impl.DSL.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -45,12 +43,34 @@ public class CreateLevelNotesController {
     private ObservableList<LevelnotesRecord> notesLevels;
 
     @FXML
-    void deleteLevelOnClick() {
+    void deleteLevelOnClick() throws SQLException {
         // If any level is selected
         if (!levelsListView.getSelectionModel().isEmpty()) {
-            // We delete selected level from database
+            // Getting connection with database
+            Connection connection = DatabaseConnection.getInstance().getConnection();
+            DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
+
+            // We get selected level from database
             LevelnotesRecord chosenLevel = levelsListView.getSelectionModel().getSelectedItem();
+
+            // Getting all games that used selected level
+            List<NotesgamesRecord> usedGames = create.selectFrom(Tables.NOTESGAMES)
+                    .where(Tables.NOTESGAMES.LEVELNOTESID.eq(chosenLevel.getLevelid())).fetch();
+
+            // Deleting all answers from all games that used selected level
+            create.deleteFrom(Tables.ANSWERSNOTESGAME).where(Tables.ANSWERSNOTESGAME.NOTESGAMEID
+                    .in(select(Tables.NOTESGAMES.NOTESGAMEID)
+                            .from(Tables.NOTESGAMES)
+                            .where(Tables.NOTESGAMES.LEVELNOTESID.eq(chosenLevel.getLevelid())))).execute();
+
+            // Deleting all games that used selected level
+            for (NotesgamesRecord game: usedGames){
+                game.delete();
+            }
+
+            // We delete selected level from database
             chosenLevel.delete();
+
             // We delete selected level from list view
             notesLevels.remove(levelsListView.getSelectionModel().getSelectedIndex());
         }

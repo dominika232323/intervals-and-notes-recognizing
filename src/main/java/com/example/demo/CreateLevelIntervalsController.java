@@ -88,7 +88,7 @@ public class CreateLevelIntervalsController {
             Connection connection = DatabaseConnection.getInstance().getConnection();
             DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
 
-            // We delete selected level from database
+            // We get selected level from database
             LevelintervalsRecord chosenLevel = levelsListView.getSelectionModel().getSelectedItem();
 
             // Getting all games that used selected level
@@ -101,11 +101,12 @@ public class CreateLevelIntervalsController {
                             .from(Tables.INTERVALSGAME)
                             .where(Tables.INTERVALSGAME.INTERVALLEVELID.eq(chosenLevel.getLevelid())))).execute();
 
+            // Deleting all games that used selected level
             for (IntervalsgameRecord usedGame: usedGames){
                 usedGame.delete();
             }
 
-
+            // We delete selected level from database
             chosenLevel.delete();
             // We delete selected level from list view
             intervalLevels.remove(levelsListView.getSelectionModel().getSelectedIndex());
