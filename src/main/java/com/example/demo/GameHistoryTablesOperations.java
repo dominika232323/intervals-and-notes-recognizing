@@ -86,8 +86,6 @@ public class GameHistoryTablesOperations {
 
         BigDecimal correctness = new BigDecimal(0);
 
-        System.out.println(result);
-
         for (var r : result) {
                correctness = r.get(DSL.field("correctness", BigDecimal.class));
                correctness = correctness.multiply(BigDecimal.valueOf(100));
@@ -108,8 +106,6 @@ public class GameHistoryTablesOperations {
                 .fetch();
 
         BigDecimal correctness = new BigDecimal(0);
-
-        System.out.println(result);
 
         for (var r : result) {
                correctness = r.get(DSL.field("correctness", BigDecimal.class));
