@@ -67,3 +67,12 @@ INSERT INTO Intervals VALUES (13, "Oktawa czysta");
 insert into LevelIntervals (userID, name, numberOfRepetitions, up, together, down) values (null, '10 powtórzeń, w górę', 10, 1, 0, 0);
 insert into LevelIntervals (userID, name, numberOfRepetitions, up, together, down) values (null, '10 powtórzeń, w dół', 10, 0, 0, 1);
 insert into LevelIntervals (userID, name, numberOfRepetitions, up, together, down) values (null, '10 powtórzeń, razem', 10, 0, 1, 0);
+
+INSERT INTO LevelNotes VALUES (1, null, 'C4_C6', 25, 49, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (2, null, 'C2_B3', 1, 24, 5, 10, 5);
+INSERT INTO LevelNotes VALUES (3, null, 'C2_C6', 1, 49, 1, 10, 3);
+INSERT INTO LevelNotes VALUES (4, null, 'C2_E2', 1, 5, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (5, null, 'G3_B3', 20, 24, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (6, null, 'B3_F4', 24, 30, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (7, null, 'G5_C6', 44, 49, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (8, null, 'G5_G#5/Ab5', 44, 45, 1, 5, 10);
