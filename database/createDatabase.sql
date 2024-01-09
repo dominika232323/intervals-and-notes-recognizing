@@ -1,15 +1,3 @@
--- DROP
-DROP TABLE AnswersIntervalsGame;
-DROP TABLE Intervals;
-DROP TABLE IntervalsGame;
-DROP TABLE LevelIntervals;
-DROP TABLE AnswersNotesGame;
-DROP TABLE NotesGames;
-DROP TABLE LevelNotes;
-DROP TABLE Notes;
-DROP TABLE Users;
--- DROP
-
 Create TABLE IF NOT EXISTS Users
 (
     userID INTEGER AUTO_INCREMENT PRIMARY KEY,
