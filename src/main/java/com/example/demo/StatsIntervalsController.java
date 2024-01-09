@@ -186,7 +186,7 @@ public class StatsIntervalsController {
         {
             StatsSharedFunctions.selectAllCheckboxes(
                     levelBoxArrayList, chosenLevelIDs,
-                    LEVELINTERVALS.LEVELID, true);
+                    LEVELINTERVALS.LEVELID, false);
             refreshResultsAndBarChart();
         });
     }
