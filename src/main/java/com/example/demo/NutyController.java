@@ -118,6 +118,6 @@ public class NutyController {
         }
         ApplicationContext.getInstance().setLevelNotes(notesLevelsListView.getSelectionModel().getSelectedItem());
         SharedFunctionsController menuButton = new SharedFunctionsController();
-        menuButton.changeStage(event, "notes-game-view.fxml");
+        menuButton.changeStage(event, "note-game-view.fxml");
     }
 }
