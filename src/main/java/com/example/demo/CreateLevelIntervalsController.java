@@ -1,5 +1,6 @@
 package com.example.demo;
 import com.example.demo.jooq.Tables;
+import com.example.demo.jooq.tables.records.IntervalsgameRecord;
 import com.example.demo.jooq.tables.records.LevelintervalsRecord;
 import com.example.demo.jooq.tables.records.UsersRecord;
 import javafx.collections.FXCollections;
@@ -14,6 +15,9 @@ import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.User;
 import org.jooq.impl.DSL;
+import static org.jooq.impl.DSL.*;
+import org.jooq.*;
+import org.jooq.impl.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -77,11 +81,31 @@ public class CreateLevelIntervalsController {
     }
 
     @FXML
-    void deleteLevelOnClick(ActionEvent event) {
+    void deleteLevelOnClick(ActionEvent event) throws SQLException {
         // If any level is selected
         if (!levelsListView.getSelectionModel().isEmpty()) {
+            // Getting connection with database
+            Connection connection = DatabaseConnection.getInstance().getConnection();
+            DSLContext create = DSL.using(connection, SQLDialect.MYSQL);
+
             // We delete selected level from database
             LevelintervalsRecord chosenLevel = levelsListView.getSelectionModel().getSelectedItem();
+
+            // Getting all games that used selected level
+            List<IntervalsgameRecord> usedGames = create.selectFrom(Tables.INTERVALSGAME)
+                    .where(Tables.INTERVALSGAME.INTERVALLEVELID.eq(chosenLevel.getLevelid())).fetch();
+
+            // Deleting all answers from all games that used selected level
+            create.deleteFrom(Tables.ANSWERSINTERVALSGAME).where(Tables.ANSWERSINTERVALSGAME.INTERVALSGAMEID
+                    .in(select(Tables.INTERVALSGAME.INTERVALSGAMEID)
+                            .from(Tables.INTERVALSGAME)
+                            .where(Tables.INTERVALSGAME.INTERVALLEVELID.eq(chosenLevel.getLevelid())))).execute();
+
+            for (IntervalsgameRecord usedGame: usedGames){
+                usedGame.delete();
+            }
+
+
             chosenLevel.delete();
             // We delete selected level from list view
             intervalLevels.remove(levelsListView.getSelectionModel().getSelectedIndex());
