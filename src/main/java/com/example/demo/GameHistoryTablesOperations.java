@@ -5,6 +5,8 @@ import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
 
+import java.math.BigDecimal;
+
 import static com.example.demo.jooq.tables.Users.USERS;
 import static com.example.demo.jooq.tables.Notes.NOTES;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
@@ -71,17 +73,18 @@ public class GameHistoryTablesOperations {
         return allGames;
     }
 
-    static public int getNotesCorrectnessByGameID(int gameID, DSLContext create) {
+    static public BigDecimal getNotesCorrectnessByGameID(int gameID, DSLContext create) {
         Result<?> result = create
                 .select(sum(ANSWERSNOTESGAME.NOTEGUESSEDCORRECTLY).divide(sum(ANSWERSNOTESGAME.NOTEOCCURRENCES)).as("correctness"))
                 .from(ANSWERSNOTESGAME)
                 .where(ANSWERSNOTESGAME.NOTESGAMEID.eq(gameID))
                 .fetch();
 
-        int correctness = 0;
+        BigDecimal correctness = new BigDecimal(0);
 
         for (var r : result) {
-               correctness = r.get(DSL.field("correctness", int.class));
+               correctness = r.get(DSL.field("correctness", BigDecimal.class));
+               correctness = correctness.multiply(BigDecimal.valueOf(100));
         }
 
         return correctness;

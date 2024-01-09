@@ -14,6 +14,7 @@ import org.jooq.Result;
 import org.jooq.impl.DSL;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -80,10 +81,10 @@ public class HistoriaController implements Initializable {
 
         filterGamesByDatePlayed(games);
 
-        fillTableView(games);
+        fillTableView(games, create);
     }
 
-    private void fillTableView(Result<Record> games) {
+    private void fillTableView(Result<Record> games, DSLContext create) {
         gameNameTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("name"));
         levelNameTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("level"));
         correctnessTableColumn.setCellValueFactory(new PropertyValueFactory<Game, String>("correctness"));
@@ -94,7 +95,7 @@ public class HistoriaController implements Initializable {
         for (Record r : games) {
             String name = r.get(DSL.field("game", String.class));
             String level = r.get(DSL.field("name", String.class));
-            int correctness = 0;
+            BigDecimal correctness = GameHistoryTablesOperations.getNotesCorrectnessByGameID(r.get(DSL.field("notesGameID", int.class)), create);
             LocalDate date = r.get(DSL.field("datePlayed", LocalDate.class));
 
             Game g = new Game(name, level, correctness, date);

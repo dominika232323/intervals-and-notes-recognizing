@@ -67,3 +67,38 @@ INSERT INTO Intervals VALUES (13, "Oktawa czysta");
 insert into LevelIntervals (userID, name, numberOfRepetitions, up, together, down) values (null, '10 powtórzeń, w górę', 10, 1, 0, 0);
 insert into LevelIntervals (userID, name, numberOfRepetitions, up, together, down) values (null, '10 powtórzeń, w dół', 10, 0, 0, 1);
 insert into LevelIntervals (userID, name, numberOfRepetitions, up, together, down) values (null, '10 powtórzeń, razem', 10, 0, 1, 0);
+
+
+
+-- TESTING VALUES
+INSERT INTO LevelNotes VALUES (1, 1, 'name1', 25, 49, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (2, 1, 'name2', 1, 24, 5, 10, 5);
+INSERT INTO LevelNotes VALUES (3, 1, 'name3', 1, 49, 1, 10, 3);
+INSERT INTO LevelNotes VALUES (4, 1, 'name4', 1, 5, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (5, 1, 'name5', 20, 24, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (6, 1, 'name6', 24, 30, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (7, 1, 'name7', 44, 49, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (8, 1, 'name8', 44, 45, 1, 5, 10);
+INSERT INTO LevelNotes VALUES (9, 1, 'name9', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (10, 1, 'name10', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (11, 1, 'name11', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (12, 1, 'name12', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (13, 1, 'name13', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (14, 1, 'name14', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (15, 1, 'name15', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (16, 1, 'name16', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (17, 1, 'name17', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (18, 1, 'name18', 1, 49, 1, 20, 10);
+INSERT INTO LevelNotes VALUES (19, 1, 'name19', 1, 49, 1, 20, 10);
+
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (160, 1, 7, '2024-01-02');
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (161, 1, 7, '2024-01-02');
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (162, 1, 7, '2023-12-30');
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (163, 1, 7, '2023-12-29');
+INSERT INTO NotesGames (notesGameID, userID, levelNotesID, datePlayed) VALUES (164, 1, 7, '2023-12-30');
+
+INSERT INTO AnswersNotesGame VALUES (1, 160, 24, 3, 2);
+INSERT INTO AnswersNotesGame VALUES (1, 160, 15, 4, 4);
+INSERT INTO AnswersNotesGame VALUES (1, 160, 48, 3, 3);
+INSERT INTO AnswersNotesGame VALUES (1, 160, 26, 1, 1);
+-- TESTING VALUES

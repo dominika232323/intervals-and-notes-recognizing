@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Game {
@@ -8,7 +9,7 @@ public class Game {
     private String  correctness;
     private LocalDate date;
 
-    Game(String name, String level, int correctness, LocalDate date) {
+    Game(String name, String level, BigDecimal correctness, LocalDate date) {
         this.name = name;
         this.level = level;
         this.correctness = correctness + "%";
