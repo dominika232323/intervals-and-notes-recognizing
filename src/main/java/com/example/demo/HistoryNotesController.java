@@ -16,6 +16,8 @@ import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 
+import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
+import static com.example.demo.jooq.tables.Levelintervals.LEVELINTERVALS;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 
 import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
@@ -159,7 +161,9 @@ public class HistoryNotesController <R extends Record> {
         gamesBoxArrayList =
                 StatsSharedFunctions.History.loadGamesIntoScrollPane(ListaGames,
                         noteGamesRecords, NOTESGAMES.DATEPLAYED, NOTESGAMES.NOTESGAMEID,
-                        NOTESGAMES.USERID);
+                        NOTESGAMES.USERID, NOTESGAMES.LEVELNOTESID, LEVELNOTES, LEVELNOTES.NAME,
+                        LEVELNOTES.LEVELID);
+
 
         for (LevelBox<NotesgamesRecord> levelBox : gamesBoxArrayList) {
             CheckBox checkBox = levelBox.getCheckBox();

@@ -163,10 +163,13 @@ public class HistoryIntervalsController <R extends Record> {
                 chosenGameIDs.remove(levelBox.getRecord().getIntervalsgameid());
             }
         }
+
+
         gamesBoxArrayList =
                 StatsSharedFunctions.History.loadGamesIntoScrollPane(ListaGames,
                         noteGamesRecords, INTERVALSGAME.DATEPLAYED, INTERVALSGAME.INTERVALSGAMEID,
-                        INTERVALSGAME.USERID);
+                        INTERVALSGAME.USERID, INTERVALSGAME.INTERVALLEVELID, LEVELINTERVALS, LEVELINTERVALS.NAME,
+                        LEVELINTERVALS.LEVELID);
 
         for (LevelBox<IntervalsgameRecord> levelBox : gamesBoxArrayList) {
             CheckBox checkBox = levelBox.getCheckBox();

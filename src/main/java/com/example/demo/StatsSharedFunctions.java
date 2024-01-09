@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static com.example.demo.jooq.tables.Intervalsgame.INTERVALSGAME;
+import static com.example.demo.jooq.tables.Levelintervals.LEVELINTERVALS;
 import static com.example.demo.jooq.tables.Levelnotes.LEVELNOTES;
 import static com.example.demo.jooq.tables.Notesgames.NOTESGAMES;
 
@@ -105,17 +106,27 @@ public class StatsSharedFunctions {
     }
 
     public static class History{
-        public static <R extends Record> ArrayList<LevelBox<R>> loadGamesIntoScrollPane(ScrollPane Lista, Result<R> results,
+        public static <R extends Record, A extends Record> ArrayList<LevelBox<R>> loadGamesIntoScrollPane(ScrollPane Lista, Result<R> results,
                                                                                          TableField<R, LocalDate> dateField,
                                                                                          TableField<R, Integer> gamesIDField,
-                                                                                         TableField<R, Integer> tableUserID) {
+                                                                                         TableField<R, Integer> tableUserID,
+                                                                                         TableField<R, Integer> gameLevelIDField,
+                                                                                         Table<A> levelTable,
+                                                                                         TableField<A, String> levelNameField,
+                                                                                            TableField<A, Integer> levelIDField) {
             ArrayList<LevelBox<R>> toReturn = new ArrayList<LevelBox<R>>();
             VBox vbox = new VBox(10); // VBox with spacing 10
             vbox.setPadding(new Insets(10, 10, 10, 10)); // Optional padding
 
             Integer currUserID = ApplicationContext.getInstance().getUser().getUserid();
             for (R record : results) {
-                String levelName = record.get(dateField) + ", " + record.get(gamesIDField);
+                int idToSet = record.get(gameLevelIDField);
+                String id1 = (String)(create.select().from(levelTable).
+                where(levelIDField.eq(idToSet)).fetchOne().get(levelNameField));
+
+                String levelName = record.get(dateField) + ", " + record.get(gamesIDField) + ", Level Name: " + id1;
+
+
                 LevelBox<R> levelBox = new LevelBox<R>(record, levelName);
                 levelBox.getCheckBox().setPadding(new Insets(5, 10, 5, 10));
                 levelBox.getCheckBox().setStyle("-fx-border-color: black");
@@ -188,7 +199,9 @@ public class StatsSharedFunctions {
         vbox.setPadding(new Insets(10, 10, 10, 10)); // Optional padding
 
         Integer currUserID = ApplicationContext.getInstance().getUser().getUserid();
-        Result<R> result = (Result<R>) create.selectFrom(table).where(tableUserID.eq(currUserID)).fetch();
+        Result<R> result = (Result<R>) create.selectFrom(table).
+                        where(tableUserID.eq(currUserID).or(tableUserID.isNull())).
+                        fetch();
 
         for (R record : result) {
             String levelName = record.get(tableField);

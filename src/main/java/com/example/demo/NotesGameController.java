@@ -545,12 +545,12 @@ public class NotesGameController {
             lowerNoteBound = levelRecord.get(LEVELNOTES.LOWERNOTEBOUND);
             higherNoteBound = levelRecord.get(LEVELNOTES.HIGHERNOTEBOUND);
         } else {
-            levelId = 1;
-            startingWave = 1;
-            endingWave = 20;
-            repetitionsNextWave = 10;
-            lowerNoteBound = 1;
-            higherNoteBound = 49;
+            //levelId = 1;
+            //startingWave = 1;
+            //endingWave = 20;
+            //repetitionsNextWave = 10;
+            //lowerNoteBound = 1;
+            //higherNoteBound = 49;
         }
     }
     @FXML
